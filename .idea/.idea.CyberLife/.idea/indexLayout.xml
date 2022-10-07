@@ -7,6 +7,8 @@
       <Path>LICENSE.txt</Path>
       <Path>README.md</Path>
     </explicitIncludes>
-    <explicitExcludes />
+    <explicitExcludes>
+      <Path>CyberLife/obj</Path>
+    </explicitExcludes>
   </component>
 </project>
