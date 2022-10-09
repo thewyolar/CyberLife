@@ -1,3 +1,4 @@
+using CyberLife.DAO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CyberLife.Data;
