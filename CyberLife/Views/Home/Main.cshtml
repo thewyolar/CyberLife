@@ -1,5 +1,4 @@
-@page
-@model CyberLife.Views.Home.Main
+@model Map
 
 @{
     Layout = null;
@@ -15,9 +14,9 @@
 <body>
 <div class="scrol">
     <div class="grid">
-        @for (var i = 0; i < 196; i++)
+        @for (int i = 0; i < Model.mapTypes.Length; i++)
         {
-        <div> @i </div>}
+            <div> @i </div>}
     </div>
 </div>
 </body>

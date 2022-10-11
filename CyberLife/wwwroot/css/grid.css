@@ -19,8 +19,8 @@ body{
     border: 5px solid #d1e231;
     /*подключаем сетку*/
     display: grid;
-    grid-template-columns: repeat(14, 42px);
-    grid-template-rows: repeat(14, 42px);
+    grid-template-columns: repeat(30, 42px);
+    grid-template-rows: repeat(30, 42px);
     position: absolute;
     /*top: 50%;*/
     /*left: 50%;*/
