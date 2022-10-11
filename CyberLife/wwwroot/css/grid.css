@@ -1,0 +1,47 @@
+body{
+    /*настраиваем шрифт*/
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.scrol{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    overflow: scroll;
+}
+
+/*общие настройки сетки*/
+.grid {
+    /*рисуем зелёные рамки*/
+    border: 5px solid #d1e231;
+    /*подключаем сетку*/
+    display: grid;
+    grid-template-columns: repeat(14, 42px);
+    grid-template-rows: repeat(14, 42px);
+    position: absolute;
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*margin-right: -50%;*/
+    /*transform: translate(-50%, -50%);*/
+}
+
+
+/*внешний вид ячеек*/
+.grid > * {
+    /*фоновый цвет*/
+
+    
+    /*скругление углов*/
+    /*border-radius: 5px;*/
+    /*отступ от содержимого до края ячейки*/
+    padding: 5px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    /*расстояние от одной границы ячейки до другой*/
+    margin: 1px;
+
+}
