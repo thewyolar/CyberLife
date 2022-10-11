@@ -14,9 +14,12 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
+
     public IActionResult Main()
     {
-        return View();
+        
+        var map = new Map(1);
+        return View(map);
     }
     public IActionResult Index()
     {
@@ -29,7 +32,7 @@ public class HomeController : Controller
                 Console.WriteLine($"{u.www}");
             }
         }
-        return View();
+        return Redirect("/Home/Main");
     }
 
     public IActionResult Privacy()
