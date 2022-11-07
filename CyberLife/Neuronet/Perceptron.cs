@@ -2,16 +2,13 @@
 
 public class Perceptron
 {
-    public double LearningRate { get; set; }
     public Layer[] Layers { get; set; }
-    public Func<double, double> Activation { get; set; }
-    public Func<double, double> Derivative { get; set; }
+    public int qqq = 0;
+    public int population { get; set; } = 0;
+    
 
-    public Perceptron(double learningRate, Func<double, double> activation, Func<double, double> derivative, params int[] sizes)
+    public Perceptron(params int[] sizes)
     {
-        this.LearningRate = learningRate;
-        this.Activation = activation;
-        this.Derivative = derivative;
         this.Layers = new Layer[sizes.Length];
         for (int i = 0; i < sizes.Length; i++)
         {
@@ -29,68 +26,149 @@ public class Perceptron
         }
     }
 
-    public double[] FeedForward(double[] inputs)
+    public int FeedForward(int[] eye , double[] inputs)
     {
-        Array.Copy(inputs, 0, Layers[0].Neurons, 0, inputs.Length);
+        double[] inputss = new Double[inputs.Length + eye.Length];
+        for (int i = 0; i < inputs.Length; i++)
+        {
+            inputss[i] = inputs[i];
+        }
+        for (int i = inputs.Length; i < inputs.Length + eye.Length; i++)
+        {
+            inputss[i] = eye[i - inputs.Length];
+        }
+        Array.Copy(inputss, 0, Layers[0].Neurons, 0, inputss.Length);
         for (int i = 1; i < Layers.Length; i++)
         {
-            Layer l = Layers[i - 1];
-            Layer l1 = Layers[i];
-            for (int j = 0; j < l1.Size; j++)
+            Layer layer = Layers[i - 1];
+            Layer layerNext = Layers[i];
+            for (int j = 0; j < layerNext.Size; j++)
             {
-                l1.Neurons[j] = 0;
-                for (int k = 0; k < l.Size; k++)
+                layerNext.Neurons[j] = 0;
+                for (int k = 0; k < layer.Size; k++)
                 {
-                    l1.Neurons[j] += l.Neurons[k] * l.Weights[k, j];
+                    layerNext.Neurons[j] += layer.Neurons[k] * layer.Weights[k, j];
                 }
+                
+                layerNext.Neurons[j] += layer.Biases[j];
+                layerNext.Neurons[j] = layer.NeuronsActivation[j](layerNext.Neurons[j]);
 
-                l1.Neurons[j] += l.Biases[j];
-                l1.Neurons[j] = Activation(l1.Neurons[j]);
+
             }
         }
 
-        return Layers[Layers.Length - 1].Neurons;
+        for (int i = 0; i < Layers[Layers.Length - 1].Neurons.Length; i++)
+        {
+            Console.WriteLine(Layers[Layers.Length - 1].Neurons[i]);
+        }
+
+        double ma = Layers[Layers.Length - 1].Neurons.Max();
+        int index = Array.FindLastIndex(Layers[Layers.Length - 1].Neurons, delegate(double i) { return i == ma; });
+        for (int i = 0; i < Layers[Layers.Length - 1].Neurons.Length; i++)
+        {
+            if (Layers[Layers.Length - 1].Neurons[i] == ma & index != i)
+            {
+                Console.WriteLine(-1);
+                return -1;
+            }
+        }
+        Console.WriteLine(index);
+        Console.WriteLine("population=" + population);
+        return Array.FindLastIndex(Layers[Layers.Length - 1].Neurons, delegate(double i) { return i == ma;});
     }
 
-    public void BackPropagation(double[] targets)
+    public void BackPropagation(int energy, int population, int neuron)
     {
         double[] errors = new double[Layers[Layers.Length - 1].Size];
         for (int i = 0; i < Layers[Layers.Length - 1].Size; i++) {
-            errors[i] = targets[i] - Layers[Layers.Length - 1].Neurons[i];
+            if (population < 0)
+            {
+                errors[i] += population + 5;
+            }
+            else if (population > 0)
+            {
+                errors[i] = + population - 5;
+            }
+            else if(energy > 0)
+            {
+                errors[i] += 1;
+            }
+            else if (energy < 0)
+            {
+                errors[i] -= 1;
+            }
+            else
+            {
+                errors[i] -= 1;
+            }
+
         }
-        for (int k = Layers.Length - 2; k >= 0; k--) {
-            Layer l = Layers[k];
-            Layer l1 = Layers[k + 1];
-            double[] errorsNext = new double[l.Size];
-            double[] gradients = new double[l1.Size];
-            for (int i = 0; i < l1.Size; i++) {
-                gradients[i] = errors[i] * Derivative(Layers[k + 1].Neurons[i]);
-                gradients[i] *= LearningRate;
+
+        for (int k = Layers.Length - 2; k >= 0; k--)
+        {
+            Layer layer = Layers[k];
+            Layer layerNext = Layers[k + 1];
+            double[] errorsNext = new double[layer.Size];
+            double[] gradients = new double[layerNext.Size];
+            for (int i = 0; i < layerNext.Size; i++)
+            {
+                gradients[i] = errors[i] * layer.DerivativeActivation[i](Layers[k + 1].Neurons[i]);  // вернуть производную????
+                gradients[i] *= 0.1;
             }
-            double[,] deltas = new double[l1.Size, l.Size];
-            for (int i = 0; i < l1.Size; i++) {
-                for (int j = 0; j < l.Size; j++) {
-                    deltas[i, j] = gradients[i] * l.Neurons[j];
+
+            double[,] deltas = new double[layerNext.Size, layer.Size];
+            for (int i = 0; i < layerNext.Size; i++)
+            {
+                for (int j = 0; j < layer.Size; j++)
+                {
+                    deltas[i, j] = gradients[i] * layer.Neurons[j]; // тут треш. перемножение на 1
                 }
             }
-            for (int i = 0; i < l.Size; i++) {
+
+            for (int i = 0; i < layer.Size; i++)
+            {
                 errorsNext[i] = 0;
-                for (int j = 0; j < l1.Size; j++) {
-                    errorsNext[i] += l.Weights[i, j] * errors[j];
+                for (int j = 0; j < layerNext.Size; j++)
+                {
+                    errorsNext[i] += layer.Weights[i, j] * errors[j];
                 }
             }
-            errors = new double[l.Size];
-            Array.Copy(errorsNext, 0, errors, 0, l.Size);
-            double[,] weightsNew = new double[l.Weights.Length, l.Weights.Length];
-            for (int i = 0; i < l1.Size; i++) {
-                for (int j = 0; j < l.Size; j++) {
-                    weightsNew[j, i] = l.Weights[j, i] + deltas[i, j];
+
+            errors = new double[layer.Size];
+            Array.Copy(errorsNext, 0, errors, 0, layer.Size);
+            double[,] weightsNew = new double[layer.Weights.GetLength(0), layer.Weights.GetLength(1)];
+            for (int i = 0; i < layerNext.Size; i++)
+            {
+                for (int j = 0; j < layer.Size; j++)
+                {
+                    weightsNew[j, i] = layer.Weights[j, i] + deltas[i, j];
                 }
             }
-            l.Weights = weightsNew;
-            for (int i = 0; i < l1.Size; i++) {
-                l1.Biases[i] += gradients[i];
+
+            if (qqq == -1)
+            {
+                // Console.WriteLine("////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+                // for (int i = 0; i < layerNext.Weights.GetLength(0); i++)
+                // {
+                //     Console.WriteLine(i);
+                //     for (int j = 0; j < layerNext.Weights.GetLength(1); j++)
+                //     {
+                //         Console.WriteLine(layerNext.Weights[i, j]);
+                //     }
+                // }
+                Console.WriteLine("////////////////////////////////////////////////////////////////////////////////////////////////////////////");
+                for (int i = 0; i < layer.Weights.GetLength(0); i++)
+                {
+                    Console.WriteLine(i);
+                    for (int j = 0; j < layer.Weights.GetLength(1); j++)
+                    {
+                        Console.WriteLine(layer.Weights[i, j]);
+                    }
+                }
             }
+
+            layer.Weights = weightsNew;
+            qqq++;
         }
     }
 }
