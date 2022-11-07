@@ -9,29 +9,30 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private DAOA dao = new DAOA();
+    private static Map map = new Map(1);
 
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
     }
 
+    public void Restart()
+    {
+        map = new Map(1);
+    }
     public IActionResult Main()
     {
-        
-        var map = new Map(1);
         return View(map);
     }
+    
+    public IActionResult Start()
+    {
+        map.work();
+        return View(map);
+    }
+    
     public IActionResult Index()
     {
-        using (dao)
-        {
-            // получаем объекты из бд и выводим на консоль
-            var users = dao.qqqq.ToList();
-            foreach (Qqqq u in users)
-            {
-                Console.WriteLine($"{u.www}");
-            }
-        }
         return Redirect("/Home/Main");
     }
 
