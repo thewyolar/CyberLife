@@ -1,7 +1,7 @@
 
 function myScript()
 {
-    for (i = 0; i < 100; i++){
+    for (i = 0; i < 1; i++){
         $(document).ready(function () {
             $.ajax({
                 type: "GET",

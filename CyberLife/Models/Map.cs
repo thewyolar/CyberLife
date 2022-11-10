@@ -1,3 +1,5 @@
+using CyberLife.Neuronet;
+
 namespace CyberLife.Models;
 
 public enum MapType
@@ -15,7 +17,9 @@ public class Map
 {
     public MapType[,] mapTypes;
     public Bot[,] bots;
-
+    public IList<Perceptron> perceptronType = new List<Perceptron>();
+    public IList<double> beforeAllEnergyType = new List<double>();
+    public IList<long> beforePerceptronType = new List<long>();
     public Map()
     {
         
@@ -35,6 +39,7 @@ public class Map
 
         bots = new Bot[n, n];
         bots[6, 6] = new Bot();
+        addType(bots[6, 6].brain);
     }
 
     public void work()
@@ -43,6 +48,11 @@ public class Map
         int iii = 0;
         while (iii < 1)
         {
+            for (int j = 0; j < perceptronType.Count; j++)
+            { 
+                beforePerceptronType[j] = perceptronType[j].population;
+                beforeAllEnergyType[j] = perceptronType[j].allEnergy;
+            }
             iii++;
             for (int i = 0; i < x; i++)
             {
@@ -112,9 +122,25 @@ public class Map
                     }
                 }
             }
+            
+            for (int i = 0; i < perceptronType.Count; i++)
+            {
+                perceptronType[i].BackPropagation(beforeAllEnergyType[i] - perceptronType[i].allEnergy, beforePerceptronType[i] - perceptronType[i].population);
+            }
+            
+            
+            
         }
     }
+
+
+    public void addType(Perceptron perceptron)
+    {
+        perceptronType.Add(perceptron);
+        beforePerceptronType.Add(perceptron.population);
+        beforeAllEnergyType.Add(perceptron.allEnergy);
+    }
     
-    
+>>>>>>>>> Temporary merge branch 2
 
 }

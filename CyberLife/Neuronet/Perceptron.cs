@@ -4,7 +4,8 @@ public class Perceptron
 {
     public Layer[] Layers { get; set; }
     public int qqq = 0;
-    public int population { get; set; } = 0;
+    public long population { get; set; } = 0;
+    public double allEnergy { get; set; } = 0;
     
 
     public Perceptron(params int[] sizes)
@@ -77,7 +78,7 @@ public class Perceptron
         return Array.FindLastIndex(Layers[Layers.Length - 1].Neurons, delegate(double i) { return i == ma;});
     }
 
-    public void BackPropagation(int energy, int population, int neuron)
+    public void BackPropagation(double energy, long population)
     {
         double[] errors = new double[Layers[Layers.Length - 1].Size];
         for (int i = 0; i < Layers[Layers.Length - 1].Size; i++) {
