@@ -38,8 +38,8 @@ public class Map
         }
 
         bots = new Bot[n, n];
-        bots[6, 6] = new Bot();
-        addType(bots[6, 6].brain);
+        bots[0, 0] = new Bot();
+        addType(bots[0, 0].brain);
     }
 
     public void work()
@@ -125,7 +125,7 @@ public class Map
             
             for (int i = 0; i < perceptronType.Count; i++)
             {
-                perceptronType[i].BackPropagation(beforeAllEnergyType[i] - perceptronType[i].allEnergy, beforePerceptronType[i] - perceptronType[i].population);
+                perceptronType[i].BackPropagation(perceptronType[i].allEnergy- beforeAllEnergyType[i], perceptronType[i].population - beforePerceptronType[i]);
             }
             
             
@@ -141,6 +141,5 @@ public class Map
         beforeAllEnergyType.Add(perceptron.allEnergy);
     }
     
->>>>>>>>> Temporary merge branch 2
 
 }

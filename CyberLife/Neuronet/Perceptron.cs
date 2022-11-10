@@ -84,11 +84,11 @@ public class Perceptron
         for (int i = 0; i < Layers[Layers.Length - 1].Size; i++) {
             if (population < 0)
             {
-                errors[i] += population + 5;
+                errors[i] += population - 5;
             }
             else if (population > 0)
             {
-                errors[i] = + population - 5;
+                errors[i] += population + 5;
             }
             else if(energy > 0)
             {

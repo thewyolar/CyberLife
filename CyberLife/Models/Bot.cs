@@ -6,11 +6,11 @@ namespace CyberLife.Models;
 public class Bot
 {
     public Color color { get; set; }
-    public double energy { get; set; }
+    public long energy { get; set; }
     public int[] eye { get; set; }
     public Perceptron brain { get; set; }
 
-    private Bot(double energy, Perceptron brain)
+    private Bot(long energy, Perceptron brain)
     {
         this.energy = energy;
         this.brain = brain;
@@ -20,7 +20,7 @@ public class Bot
     
     public Bot()
     {
-        energy = 100;
+        energy = 1000;
         brain = new Perceptron(9, 5, 5, 5, 5, 3);
         this.brain.allEnergy += this.energy;
         this.brain.population++;
@@ -30,8 +30,13 @@ public class Bot
     {
         double[] input = new double[]{energy};
         double step = brain.FeedForward(eye, input);
+        if (energy <= 0)
+        {
+            bots[x, y] = null;
+            death();
+            return;
+        }
         
-        updateEnergy(-10);
         if (step == 0)
         {
             move();
@@ -43,7 +48,7 @@ public class Bot
             energy /= 2;
             reproduction(x, y, energy, bots, brain);
         }
-
+        updateEnergy(-10);
         if (energy <= 0)
         {
             bots[x, y] = null;
@@ -60,7 +65,7 @@ public class Bot
 
     public void generation(int x, int y, MapType[,] map)
     {
-        updateEnergy((int) (14 + map[x, y]));
+        updateEnergy((long) (14 + map[x, y]));
     }
 
     public void death()
@@ -75,12 +80,14 @@ public class Bot
         }
     }
 
-    public void updateEnergy(int energyLoss)
+    public void updateEnergy(long energyLoss)
     {
         this.energy += energyLoss;
         if (this.energy <= 0)
         {
-            brain.allEnergy += (this.energy - energyLoss) - this.energy;
+            this.energy -= energyLoss;
+            brain.allEnergy -= this.energy;
+            this.energy += energyLoss;
         }
         else
         {
@@ -88,51 +95,83 @@ public class Bot
         }
     }
     
-    public void reproduction(int x, int y, double energy, Bot[,] bots, Perceptron brain)
+    public void reproduction(int x, int y, long energy, Bot[,] bots, Perceptron brain)
     {
         try
         {
-            if (bots[x - 1, y - 1] is null) bots[x - 1, y - 1] = new Bot(energy, brain);
+            if (bots[x - 1, y - 1] is null)
+            {
+                bots[x - 1, y - 1] = new Bot(energy, brain);
+                return;
+            }
         }
         catch (Exception ignore){ }
         try
         {
-            if (bots[x, y - 1] is null) bots[x, y - 1] = new Bot(energy, brain);
+            if (bots[x, y - 1] is null)
+            {
+                bots[x, y - 1] = new Bot(energy, brain);
+                return;
+            }
         }
         catch (Exception ignore){ }
         try
         {
-            if (bots[x + 1, y + 1] is null) bots[x + 1, y + 1] = new Bot(energy, brain);
+            if (bots[x + 1, y + 1] is null)
+            {
+                bots[x + 1, y + 1] = new Bot(energy, brain);
+                return;
+            }
         }
         catch (Exception ignore) { }
 
         try
         {
-            if (bots[x + 1, y] is null) bots[x + 1, y] = new Bot(energy, brain);
+            if (bots[x + 1, y] is null)
+            {
+                bots[x + 1, y] = new Bot(energy, brain);
+                return;
+            }
         }
         catch (Exception ignore) { }
 
         try
         {
-            if (bots[x + 1, y - 1] is null) bots[x + 1, y - 1] = new Bot(energy, brain);
+            if (bots[x + 1, y - 1] is null)
+            {
+                bots[x + 1, y - 1] = new Bot(energy, brain);
+                return;
+            }
         }
         catch (Exception ignore) { }
 
         try
         {
-            if (bots[x, y - 1] is null) bots[x, y - 1] = new Bot(energy, brain);
+            if (bots[x, y - 1] is null)
+            {
+                bots[x, y - 1] = new Bot(energy, brain);
+                return;
+            }
         }
         catch (Exception ignore) { }
 
         try
         {
-            if (bots[x - 1, y + 1] is null) bots[x - 1, y + 1] = new Bot(energy, brain);
+            if (bots[x - 1, y + 1] is null)
+            {
+                bots[x - 1, y + 1] = new Bot(energy, brain);
+                return;
+            }
         }
         catch (Exception ignore) { }
 
         try
         {
-            if (bots[x - 1, y] is null) bots[x - 1, y] = new Bot(energy, brain);
+            if (bots[x - 1, y] is null)
+            {
+                bots[x - 1, y] = new Bot(energy, brain);
+                return;
+            }
         }
         catch (Exception ignore) { }
     }
