@@ -18,7 +18,7 @@
 <div class="scrol">
     <div><button onClick="myScript()">Ano</button></div>
     <div><button onClick="neMyScript()">neAno</button></div>
-    <div id="gr" class="grid">
+    <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.bots.GetLength(0), 42px); grid-template-rows: repeat(@Model.bots.GetLength(0), 42px)">
     </div>
 </div>
 </body>

@@ -5,10 +5,10 @@
 @for (int i = 0, j = 0, k = 0; i < Model.mapTypes.Length; i++)
 {
 
-    <div>
+    <div style="background: @Model.bots[j, k]?.color.Name">
         @if (Model.bots[j, k] is not null)
         {
-            <div id="bot">@i</div>
+            <div id="bot"></div>
         }
     </div>
     if (j == (Model.mapTypes.GetLength(0)) - 1)

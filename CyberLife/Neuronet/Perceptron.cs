@@ -4,6 +4,7 @@ public class Perceptron
 {
     public Layer[] Layers { get; set; }
     public int qqq = 0;
+    public int[] activatedNeurons { get; set; }
     public long population { get; set; } = 0;
     public double allEnergy { get; set; } = 0;
     
@@ -25,6 +26,7 @@ public class Perceptron
                 }
             }
         }
+        activatedNeurons = new int[sizes.Last()];
     }
 
     public int FeedForward(int[] eye , double[] inputs)
@@ -51,7 +53,7 @@ public class Perceptron
                     layerNext.Neurons[j] += layer.Neurons[k] * layer.Weights[k, j];
                 }
                 
-                layerNext.Neurons[j] += layer.Biases[j];
+                layerNext.Neurons[j] += layerNext.Biases[j];
                 layerNext.Neurons[j] = layer.NeuronsActivation[j](layerNext.Neurons[j]);
 
 
@@ -80,27 +82,35 @@ public class Perceptron
 
     public void BackPropagation(double energy, long population)
     {
+        int neuron = Array.FindLastIndex(activatedNeurons, delegate(int i) { return i == activatedNeurons.Max(); });
+
+        foreach (int i in activatedNeurons)
+        {
+            Console.Write(i + ";");
+        }
+        
+        
         double[] errors = new double[Layers[Layers.Length - 1].Size];
         for (int i = 0; i < Layers[Layers.Length - 1].Size; i++) {
             if (population < 0)
             {
-                errors[i] += population - 5;
+                errors[neuron] += population - 5;
             }
             else if (population > 0)
             {
-                errors[i] += population + 5;
+                errors[neuron] += population + 5;
             }
             else if(energy > 0)
             {
-                errors[i] += 1;
+                errors[neuron] += 1;
             }
             else if (energy < 0)
             {
-                errors[i] -= 1;
+                errors[neuron] -= 1;
             }
             else
             {
-                errors[i] -= 1;
+                errors[neuron] -= 1;
             }
 
         }
@@ -113,8 +123,8 @@ public class Perceptron
             double[] gradients = new double[layerNext.Size];
             for (int i = 0; i < layerNext.Size; i++)
             {
-                gradients[i] = errors[i] * layer.DerivativeActivation[i](Layers[k + 1].Neurons[i]);  // вернуть производную????
-                gradients[i] *= 0.1;
+                gradients[i] = errors[i] * layer.DerivativeActivation[i](Layers[k + 1].Neurons[i]);
+                gradients[i] *= 0.01;
             }
 
             double[,] deltas = new double[layerNext.Size, layer.Size];
@@ -122,7 +132,7 @@ public class Perceptron
             {
                 for (int j = 0; j < layer.Size; j++)
                 {
-                    deltas[i, j] = gradients[i] * layer.Neurons[j]; // тут треш. перемножение на 1
+                    deltas[i, j] = gradients[i] * layer.Neurons[j];
                 }
             }
 
@@ -145,31 +155,11 @@ public class Perceptron
                     weightsNew[j, i] = layer.Weights[j, i] + deltas[i, j];
                 }
             }
-
-            if (qqq == -1)
-            {
-                // Console.WriteLine("////////////////////////////////////////////////////////////////////////////////////////////////////////////");
-                // for (int i = 0; i < layerNext.Weights.GetLength(0); i++)
-                // {
-                //     Console.WriteLine(i);
-                //     for (int j = 0; j < layerNext.Weights.GetLength(1); j++)
-                //     {
-                //         Console.WriteLine(layerNext.Weights[i, j]);
-                //     }
-                // }
-                Console.WriteLine("////////////////////////////////////////////////////////////////////////////////////////////////////////////");
-                for (int i = 0; i < layer.Weights.GetLength(0); i++)
-                {
-                    Console.WriteLine(i);
-                    for (int j = 0; j < layer.Weights.GetLength(1); j++)
-                    {
-                        Console.WriteLine(layer.Weights[i, j]);
-                    }
-                }
-            }
-
             layer.Weights = weightsNew;
-            qqq++;
+            for (int i = 0; i < activatedNeurons.Length; i++)
+            {
+                activatedNeurons[i] = 0;
+            }
         }
     }
 }

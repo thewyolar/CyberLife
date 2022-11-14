@@ -10,18 +10,22 @@ public class Bot
     public int[] eye { get; set; }
     public Perceptron brain { get; set; }
 
-    private Bot(long energy, Perceptron brain)
+    public int isStep { get; set; } = 0;
+
+    private Bot(long energy, Perceptron brain, Color color)
     {
         this.energy = energy;
         this.brain = brain;
         this.brain.allEnergy += this.energy;
+        this.color = color;
         this.brain.population++;
     }
     
     public Bot()
     {
         energy = 1000;
-        brain = new Perceptron(9, 5, 5, 5, 5, 3);
+        this.color = Color.Green;
+        brain = new Perceptron(9, 5, 5, 5, 5, 10);
         this.brain.allEnergy += this.energy;
         this.brain.population++;
     }
@@ -29,24 +33,25 @@ public class Bot
     public void activateBrain(int[] eye, int x, int y, Bot[,] bots, MapType[,] map)
     {
         double[] input = new double[]{energy};
-        double step = brain.FeedForward(eye, input);
+        int step = brain.FeedForward(eye, input);
         if (energy <= 0)
         {
             bots[x, y] = null;
             death();
             return;
         }
-        
-        if (step == 0)
+
+        brain.activatedNeurons[step]++;
+        if (step <= 7)
         {
-            move();
-        }else if (step == 1)
+            move(step, x, y, bots);
+        }else if (step == 8)
         {
             generation(x, y, map);
-        }else if (step == 2)
+        }else if (step == 9)
         {
-            energy /= 2;
-            reproduction(x, y, energy, bots, brain);
+            updateEnergy(energy / 2);
+            reproduction(x, y, energy, bots, brain , color);
         }
         updateEnergy(-10);
         if (energy <= 0)
@@ -57,9 +62,94 @@ public class Bot
         
     }
 
-
-    public void move()
+// Написать через eye.
+    public void move(int step, int x, int y,  Bot[,] bots)
     {
+        try
+        {
+            if (step == 0 & bots[x - 1, y - 1] is null)
+            {
+                bots[x - 1, y - 1] = bots[x, y];
+                bots[x, y] = null;
+                return;
+            }
+        }
+        catch (Exception ignore){ }
+        try
+        {
+            if (step == 1 & bots[x, y - 1] is null)
+            {
+                bots[x, y - 1] = bots[x, y];
+                bots[x, y] = null;
+                return;
+            }
+        }
+        catch (Exception ignore){ }
+        try
+        {
+            if (step == 2 & bots[x + 1, y - 1] is null)
+            {
+                bots[x + 1, y - 1] = bots[x, y];
+                bots[x, y] = null;
+                return;
+            }
+        }
+        catch (Exception ignore) { }
+
+        try
+        {
+            if (step == 3 & bots[x + 1, y] is null)
+            {
+                bots[x + 1, y] = bots[x, y];
+                bots[x, y] = null;
+                return;
+            }
+        }
+        catch (Exception ignore) { }
+
+        try
+        {
+            if (step == 4 & bots[x + 1, y + 1] is null)
+            {
+                bots[x + 1, y + 1] = bots[x, y];
+                bots[x, y] = null;
+                return;
+            }
+        }
+        catch (Exception ignore) { }
+
+        try
+        {
+            if (step == 5 & bots[x, y + 1] is null)
+            {
+                bots[x, y + 1] = bots[x, y];
+                bots[x, y] = null;
+                return;
+            }
+        }
+        catch (Exception ignore) { }
+
+        try
+        {
+            if (step == 6 & bots[x - 1, y + 1] is null)
+            {
+                bots[x - 1, y + 1] = bots[x, y];
+                bots[x, y] = null;
+                return;
+            }
+        }
+        catch (Exception ignore) { }
+
+        try
+        {
+            if (step == 7 & bots[x - 1, y] is null)
+            {
+                bots[x - 1, y] = bots[x, y];
+                bots[x, y] = null;
+                return;
+            }
+        }
+        catch (Exception ignore) { }
         updateEnergy(-10);
     }
 
@@ -95,13 +185,13 @@ public class Bot
         }
     }
     
-    public void reproduction(int x, int y, long energy, Bot[,] bots, Perceptron brain)
+    public void reproduction(int x, int y, long energy, Bot[,] bots, Perceptron brain, Color color)
     {
         try
         {
             if (bots[x - 1, y - 1] is null)
             {
-                bots[x - 1, y - 1] = new Bot(energy, brain);
+                bots[x - 1, y - 1] = new Bot(energy, brain, color);
                 return;
             }
         }
@@ -110,16 +200,16 @@ public class Bot
         {
             if (bots[x, y - 1] is null)
             {
-                bots[x, y - 1] = new Bot(energy, brain);
+                bots[x, y - 1] = new Bot(energy, brain, color);
                 return;
             }
         }
         catch (Exception ignore){ }
         try
         {
-            if (bots[x + 1, y + 1] is null)
+            if (bots[x + 1, y - 1] is null)
             {
-                bots[x + 1, y + 1] = new Bot(energy, brain);
+                bots[x + 1, y - 1] = new Bot(energy, brain, color);
                 return;
             }
         }
@@ -129,7 +219,7 @@ public class Bot
         {
             if (bots[x + 1, y] is null)
             {
-                bots[x + 1, y] = new Bot(energy, brain);
+                bots[x + 1, y] = new Bot(energy, brain, color);
                 return;
             }
         }
@@ -137,9 +227,9 @@ public class Bot
 
         try
         {
-            if (bots[x + 1, y - 1] is null)
+            if (bots[x + 1, y + 1] is null)
             {
-                bots[x + 1, y - 1] = new Bot(energy, brain);
+                bots[x + 1, y + 1] = new Bot(energy, brain, color);
                 return;
             }
         }
@@ -147,9 +237,9 @@ public class Bot
 
         try
         {
-            if (bots[x, y - 1] is null)
+            if (bots[x, y + 1] is null)
             {
-                bots[x, y - 1] = new Bot(energy, brain);
+                bots[x, y + 1] = new Bot(energy, brain, color);
                 return;
             }
         }
@@ -159,7 +249,7 @@ public class Bot
         {
             if (bots[x - 1, y + 1] is null)
             {
-                bots[x - 1, y + 1] = new Bot(energy, brain);
+                bots[x - 1, y + 1] = new Bot(energy, brain, color);
                 return;
             }
         }
@@ -169,7 +259,7 @@ public class Bot
         {
             if (bots[x - 1, y] is null)
             {
-                bots[x - 1, y] = new Bot(energy, brain);
+                bots[x - 1, y] = new Bot(energy, brain, color);
                 return;
             }
         }

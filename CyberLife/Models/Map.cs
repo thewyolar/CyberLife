@@ -20,6 +20,7 @@ public class Map
     public IList<Perceptron> perceptronType = new List<Perceptron>();
     public IList<double> beforeAllEnergyType = new List<double>();
     public IList<long> beforePerceptronType = new List<long>();
+    public int circle = 0;
     public Map()
     {
         
@@ -27,7 +28,7 @@ public class Map
 
     public Map(int q)
     {
-        int n = 7;
+        int n = 25;
         mapTypes = new MapType[n, n];
         for (int i = 0; i < n; i++)
         {
@@ -117,10 +118,26 @@ public class Map
                             else eye[7] = 2;
                         }
                         catch (Exception ignore) { eye[7] = -1; }
-                        bots[i, j].activateBrain(eye, i, j, bots, mapTypes);
-                        // bots[i, j].move(i , j, bots);
+                        if (bots[i, j].isStep == 0 & circle == 0)
+                        {
+                            bots[i, j].isStep++;
+                            bots[i, j].activateBrain(eye, i, j, bots, mapTypes);
+                        }else if (bots[i, j].isStep == 1 & circle == 1)
+                        {
+                            bots[i, j].isStep--;
+                            bots[i, j].activateBrain(eye, i, j, bots, mapTypes);
+                        }
                     }
                 }
+            }
+
+            if (circle == 0)
+            {
+                circle++;
+            }
+            else
+            {
+                circle--;
             }
             
             for (int i = 0; i < perceptronType.Count; i++)
