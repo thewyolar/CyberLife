@@ -1,14 +1,12 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using CyberLife.Models;
-using CyberLife.DAO;
 
 namespace CyberLife.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private DAOA dao = new DAOA();
     private static Map map = new Map(1);
 
     public HomeController(ILogger<HomeController> logger)
