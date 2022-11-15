@@ -5,26 +5,36 @@ namespace CyberLife.Models;
 
 public class Bot
 {
-    public Color color { get; set; }
+    public string color { get; set; }
+    public string[] rgb { get; set; }
     public long energy { get; set; }
     public int[] eye { get; set; }
     public Perceptron brain { get; set; }
 
     public int isStep { get; set; } = 0;
 
-    private Bot(long energy, Perceptron brain, Color color)
+    private Bot(long energy, Perceptron brain, string color, int isStep)
     {
+        if (isStep == 1)
+        {
+            this.isStep = 0;
+        }else if (isStep == 0)
+        {
+            this.isStep = 1;
+        }
         this.energy = energy;
         this.brain = brain;
         this.brain.allEnergy += this.energy;
         this.color = color;
+        this.rgb = this.color.Split(" ");
         this.brain.population++;
     }
     
     public Bot()
     {
         energy = 1000;
-        this.color = Color.Green;
+        this.color = "0, 255, 0";
+        this.rgb = this.color.Split(" ");
         brain = new Perceptron(9, 5, 5, 5, 5, 10);
         this.brain.allEnergy += this.energy;
         this.brain.population++;
@@ -40,7 +50,11 @@ public class Bot
             death();
             return;
         }
-
+        if (step == -1)
+        {
+            updateEnergy(-20);
+            return;
+        }
         brain.activatedNeurons[step]++;
         if (step <= 7)
         {
@@ -51,7 +65,7 @@ public class Bot
         }else if (step == 9)
         {
             updateEnergy(energy / 2);
-            reproduction(x, y, energy, bots, brain , color);
+            reproduction(x, y, energy, bots, brain , color, isStep);
         }
         updateEnergy(-10);
         if (energy <= 0)
@@ -185,13 +199,23 @@ public class Bot
         }
     }
     
-    public void reproduction(int x, int y, long energy, Bot[,] bots, Perceptron brain, Color color)
+    public void reproduction(int x, int y, long energy, Bot[,] bots, Perceptron brain, string color, int isStep)
     {
+        Random random = new Random();
+        int mutationProbability = random.Next(100);
+        if (mutationProbability <= 5)
+        {
+            brain = brain.makePerceptron();
+            int r = random.Next(240);
+            int g = random.Next(240);
+            int b = random.Next(240);
+            color = r + ", " + g + ", " + b;
+        }
         try
         {
             if (bots[x - 1, y - 1] is null)
             {
-                bots[x - 1, y - 1] = new Bot(energy, brain, color);
+                bots[x - 1, y - 1] = new Bot(energy, brain, color, isStep);
                 return;
             }
         }
@@ -200,7 +224,7 @@ public class Bot
         {
             if (bots[x, y - 1] is null)
             {
-                bots[x, y - 1] = new Bot(energy, brain, color);
+                bots[x, y - 1] = new Bot(energy, brain, color, isStep);
                 return;
             }
         }
@@ -209,7 +233,7 @@ public class Bot
         {
             if (bots[x + 1, y - 1] is null)
             {
-                bots[x + 1, y - 1] = new Bot(energy, brain, color);
+                bots[x + 1, y - 1] = new Bot(energy, brain, color, isStep);
                 return;
             }
         }
@@ -219,7 +243,7 @@ public class Bot
         {
             if (bots[x + 1, y] is null)
             {
-                bots[x + 1, y] = new Bot(energy, brain, color);
+                bots[x + 1, y] = new Bot(energy, brain, color, isStep);
                 return;
             }
         }
@@ -229,7 +253,7 @@ public class Bot
         {
             if (bots[x + 1, y + 1] is null)
             {
-                bots[x + 1, y + 1] = new Bot(energy, brain, color);
+                bots[x + 1, y + 1] = new Bot(energy, brain, color, isStep);
                 return;
             }
         }
@@ -239,7 +263,7 @@ public class Bot
         {
             if (bots[x, y + 1] is null)
             {
-                bots[x, y + 1] = new Bot(energy, brain, color);
+                bots[x, y + 1] = new Bot(energy, brain, color, isStep);
                 return;
             }
         }
@@ -249,7 +273,7 @@ public class Bot
         {
             if (bots[x - 1, y + 1] is null)
             {
-                bots[x - 1, y + 1] = new Bot(energy, brain, color);
+                bots[x - 1, y + 1] = new Bot(energy, brain, color, isStep);
                 return;
             }
         }
@@ -259,7 +283,7 @@ public class Bot
         {
             if (bots[x - 1, y] is null)
             {
-                bots[x - 1, y] = new Bot(energy, brain, color);
+                bots[x - 1, y] = new Bot(energy, brain, color, isStep);
                 return;
             }
         }

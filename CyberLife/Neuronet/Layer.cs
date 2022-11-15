@@ -6,12 +6,12 @@ public class Layer
     public double[] Neurons { get; set; }
     public Func<double, double>[]  NeuronsActivation { get; set; }
     public Func<double, double>[]  DerivativeActivation { get; set; }
-    private Func<double, double>[] Activation { get; set; } = { (x) => (1 / (1 + Math.Exp(-x * 10000))),
+    private static Func<double, double>[] Activation { get; set; } = { (x) => (1 / (1 + Math.Exp(-x * 10000))),
                                                                 (x) => (1 / (1 + Math.Exp(-x))),
                                                                 (x) => (new Random().NextDouble())
                                                                 
     };
-    private Func<double, double>[] Derivative { get; set; } = { (y) => (10000 * y / (1 + y * y)),
+    private static Func<double, double>[] Derivative { get; set; } = { (y) => (10000 * y / (1 + y * y)),
                                                                 (y) => (y / (1 + y * y)),
                                                                 (y) => (y)
                                                                 
@@ -47,4 +47,53 @@ public class Layer
             }
         }
     }
+
+    public Layer(int size, double[] neurons, Func<double, double>[] neuronsActivation,
+        Func<double, double>[] derivativeActivation,double[] biases, double[,] weights)
+    {
+        this.Size = size;
+        this.Neurons = neurons;
+        this.NeuronsActivation = neuronsActivation;
+        this.DerivativeActivation = derivativeActivation;
+        this.Biases = biases;
+        this.Weights = weights;
+    }
+
+    public void mutation()
+    {
+        Random random = new Random();
+        int indexFunc = random.Next(3);
+        if (NeuronsActivation.Length != 0)
+        {
+            int indexNeuronsActivation = random.Next(NeuronsActivation.Length);
+            NeuronsActivation[indexNeuronsActivation] = Activation[indexFunc];
+            DerivativeActivation[indexNeuronsActivation] = Derivative[indexFunc];
+        }
+    }
+
+    public Layer clone()
+    {
+        int size = this.Size;
+        double[] neurons = new double[this.Neurons.Length];
+        this.Neurons.CopyTo(neurons, 0);
+        Func<double, double>[] neuronsActivation = new Func<double, double>[this.NeuronsActivation.Length];
+        Func<double, double>[] derivativeActivation = new Func<double, double>[this.DerivativeActivation.Length];
+        for (int i = 0; i < this.NeuronsActivation.Length; i++)
+        {
+            neuronsActivation[i] = (Func<double, double>) this.NeuronsActivation[i].Clone();
+            derivativeActivation[i] = (Func<double, double>) this.DerivativeActivation[i].Clone();
+        }
+        double[] biases = new double[this.Biases.Length];
+        double[,] weights = new double[this.Weights.GetLength(0),this.Weights.GetLength(1)];
+        this.Biases.CopyTo(biases, 0);
+        for (int i = 0; i < this.Weights.GetLength(0); i++)
+        {
+            for (int j = 0; j < this.Weights.GetLength(1); j++)
+            {
+                weights[i, j] = this.Weights[i, j];
+            }
+        }
+        return new Layer(size, neurons, neuronsActivation, derivativeActivation, biases, weights);
+    }
+    
 }

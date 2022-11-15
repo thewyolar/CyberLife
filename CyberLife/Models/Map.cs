@@ -28,7 +28,7 @@ public class Map
 
     public Map(int q)
     {
-        int n = 25;
+        int n = 15;
         mapTypes = new MapType[n, n];
         for (int i = 0; i < n; i++)
         {
@@ -50,7 +50,16 @@ public class Map
         while (iii < 1)
         {
             for (int j = 0; j < perceptronType.Count; j++)
-            { 
+            {
+                if (perceptronType[j].population <= 0)
+                {
+                    perceptronType.RemoveAt(j);
+                    beforePerceptronType.RemoveAt(j);
+                    beforeAllEnergyType.RemoveAt(j);
+                }
+            }
+            for (int j = 0; j < perceptronType.Count; j++)
+            {
                 beforePerceptronType[j] = perceptronType[j].population;
                 beforeAllEnergyType[j] = perceptronType[j].allEnergy;
             }

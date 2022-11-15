@@ -3,7 +3,6 @@
 public class Perceptron
 {
     public Layer[] Layers { get; set; }
-    public int qqq = 0;
     public int[] activatedNeurons { get; set; }
     public long population { get; set; } = 0;
     public double allEnergy { get; set; } = 0;
@@ -27,6 +26,12 @@ public class Perceptron
             }
         }
         activatedNeurons = new int[sizes.Last()];
+    }
+    
+    private Perceptron(Layer[] layers)
+    {
+        this.Layers = layers;
+        activatedNeurons = new int[Layers.Last().Size];
     }
 
     public int FeedForward(int[] eye , double[] inputs)
@@ -60,10 +65,10 @@ public class Perceptron
             }
         }
 
-        for (int i = 0; i < Layers[Layers.Length - 1].Neurons.Length; i++)
-        {
-            Console.WriteLine(Layers[Layers.Length - 1].Neurons[i]);
-        }
+        // for (int i = 0; i < Layers[Layers.Length - 1].Neurons.Length; i++)
+        // {
+        //     Console.WriteLine(Layers[Layers.Length - 1].Neurons[i]);
+        // }
 
         double ma = Layers[Layers.Length - 1].Neurons.Max();
         int index = Array.FindLastIndex(Layers[Layers.Length - 1].Neurons, delegate(double i) { return i == ma; });
@@ -75,8 +80,8 @@ public class Perceptron
                 return -1;
             }
         }
-        Console.WriteLine(index);
-        Console.WriteLine("population=" + population);
+        // Console.WriteLine(index);
+        // Console.WriteLine("population=" + population);
         return Array.FindLastIndex(Layers[Layers.Length - 1].Neurons, delegate(double i) { return i == ma;});
     }
 
@@ -84,21 +89,21 @@ public class Perceptron
     {
         int neuron = Array.FindLastIndex(activatedNeurons, delegate(int i) { return i == activatedNeurons.Max(); });
 
-        foreach (int i in activatedNeurons)
-        {
-            Console.Write(i + ";");
-        }
+        // foreach (int i in activatedNeurons)
+        // {
+        //     Console.Write(i + ";");
+        // }
         
         
         double[] errors = new double[Layers[Layers.Length - 1].Size];
         for (int i = 0; i < Layers[Layers.Length - 1].Size; i++) {
             if (population < 0)
             {
-                errors[neuron] += population - 5;
+                errors[neuron] -= 5;
             }
             else if (population > 0)
             {
-                errors[neuron] += population + 5;
+                errors[neuron] += 5;
             }
             else if(energy > 0)
             {
@@ -161,5 +166,21 @@ public class Perceptron
                 activatedNeurons[i] = 0;
             }
         }
+    }
+
+    public Perceptron makePerceptron()
+    {
+        Layer[] layers = new Layer[this.Layers.Length];
+        for (int i = 0; i < this.Layers.Length; i++)
+        {
+            layers[i] = this.Layers[i].clone();
+        }
+        Random random = new Random();
+        int indexLayers = random.Next(layers.Length);
+        for (int i = 0; i < 4; i++)
+        {
+            layers[indexLayers].mutation();
+        }
+        return new Perceptron(layers);
     }
 }
