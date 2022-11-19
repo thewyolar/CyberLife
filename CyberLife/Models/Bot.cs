@@ -64,11 +64,11 @@ public class Bot
             generation(x, y, map);
         }else if (step == 9)
         {
-            updateEnergy(energy / 2);
-            reproduction(x, y, energy, bots, brain , color, isStep);
+            long loseEnergy = -(energy / 2);
+            updateEnergy(loseEnergy);
+            reproduction(x, y, -loseEnergy, bots, brain, color, isStep);
         }
-        updateEnergy(-10);
-        if (energy <= 0)
+        if (energy <= 0 & bots[x, y] is null)
         {
             bots[x, y] = null;
             death();

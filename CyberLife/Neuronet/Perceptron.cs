@@ -5,11 +5,12 @@ public class Perceptron
     public Layer[] Layers { get; set; }
     public int[] activatedNeurons { get; set; }
     public long population { get; set; } = 0;
-    public double allEnergy { get; set; } = 0;
+    public long allEnergy { get; set; } = 0;
     
 
     public Perceptron(params int[] sizes)
     {
+        population = 0;
         this.Layers = new Layer[sizes.Length];
         for (int i = 0; i < sizes.Length; i++)
         {
@@ -32,6 +33,8 @@ public class Perceptron
     {
         this.Layers = layers;
         activatedNeurons = new int[Layers.Last().Size];
+        population = 0;
+        allEnergy = 0;
     }
 
     public int FeedForward(int[] eye , double[] inputs)
@@ -129,7 +132,7 @@ public class Perceptron
             for (int i = 0; i < layerNext.Size; i++)
             {
                 gradients[i] = errors[i] * layer.DerivativeActivation[i](Layers[k + 1].Neurons[i]);
-                gradients[i] *= 0.01;
+                gradients[i] *= 0.1;
             }
 
             double[,] deltas = new double[layerNext.Size, layer.Size];
