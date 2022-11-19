@@ -76,56 +76,56 @@ public class Map
                         try
                         {
                             if (bots[i - 1, j - 1] is null) eye[0] = 0;
-                            else if (bots[i, j].color.Equals(bots[i - 1, j - 1])) eye[0] = 1;
+                            else if (bots[i, j].color.Equals(bots[i - 1, j - 1].color)) eye[0] = 1;
                             else eye[0] = 2;
                         }
                         catch (Exception ignore) { eye[0] = -1; }
                         try
                         {
                             if (bots[i, j - 1] is null) eye[1] = 0;
-                            else if (bots[i, j].color.Equals(bots[i, j - 1])) eye[1] = 1;
+                            else if (bots[i, j].color.Equals(bots[i, j - 1].color)) eye[1] = 1;
                             else eye[1] = 2;
                         }
                         catch (Exception ignore) { eye[1] = -1; }
                         try
                         {
-                            if (bots[i + 1, j + 1] is null) eye[2] = 0;
-                            else if (bots[i, j].color.Equals(bots[i + 1, j + 1])) eye[2] = 1;
+                            if (bots[i + 1, j - 1] is null) eye[2] = 0;
+                            else if (bots[i, j].color.Equals(bots[i + 1, j + 1].color)) eye[2] = 1;
                             else eye[2] = 2;
                         }
                         catch (Exception ignore) { eye[2] = -1; }
                         try
                         {
                             if (bots[i + 1, j] is null) eye[3] = 0;
-                            else if (bots[i, j].color.Equals(bots[i + 1, j])) eye[3] = 1;
+                            else if (bots[i, j].color.Equals(bots[i + 1, j].color)) eye[3] = 1;
                             else eye[3] = 2;
                         }
                         catch (Exception ignore) { eye[3] = -1; }
                         try
                         {
-                            if (bots[i + 1, j - 1] is null) eye[4] = 0;
-                            else if (bots[i, j].color.Equals(bots[i + 1, j - 1])) eye[4] = 1;
+                            if (bots[i + 1, j + 1] is null) eye[4] = 0;
+                            else if (bots[i, j].color.Equals(bots[i + 1, j - 1].color)) eye[4] = 1;
                             else eye[4] = 2;
                         }
                         catch (Exception ignore) { eye[4] = -1; }
                         try
                         {
-                            if (bots[i, j - 1] is null) eye[5] = 0;
-                            else if (bots[i, j].color.Equals(bots[i, j - 1])) eye[5] = 1;
+                            if (bots[i, j + 1] is null) eye[5] = 0;
+                            else if (bots[i, j].color.Equals(bots[i, j - 1].color)) eye[5] = 1;
                             else eye[5] = 2;
                         }
                         catch (Exception ignore) { eye[5] = -1; }
                         try
                         {
                             if (bots[i - 1, j + 1] is null) eye[6] = 0;
-                            else if (bots[i, j].color.Equals(bots[i - 1, j + 1])) eye[6] = 1;
+                            else if (bots[i, j].color.Equals(bots[i - 1, j + 1].color)) eye[6] = 1;
                             else eye[6] = 2;
                         }
                         catch (Exception ignore) { eye[6] = -1; }
                         try
                         {
                             if (bots[i - 1, j] is null) eye[7] = 0;
-                            else if (bots[i, j].color.Equals(bots[i - 1, j])) eye[7] = 1;
+                            else if (bots[i, j].color.Equals(bots[i - 1, j].color)) eye[7] = 1;
                             else eye[7] = 2;
                         }
                         catch (Exception ignore) { eye[7] = -1; }

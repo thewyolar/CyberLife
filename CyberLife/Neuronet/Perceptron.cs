@@ -88,7 +88,10 @@ public class Perceptron
         // Console.WriteLine("population=" + population);
         return Array.FindLastIndex(Layers[Layers.Length - 1].Neurons, delegate(double i) { return i == ma;});
     }
-
+    
+    
+    
+    // TODO dropOut - рандомное выключение нейронов. решить проблему переобучения
     public void BackPropagation(double energy, long population)
     {
         int neuron = Array.FindLastIndex(activatedNeurons, delegate(int i) { return i == activatedNeurons.Max(); });
