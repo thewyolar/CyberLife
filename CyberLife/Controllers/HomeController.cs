@@ -7,7 +7,8 @@ namespace CyberLife.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private static Map map = new Map(1);
+    public static Map map = new Map(1);
+    private static bool start = true;
 
     public HomeController(ILogger<HomeController> logger)
     {
@@ -25,7 +26,12 @@ public class HomeController : Controller
     
     public IActionResult Start()
     {
-        map.work();
+        if (start)
+        {
+            start = false;
+            map.work();
+        }
+        start = true;
         return View(map);
     }
     

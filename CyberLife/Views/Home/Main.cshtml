@@ -1,3 +1,4 @@
+@using CyberLife.Neuronet
 @model Map
 @Html.AntiForgeryToken()
 @{
@@ -16,10 +17,12 @@
 </head>
 <body>
 <div class="scrol">
-    <div><button id="start" onClick="start()">Start</button></div>
-    <div><button id="restart" onClick="restart()">Restart</button></div>
-    <div><button id="stop" onClick="stop()">Stop</button></div>
-    <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.bots.GetLength(0), 12px); grid-template-rows: repeat(@Model.bots.GetLength(0), 12px)">
+    <div>    
+        <div><button id="start" onClick="start()">Start</button></div>
+        <div><button id="restart" onClick="restart()">Restart</button></div>
+        <div><button id="stop" onClick="stop()">Stop</button></div>
+    </div>
+    <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.bots.GetLength(0), 32px); grid-template-rows: repeat(@Model.bots.GetLength(0), 32px)">
         @for (int i = 0, j = 0, k = 0; i < Model.mapTypes.Length; i++)
         {
             <div style="background: rgb(@Model.bots[j, k]?.rgb[0] @Model.bots[j, k]?.rgb[1] @Model.bots[j, k]?.rgb[2])">
@@ -38,6 +41,15 @@
                 j++;
             }
         }
+        <div>
+            <br>
+            @foreach (Perceptron perceptron in Model.perceptronType)
+            {
+                @perceptron.allEnergy
+            }
+        </div>
+            
+
     </div>
 </div>
 </body>

@@ -21,3 +21,13 @@
         j++;
     }
 }
+<div>
+    <br>
+    @for (int i = 0; i < Model.perceptronType.Count; i++)
+    {
+        <div style="color: rgb(@Model.perceptronType[i].rgb[0] @Model.perceptronType[i].rgb[1] @Model.perceptronType[i].rgb[2])">
+             @Model.perceptronType[i].allEnergy:@Model.perceptronType[i].population<br>
+        </div>
+    }
+</div>
+

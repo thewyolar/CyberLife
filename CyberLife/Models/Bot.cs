@@ -1,4 +1,5 @@
 using System.Drawing;
+using CyberLife.Controllers;
 using CyberLife.Neuronet;
 
 namespace CyberLife.Models;
@@ -27,15 +28,17 @@ public class Bot
         this.brain.allEnergy += this.energy;
         this.color = color;
         this.rgb = this.color.Split(" ");
+        this.brain.rgb = this.rgb;
         this.brain.population++;
     }
     
     public Bot()
     {
-        energy = 1000;
+        energy = 100000;
         this.color = "0, 255, 0";
         this.rgb = this.color.Split(" ");
-        brain = new Perceptron(9, 5, 5, 5, 5, 10);
+        brain = new Perceptron(9, 10, 10, 10, 10, 12);
+        this.brain.rgb = this.rgb;
         this.brain.allEnergy += this.energy;
         this.brain.population++;
     }
@@ -266,9 +269,11 @@ public class Bot
     {
         Random random = new Random();
         int mutationProbability = random.Next(100);
+        bool isMutation = false;
         if (mutationProbability <= 5)
         {
             brain = brain.makePerceptron();
+            isMutation = true;
             int r = random.Next(240);
             int g = random.Next(240);
             int b = random.Next(240);
@@ -279,6 +284,10 @@ public class Bot
             if (bots[x - 1, y - 1] is null)
             {
                 bots[x - 1, y - 1] = new Bot(energy, brain, color, isStep);
+                if (isMutation)
+                {
+                    HomeController.map.addType(brain);
+                }
                 return;
             }
         }
@@ -288,6 +297,10 @@ public class Bot
             if (bots[x, y - 1] is null)
             {
                 bots[x, y - 1] = new Bot(energy, brain, color, isStep);
+                if (isMutation)
+                {
+                    HomeController.map.addType(brain);
+                }
                 return;
             }
         }
@@ -297,6 +310,10 @@ public class Bot
             if (bots[x + 1, y - 1] is null)
             {
                 bots[x + 1, y - 1] = new Bot(energy, brain, color, isStep);
+                if (isMutation)
+                {
+                    HomeController.map.addType(brain);
+                }
                 return;
             }
         }
@@ -307,6 +324,10 @@ public class Bot
             if (bots[x + 1, y] is null)
             {
                 bots[x + 1, y] = new Bot(energy, brain, color, isStep);
+                if (isMutation)
+                {
+                    HomeController.map.addType(brain);
+                }
                 return;
             }
         }
@@ -317,6 +338,10 @@ public class Bot
             if (bots[x + 1, y + 1] is null)
             {
                 bots[x + 1, y + 1] = new Bot(energy, brain, color, isStep);
+                if (isMutation)
+                {
+                    HomeController.map.addType(brain);
+                }
                 return;
             }
         }
@@ -327,6 +352,10 @@ public class Bot
             if (bots[x, y + 1] is null)
             {
                 bots[x, y + 1] = new Bot(energy, brain, color, isStep);
+                if (isMutation)
+                {
+                    HomeController.map.addType(brain);
+                }
                 return;
             }
         }
@@ -337,6 +366,10 @@ public class Bot
             if (bots[x - 1, y + 1] is null)
             {
                 bots[x - 1, y + 1] = new Bot(energy, brain, color, isStep);
+                if (isMutation)
+                {
+                    HomeController.map.addType(brain);
+                }
                 return;
             }
         }
@@ -347,10 +380,16 @@ public class Bot
             if (bots[x - 1, y] is null)
             {
                 bots[x - 1, y] = new Bot(energy, brain, color, isStep);
+                if (isMutation)
+                {
+                    HomeController.map.addType(brain);
+                }
                 return;
             }
         }
         catch (Exception ignore) { }
+        bots[x, y].updateEnergy(energy - 50);
+        return;
     }
 
 }

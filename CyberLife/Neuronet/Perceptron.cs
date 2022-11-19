@@ -7,6 +7,7 @@ public class Perceptron
     public long population { get; set; } = 0;
     public long allEnergy { get; set; } = 0;
     
+    public string[] rgb { get; set; }
 
     public Perceptron(params int[] sizes)
     {
