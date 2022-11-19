@@ -16,9 +16,9 @@
 </head>
 <body>
 <div class="scrol">
-    <div><button id="start" onClick="Start()">Start</button></div>
-    <div><button id="restart" onClick="neMyScript()">Restart</button></div>
-    <div><button id="stop">Stop</button></div>
+    <div><button id="start" onClick="start()">Start</button></div>
+    <div><button id="restart" onClick="restart()">Restart</button></div>
+    <div><button id="stop" onClick="stop()">Stop</button></div>
     <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.bots.GetLength(0), 12px); grid-template-rows: repeat(@Model.bots.GetLength(0), 12px)">
         @for (int i = 0, j = 0, k = 0; i < Model.mapTypes.Length; i++)
         {
