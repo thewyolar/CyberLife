@@ -23,13 +23,13 @@ let timerId;
 
 function start()
 {
-    timerId = setInterval(ajaxUpdate, 32);
+    timerId = setInterval(ajaxUpdate, 300);
 }
 
 function stop()
 {
     clearInterval(timerId);
-    timerId = null;
+    // timerId = null;
 }
 
 function restart()

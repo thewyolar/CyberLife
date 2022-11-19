@@ -46,8 +46,7 @@ public class Bot
         int step = brain.FeedForward(eye, input);
         if (energy <= 0)
         {
-            bots[x, y] = null;
-            death();
+            death(x, y, bots);
             return;
         }
         if (step == -1)
@@ -55,14 +54,17 @@ public class Bot
             updateEnergy(-20);
             return;
         }
+        updateEnergy(-1);
         brain.activatedNeurons[step]++;
-        if (step <= 7)
+        if (step <= 9)
         {
-            move(step, x, y, bots);
-        }else if (step == 8)
+            int[] xy = move(step, x, y, eye, bots);
+            x = xy[0];
+            y = xy[1];
+        }else if (step == 10)
         {
             generation(x, y, map);
-        }else if (step == 9)
+        }else if (step == 11)
         {
             long loseEnergy = -(energy / 2);
             updateEnergy(loseEnergy);
@@ -70,22 +72,81 @@ public class Bot
         }
         if (energy <= 0 & bots[x, y] is null)
         {
-            bots[x, y] = null;
-            death();
+            death(x, y, bots);
         }
         
     }
 
-// Написать через eye.
-    public void move(int step, int x, int y,  Bot[,] bots)
+    public bool attack(int xA, int yA, int xD, int yD,  Bot[,] bots)
     {
+        long energyA = bots[xA, yA].energy;
+        long energyD = bots[xD, yD].energy;
+        bots[xD, yD].updateEnergy(-(long) Math.Round(energyA / 1.5));
+        bots[xA, yA].updateEnergy(-(long) Math.Round(energyD / 2.5));
+        if (bots[xD, yD].energy <= 0)
+        {
+            bots[xA, yA].updateEnergy((long) Math.Round(energyD / 1.5));
+            bots[xD, yD].death(xD, yD, bots);
+            return true;
+        }
+        return false;
+    }
+// Написать через eye.
+    public int[] move(int step, int x, int y, int[] eye,  Bot[,] bots)
+    {
+        if (step >= 8)
+        {
+            // Console.WriteLine(step);
+            int incrementX = -1;
+            int incrementY = -1;
+            bool isAttack = false;
+            for (int i = 0; i < 8; i++)
+            {
+                if (eye[i] > 0 & step == 8)
+                {
+                    isAttack = attack(x, y, x + incrementX, y + incrementY, bots);
+                    break;
+                }else if (eye[i] == 2 & step == 9)
+                {
+                    isAttack = attack(x, y, x + incrementX, y + incrementY, bots);
+                    break;
+                }
+                if (i < 4 & incrementX != 1)
+                {
+                    incrementX++;
+                }else if(incrementY != 1)
+                {
+                    incrementY++;
+                }
+                else
+                {
+                    if (incrementX == -1)
+                    {
+                        incrementY--;
+                    }
+                    else
+                    {
+                        incrementX--;
+                    }
+                }
+            }
+            
+            if (isAttack)
+            {
+                bots[x + incrementX, y + incrementY] = bots[x, y];
+                bots[x, y] = null;
+                return new []{x + incrementX, y + incrementY};
+            }
+
+            return new []{x, y};
+        }
         try
         {
             if (step == 0 & bots[x - 1, y - 1] is null)
             {
                 bots[x - 1, y - 1] = bots[x, y];
                 bots[x, y] = null;
-                return;
+                return new int[] {x - 1, y - 1};
             }
         }
         catch (Exception ignore){ }
@@ -95,7 +156,7 @@ public class Bot
             {
                 bots[x, y - 1] = bots[x, y];
                 bots[x, y] = null;
-                return;
+                return new int[] {x, y - 1};
             }
         }
         catch (Exception ignore){ }
@@ -105,7 +166,7 @@ public class Bot
             {
                 bots[x + 1, y - 1] = bots[x, y];
                 bots[x, y] = null;
-                return;
+                return new int[] {x + 1, y - 1};
             }
         }
         catch (Exception ignore) { }
@@ -116,7 +177,7 @@ public class Bot
             {
                 bots[x + 1, y] = bots[x, y];
                 bots[x, y] = null;
-                return;
+                return new int[] {x + 1, y};
             }
         }
         catch (Exception ignore) { }
@@ -127,7 +188,7 @@ public class Bot
             {
                 bots[x + 1, y + 1] = bots[x, y];
                 bots[x, y] = null;
-                return;
+                return new int[] {x + 1, y + 1};
             }
         }
         catch (Exception ignore) { }
@@ -138,7 +199,7 @@ public class Bot
             {
                 bots[x, y + 1] = bots[x, y];
                 bots[x, y] = null;
-                return;
+                return new int[] {x, y + 1};
             }
         }
         catch (Exception ignore) { }
@@ -149,7 +210,7 @@ public class Bot
             {
                 bots[x - 1, y + 1] = bots[x, y];
                 bots[x, y] = null;
-                return;
+                return new int[] {x - 1, y + 1};
             }
         }
         catch (Exception ignore) { }
@@ -160,11 +221,12 @@ public class Bot
             {
                 bots[x - 1, y] = bots[x, y];
                 bots[x, y] = null;
-                return;
+                return new int[] {x - 1, y};
             }
         }
         catch (Exception ignore) { }
         updateEnergy(-10);
+        return new int[] {x, y};
     }
 
     public void generation(int x, int y, MapType[,] map)
@@ -172,8 +234,9 @@ public class Bot
         updateEnergy((long) (14 + map[x, y]));
     }
 
-    public void death()
+    public void death(int x, int y, Bot[,] bots)
     {
+        bots[x, y] = null;
         if (brain.population <= 0)
         {
             brain.population = 0;
