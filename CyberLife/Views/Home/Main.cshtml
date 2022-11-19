@@ -19,7 +19,7 @@
     <div><button id="start" onClick="Start()">Start</button></div>
     <div><button id="restart" onClick="neMyScript()">Restart</button></div>
     <div><button id="stop">Stop</button></div>
-    <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.bots.GetLength(0), 32px); grid-template-rows: repeat(@Model.bots.GetLength(0), 32px)">
+    <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.bots.GetLength(0), 12px); grid-template-rows: repeat(@Model.bots.GetLength(0), 12px)">
         @for (int i = 0, j = 0, k = 0; i < Model.mapTypes.Length; i++)
         {
             <div style="background: rgb(@Model.bots[j, k]?.rgb[0] @Model.bots[j, k]?.rgb[1] @Model.bots[j, k]?.rgb[2])">

@@ -13,7 +13,7 @@ public enum MapType
     
 }
 
-public class Map
+public class Map: BaseModel
 {
     public MapType[,] mapTypes;
     public Bot[,] bots;
@@ -28,7 +28,7 @@ public class Map
 
     public Map(int q)
     {
-        int n = 15;
+        int n = 50;
         mapTypes = new MapType[n, n];
         for (int i = 0; i < n; i++)
         {

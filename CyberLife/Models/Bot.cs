@@ -3,7 +3,7 @@ using CyberLife.Neuronet;
 
 namespace CyberLife.Models;
 
-public class Bot
+public class Bot: BaseModel
 {
     public string color { get; set; }
     public string[] rgb { get; set; }
