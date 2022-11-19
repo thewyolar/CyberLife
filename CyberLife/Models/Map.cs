@@ -28,17 +28,18 @@ public class Map
 
     public Map(int q)
     {
-        int n = 15;
-        mapTypes = new MapType[n, n];
+        int n = 100;
+        int m = 60;
+        mapTypes = new MapType[n, m];
         for (int i = 0; i < n; i++)
         {
-            for (int j = 0; j < n; j++)
+            for (int j = 0; j < m; j++)
             {
                 mapTypes[i, j] = MapType.TEMPERATE;
             }
         }
 
-        bots = new Bot[n, n];
+        bots = new Bot[n, m];
         bots[0, 0] = new Bot();
         addType(bots[0, 0].brain);
     }
@@ -46,6 +47,7 @@ public class Map
     public void work()
     {
         int x = mapTypes.GetLength(0);
+        int y = mapTypes.GetLength(1);
         int iii = 0;
         while (iii < 1)
         {
@@ -66,7 +68,7 @@ public class Map
             iii++;
             for (int i = 0; i < x; i++)
             {
-                for (int j = 0; j < x; j++)
+                for (int j = 0; j < y; j++)
                 {
                     if (bots[i, j] is not null)
                     {
