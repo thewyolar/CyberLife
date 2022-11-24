@@ -23,10 +23,10 @@
 }
 <div>
     <br>
-    @for (int i = 0; i < Model.perceptronType.Count; i++)
+    @for (int i = 0; i < Model.botTypes.Count; i++)
     {
-        <div style="color: rgb(@Model.perceptronType[i].rgb[0] @Model.perceptronType[i].rgb[1] @Model.perceptronType[i].rgb[2])">
-             @Model.perceptronType[i].allEnergy:@Model.perceptronType[i].population<br>
+        <div style="color: rgb(@Model.botTypes[i].rgb[0] @Model.botTypes[i].rgb[1] @Model.botTypes[i].rgb[2])">
+             @Model.botTypes[i].allEnergy:@Model.botTypes[i].population<br>
         </div>
     }
 </div>

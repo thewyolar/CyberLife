@@ -17,10 +17,10 @@ public class Map
 {
     public MapType[,] mapTypes;
     public Bot[,] bots;
-    public IList<Perceptron> perceptronType = new List<Perceptron>();
-    public IList<double> beforeAllEnergyType = new List<double>();
-    public IList<long> beforePerceptronType = new List<long>();
-    public int circle = 0;
+    public IList<Perceptron> botTypes = new List<Perceptron>();
+    private IList<long> beforeAllEnergyType = new List<long>();
+    private IList<long> beforePopulationType = new List<long>();
+    private int circle = 0;
     public Map()
     {
         
@@ -28,8 +28,8 @@ public class Map
 
     public Map(int q)
     {
-        int n = 100;
-        int m = 60;
+        int n = 25;
+        int m = 25;
         mapTypes = new MapType[n, m];
         for (int i = 0; i < n; i++)
         {
@@ -51,19 +51,19 @@ public class Map
         int iii = 0;
         while (iii < 1)
         {
-            for (int j = 0; j < perceptronType.Count; j++)
+            for (int j = 0; j < botTypes.Count; j++)
             {
-                if (perceptronType[j].population <= 0)
+                if (botTypes[j].population <= 0)
                 {
-                    perceptronType.RemoveAt(j);
-                    beforePerceptronType.RemoveAt(j);
+                    botTypes.RemoveAt(j);
+                    beforePopulationType.RemoveAt(j);
                     beforeAllEnergyType.RemoveAt(j);
                 }
             }
-            for (int j = 0; j < perceptronType.Count; j++)
+            for (int j = 0; j < botTypes.Count; j++)
             {
-                beforePerceptronType[j] = perceptronType[j].population;
-                beforeAllEnergyType[j] = perceptronType[j].allEnergy;
+                beforePopulationType[j] = botTypes[j].population;
+                beforeAllEnergyType[j] = botTypes[j].allEnergy;
             }
             iii++;
             for (int i = 0; i < x; i++)
@@ -151,9 +151,9 @@ public class Map
                 circle--;
             }
             
-            for (int i = 0; i < perceptronType.Count; i++)
+            for (int i = 0; i < botTypes.Count; i++)
             {
-                perceptronType[i].BackPropagation(perceptronType[i].allEnergy- beforeAllEnergyType[i], perceptronType[i].population - beforePerceptronType[i]);
+                botTypes[i].BackPropagation(botTypes[i].allEnergy- beforeAllEnergyType[i], botTypes[i].population - beforePopulationType[i]);
             }
             
             
@@ -164,8 +164,8 @@ public class Map
 
     public void addType(Perceptron perceptron)
     {
-        perceptronType.Add(perceptron);
-        beforePerceptronType.Add(perceptron.population);
+        botTypes.Add(perceptron);
+        beforePopulationType.Add(perceptron.population);
         beforeAllEnergyType.Add(perceptron.allEnergy);
     }
     

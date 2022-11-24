@@ -9,7 +9,6 @@ public class Bot: BaseModel
     public string color { get; set; }
     public string[] rgb { get; set; }
     public long energy { get; set; }
-    public int[] eye { get; set; }
     public Perceptron brain { get; set; }
 
     public int isStep { get; set; } = 0;
@@ -80,16 +79,16 @@ public class Bot: BaseModel
         
     }
 
-    public bool attack(int xA, int yA, int xD, int yD,  Bot[,] bots)
+    public bool attack(int xAttacking, int yAttacking, int xDefensive, int yDefensive,  Bot[,] bots)
     {
-        long energyA = bots[xA, yA].energy;
-        long energyD = bots[xD, yD].energy;
-        bots[xD, yD].updateEnergy(-(long) Math.Round(energyA / 1.5));
-        bots[xA, yA].updateEnergy(-(long) Math.Round(energyD / 2.5));
-        if (bots[xD, yD].energy <= 0)
+        long energyA = bots[xAttacking, yAttacking].energy;
+        long energyD = bots[xDefensive, yDefensive].energy;
+        bots[xDefensive, yDefensive].updateEnergy(-(long) Math.Round(energyA / 1.5));
+        bots[xAttacking, yAttacking].updateEnergy(-(long) Math.Round(energyD / 2.5));
+        if (bots[xDefensive, yDefensive].energy <= 0)
         {
-            bots[xA, yA].updateEnergy((long) Math.Round(energyD / 1.5));
-            bots[xD, yD].death(xD, yD, bots);
+            bots[xAttacking, yAttacking].updateEnergy((long) Math.Round(energyD / 1.5));
+            bots[xDefensive, yDefensive].death(xDefensive, yDefensive, bots);
             return true;
         }
         return false;
