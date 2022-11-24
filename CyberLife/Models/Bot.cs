@@ -42,7 +42,7 @@ public class Bot: BaseModel
         this.brain.population++;
     }
 
-    public void activateBrain(int[] eye, int x, int y, Bot[,] bots, MapType[,] map)
+    public void activateBrain(int[] eye, int x, int y, Bot[,] bots, int[,] map)
     {
         double[] input = new double[]{energy};
         int step = brain.FeedForward(eye, input);
@@ -51,10 +51,18 @@ public class Bot: BaseModel
             death(x, y, bots);
             return;
         }
+
+        Random random = new Random();
+        if (random.Next(100) > 98)
+        {
+            Console.Write(step + ":");
+            step = random.Next(12);
+            Console.WriteLine(step);
+        }
+        
         if (step == -1)
         {
-            updateEnergy(-20);
-            return;
+            step = random.Next(12);
         }
         updateEnergy(-1);
         brain.activatedNeurons[step]++;
@@ -231,7 +239,7 @@ public class Bot: BaseModel
         return new int[] {x, y};
     }
 
-    public void generation(int x, int y, MapType[,] map)
+    public void generation(int x, int y, int[,] map)
     {
         updateEnergy((long) (14 + map[x, y]));
     }

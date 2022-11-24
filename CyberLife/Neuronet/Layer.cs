@@ -2,22 +2,24 @@
 
 public class Layer
 {
+    
     public int Size { get; set; }
     public double[] Neurons { get; set; }
     public Func<double, double>[]  NeuronsActivation { get; set; }
     public Func<double, double>[]  DerivativeActivation { get; set; }
-    private static Func<double, double>[] Activation { get; set; } = { (x) => (1 / (1 + Math.Exp(-x * 10000))),
+    public double[] Biases { get; set; }
+    public double[,] Weights { get; set; }
+    
+    private static readonly Func<double, double>[] Activation = { (x) => (1 / (1 + Math.Exp(-x * 10000))),
                                                                 (x) => (1 / (1 + Math.Exp(-x))),
                                                                 (x) => (Math.Pow(Math.Sin(10000 * x), 2))
                                                                 
     };
-    private static Func<double, double>[] Derivative { get; set; } = { (y) => (10000 * y / (1 + y * y)),
+    private static readonly Func<double, double>[] Derivative = { (y) => (10000 * y / (1 + y * y)),
                                                                 (y) => (y / (1 + y * y)),
                                                                 (y) => (20000 * Math.Sin(10000 * y) * Math.Cos(10000 * y))
                                                                 
     };
-    public double[] Biases { get; set; }
-    public double[,] Weights { get; set; }
 
     public Layer(int size, int nextSize)
     {
@@ -47,9 +49,7 @@ public class Layer
             }
         }
     }
-
-    public Layer(int size, double[] neurons, Func<double, double>[] neuronsActivation,
-        Func<double, double>[] derivativeActivation,double[] biases, double[,] weights)
+    private Layer(int size, double[] neurons, Func<double, double>[] neuronsActivation, Func<double, double>[] derivativeActivation,double[] biases, double[,] weights)
     {
         this.Size = size;
         this.Neurons = neurons;
@@ -58,19 +58,7 @@ public class Layer
         this.Biases = biases;
         this.Weights = weights;
     }
-
-    public void mutation()
-    {
-        Random random = new Random();
-        int indexFunc = random.Next(3);
-        if (NeuronsActivation.Length != 0)
-        {
-            int indexNeuronsActivation = random.Next(NeuronsActivation.Length);
-            NeuronsActivation[indexNeuronsActivation] = Activation[indexFunc];
-            DerivativeActivation[indexNeuronsActivation] = Derivative[indexFunc];
-        }
-    }
-
+    
     public Layer clone()
     {
         int size = this.Size;
@@ -96,4 +84,17 @@ public class Layer
         return new Layer(size, neurons, neuronsActivation, derivativeActivation, biases, weights);
     }
     
+    
+    public void mutation()
+    {
+        Random random = new Random();
+        int indexFunc = random.Next(3);
+        if (NeuronsActivation.Length != 0)
+        {
+            int indexNeuronsActivation = random.Next(NeuronsActivation.Length);
+            NeuronsActivation[indexNeuronsActivation] = Activation[indexFunc];
+            DerivativeActivation[indexNeuronsActivation] = Derivative[indexFunc];
+        }
+    }
+
 }

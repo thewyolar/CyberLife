@@ -1,14 +1,14 @@
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Identity;
+
 namespace CyberLife.Models;
 
-public class User: BaseModel
+public class User: IdentityUser
 {
-    public string FirstName { get; set; }
+    [AllowNull] 
+    public string FirstName { get; set; } = "";
+    [AllowNull]
+    public string LastName { get; set; } = "";
     
-    public string LastName { get; set; }
-
-    public Role Role { get; set; }
-    
-    public string Email { get; set; }
-    
-    public List<Bot> bots { get; set; }
+    public List<PerceptronModel> bots { get; set; }
 }

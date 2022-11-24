@@ -1,13 +1,14 @@
-﻿namespace CyberLife.Neuronet;
+﻿using CyberLife.Models;
 
-public class Perceptron
+namespace CyberLife.Neuronet;
+
+public class Perceptron : PerceptronModel
 {
     public Layer[] Layers { get; set; }
     public int[] activatedNeurons { get; set; }
     public long population { get; set; } = 0;
     public long allEnergy { get; set; } = 0;
     
-    public string[] rgb { get; set; }
 
     public Perceptron(params int[] sizes)
     {

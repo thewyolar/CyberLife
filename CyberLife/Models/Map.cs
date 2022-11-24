@@ -2,20 +2,8 @@ using CyberLife.Neuronet;
 
 namespace CyberLife.Models;
 
-public enum MapType
+public class Map : MapModel
 {
-    DESERT = 2,
-    WATER = 0,
-    TROPIC = 7,
-    TEMPERATE = 6,
-    TAIGA = 3,
-    TUNDRA = 1
-    
-}
-
-public class Map
-{
-    public MapType[,] mapTypes;
     public Bot[,] bots;
     public IList<Perceptron> botTypes = new List<Perceptron>();
     private IList<long> beforeAllEnergyType = new List<long>();
@@ -30,12 +18,12 @@ public class Map
     {
         int n = 25;
         int m = 25;
-        mapTypes = new MapType[n, m];
+        mapTypes = new int[n, m];
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < m; j++)
             {
-                mapTypes[i, j] = MapType.TEMPERATE;
+                mapTypes[i, j] = (int) MapType.TEMPERATE;
             }
         }
 
