@@ -37,7 +37,7 @@ public class HomeController : Controller
     
     public IActionResult Index()
     {
-        return Redirect("/Home/Main");
+        return View();
     }
 
     public IActionResult Privacy()
