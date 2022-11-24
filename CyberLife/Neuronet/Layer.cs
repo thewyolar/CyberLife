@@ -1,23 +1,22 @@
-﻿namespace CyberLife.Neuronet;
+﻿using CyberLife.Models;
 
-public class Layer
+namespace CyberLife.Neuronet;
+
+public class Layer : LayerModel
 {
-    public int Size { get; set; }
-    public double[] Neurons { get; set; }
     public Func<double, double>[]  NeuronsActivation { get; set; }
     public Func<double, double>[]  DerivativeActivation { get; set; }
-    private static Func<double, double>[] Activation { get; set; } = { (x) => (1 / (1 + Math.Exp(-x * 10000))),
+
+    private static readonly Func<double, double>[] Activation = { (x) => (1 / (1 + Math.Exp(-x * 10000))),
                                                                 (x) => (1 / (1 + Math.Exp(-x))),
                                                                 (x) => (Math.Pow(Math.Sin(10000 * x), 2))
                                                                 
     };
-    private static Func<double, double>[] Derivative { get; set; } = { (y) => (10000 * y / (1 + y * y)),
+    private static readonly Func<double, double>[] Derivative = { (y) => (10000 * y / (1 + y * y)),
                                                                 (y) => (y / (1 + y * y)),
                                                                 (y) => (20000 * Math.Sin(10000 * y) * Math.Cos(10000 * y))
                                                                 
     };
-    public double[] Biases { get; set; }
-    public double[,] Weights { get; set; }
 
     public Layer(int size, int nextSize)
     {
@@ -27,6 +26,8 @@ public class Layer
         this.Weights = new double[size, nextSize];
         this.NeuronsActivation = new Func<double, double>[nextSize];
         this.DerivativeActivation = new Func<double, double>[nextSize];
+        this.funcIndexDerivativeActivation = new int[nextSize];
+        this.funcIndexNeuronsActivation = new int[nextSize];
         for (int i = 0; i < NeuronsActivation.Length; i++)
         {
             int j = new Random().Next(100);
@@ -34,22 +35,28 @@ public class Layer
             {
                 NeuronsActivation[i] = Activation[0];
                 DerivativeActivation[i] = Derivative[0];
+                funcIndexNeuronsActivation[i] = 0;
+                funcIndexDerivativeActivation[i] = 0;
             }
             if (45 < j & j <= 95)
             {
                 NeuronsActivation[i] = Activation[1];
                 DerivativeActivation[i] = Derivative[1];
+                funcIndexNeuronsActivation[i] = 1;
+                funcIndexDerivativeActivation[i] = 1;
             }
             else
             {
                 NeuronsActivation[i] = Activation[2];
                 DerivativeActivation[i] = Derivative[2];
+                funcIndexNeuronsActivation[i] = 2;
+                funcIndexDerivativeActivation[i] = 2;
             }
         }
     }
-
-    public Layer(int size, double[] neurons, Func<double, double>[] neuronsActivation,
-        Func<double, double>[] derivativeActivation,double[] biases, double[,] weights)
+    private Layer(int size, double[] neurons, Func<double, double>[] neuronsActivation, Func<double, double>[] 
+        derivativeActivation,double[] biases, double[,] weights, int[] 
+        funcIndexDerivativeActivation, int[] funcIndexNeuronsActivation)
     {
         this.Size = size;
         this.Neurons = neurons;
@@ -57,20 +64,10 @@ public class Layer
         this.DerivativeActivation = derivativeActivation;
         this.Biases = biases;
         this.Weights = weights;
+        this.funcIndexDerivativeActivation = funcIndexDerivativeActivation;
+        this.funcIndexNeuronsActivation = funcIndexNeuronsActivation;
     }
-
-    public void mutation()
-    {
-        Random random = new Random();
-        int indexFunc = random.Next(3);
-        if (NeuronsActivation.Length != 0)
-        {
-            int indexNeuronsActivation = random.Next(NeuronsActivation.Length);
-            NeuronsActivation[indexNeuronsActivation] = Activation[indexFunc];
-            DerivativeActivation[indexNeuronsActivation] = Derivative[indexFunc];
-        }
-    }
-
+    
     public Layer clone()
     {
         int size = this.Size;
@@ -78,10 +75,14 @@ public class Layer
         this.Neurons.CopyTo(neurons, 0);
         Func<double, double>[] neuronsActivation = new Func<double, double>[this.NeuronsActivation.Length];
         Func<double, double>[] derivativeActivation = new Func<double, double>[this.DerivativeActivation.Length];
+        int[] funcIndexNeuronsActivationClone = new int[this.funcIndexNeuronsActivation.Length];
+        int[] funcIndexDerivativeActivationClone = new int[this.funcIndexDerivativeActivation.Length];
         for (int i = 0; i < this.NeuronsActivation.Length; i++)
         {
             neuronsActivation[i] = (Func<double, double>) this.NeuronsActivation[i].Clone();
+            funcIndexNeuronsActivationClone[i] = this.funcIndexNeuronsActivation[i];
             derivativeActivation[i] = (Func<double, double>) this.DerivativeActivation[i].Clone();
+            funcIndexDerivativeActivationClone[i] = this.funcIndexDerivativeActivation[i];
         }
         double[] biases = new double[this.Biases.Length];
         double[,] weights = new double[this.Weights.GetLength(0),this.Weights.GetLength(1)];
@@ -93,7 +94,23 @@ public class Layer
                 weights[i, j] = this.Weights[i, j];
             }
         }
-        return new Layer(size, neurons, neuronsActivation, derivativeActivation, biases, weights);
+        return new Layer(size, neurons, neuronsActivation, derivativeActivation, biases, 
+            weights, funcIndexDerivativeActivationClone, funcIndexNeuronsActivationClone);
     }
     
+    
+    public void mutation()
+    {
+        Random random = new Random();
+        int indexFunc = random.Next(3);
+        if (NeuronsActivation.Length != 0)
+        {
+            int indexNeuronsActivation = random.Next(NeuronsActivation.Length);
+            NeuronsActivation[indexNeuronsActivation] = Activation[indexFunc];
+            DerivativeActivation[indexNeuronsActivation] = Derivative[indexFunc];
+            funcIndexNeuronsActivation[indexNeuronsActivation] = indexFunc;
+            funcIndexDerivativeActivation[indexNeuronsActivation] = indexFunc;
+        }
+    }
+
 }
