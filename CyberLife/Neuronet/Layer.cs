@@ -8,12 +8,12 @@ public class Layer
     public Func<double, double>[]  DerivativeActivation { get; set; }
     private static Func<double, double>[] Activation { get; set; } = { (x) => (1 / (1 + Math.Exp(-x * 10000))),
                                                                 (x) => (1 / (1 + Math.Exp(-x))),
-                                                                (x) => (new Random().NextDouble())
+                                                                (x) => (Math.Pow(Math.Sin(10000 * x), 2))
                                                                 
     };
     private static Func<double, double>[] Derivative { get; set; } = { (y) => (10000 * y / (1 + y * y)),
                                                                 (y) => (y / (1 + y * y)),
-                                                                (y) => (y)
+                                                                (y) => (20000 * Math.Sin(10000 * y) * Math.Cos(10000 * y))
                                                                 
     };
     public double[] Biases { get; set; }
