@@ -19,17 +19,35 @@ function ajaxUpdate()
     })
 }
 
-let timerId;
+let timerId = null;
+let speedAjax = 70;
 
 function start()
 {
-    timerId = setInterval(ajaxUpdate, 300);
+    $("#speed").html(speedAjax);
+    if(timerId == null){
+        timerId = setInterval(ajaxUpdate, speedAjax);
+    }
+}
+
+function plusSpeed()
+{
+    stop();
+    speedAjax -= 10;
+    $("#speed").html(speedAjax);
+}
+
+function minusSpeed()
+{
+    stop();
+    speedAjax += 10;
+    $("#speed").html(speedAjax);
 }
 
 function stop()
 {
     clearInterval(timerId);
-    // timerId = null;
+    timerId = null;
 }
 
 function restart()
