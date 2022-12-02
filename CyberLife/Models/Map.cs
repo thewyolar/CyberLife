@@ -16,8 +16,8 @@ public class Map : MapModel
 
     public Map(int q)
     {
-        int n = 25;
-        int m = 25;
+        int n = 55;
+        int m = 55;
         mapTypes = new int[n, m];
         for (int i = 0; i < n; i++)
         {

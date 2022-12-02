@@ -50,6 +50,45 @@ function stop()
     timerId = null;
 }
 
+function getSizeAndScaleInt(isUp){
+    let gr;
+    gr = document.getElementById("gr");
+    let gridTemplateColumns = gr.style.gridTemplateColumns;
+    let sizeAndScale = gridTemplateColumns.match(/\d./g);
+    let sizeAndScaleInt = sizeAndScale.map(Number);
+    if(sizeAndScaleInt[1] <= 14 && isUp === 0){
+        sizeAndScaleInt[1] = -1;
+        return sizeAndScaleInt;
+    }
+    if(sizeAndScaleInt[1] >= 90 && isUp === 1){
+        sizeAndScaleInt[0] = -1;
+        return sizeAndScaleInt;
+    }
+    return sizeAndScaleInt;
+}
+
+document.onkeyup = function (event){
+    if (event.code === 'KeyQ') {
+        let sizeAndScaleInt = getSizeAndScaleInt(1);
+        if(sizeAndScaleInt[0] <= -1){
+            return false;
+        }
+        document.getElementById("gr").style = ("grid-template-columns: repeat(" + sizeAndScaleInt[0] + ", " 
+            + (sizeAndScaleInt[1] + 2) + "px); " +
+            "grid-template-rows: repeat(" + sizeAndScaleInt[0] + ", " + (sizeAndScaleInt[1] + 2) + "px)");
+    }
+    if (event.code === 'KeyW') {
+        let sizeAndScaleInt = getSizeAndScaleInt(0);
+        if(sizeAndScaleInt[1] <= -1){
+            return false;
+        }
+        document.getElementById("gr").style = ("grid-template-columns: repeat(" + sizeAndScaleInt[0] + ", "
+            + (sizeAndScaleInt[1] - 2) + "px); " +
+            "grid-template-rows: repeat(" + sizeAndScaleInt[0] + ", " + (sizeAndScaleInt[1] - 2) + "px)");
+    }
+};
+
+
 function restart()
 {
     stop();

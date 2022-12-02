@@ -25,7 +25,7 @@
         <div><button id="minusSpeed" onClick="minusSpeed()">minusSpeed</button></div>
         <div><div id="speed"></div></div>
     </div>
-    <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.bots.GetLength(0), 32px); grid-template-rows: repeat(@Model.bots.GetLength(0), 32px)">
+    <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.bots.GetLength(0), 14px); grid-template-rows: repeat(@Model.bots.GetLength(0), 14px)">
         @for (int i = 0, j = 0, k = 0; i < Model.mapTypes.Length; i++)
         {
             <div style="background: rgb(@Model.bots[j, k]?.rgb[0] @Model.bots[j, k]?.rgb[1] @Model.bots[j, k]?.rgb[2])">
