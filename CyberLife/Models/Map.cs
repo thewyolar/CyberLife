@@ -28,8 +28,10 @@ public class Map : MapModel
         }
 
         bots = new Bot[n, m];
-        bots[0, 0] = new Bot();
+        bots[0, 0] = new Bot("0, 250, 0");
+        bots[5, 5] = new Bot("0, 0, 250");
         addType(bots[0, 0].brain);
+        addType(bots[5, 5].brain);
     }
 
     public void work()

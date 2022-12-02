@@ -31,10 +31,10 @@ public class Bot: BaseModel
         this.brain.population++;
     }
     
-    public Bot()
+    public Bot(string color)
     {
         energy = 100000;
-        this.color = "0, 255, 0";
+        this.color = color;
         this.rgb = this.color.Split(" ");
         brain = new Perceptron(9, 10, 10, 10, 10, 12);
         this.brain.rgb = this.rgb;
@@ -281,10 +281,39 @@ public class Bot: BaseModel
         {
             brain = brain.makePerceptron();
             isMutation = true;
-            int r = random.Next(240);
-            int g = random.Next(240);
-            int b = random.Next(240);
-            color = r + ", " + g + ", " + b;
+            string[] rgb = color.Split(", ");
+            int[] rgbInt = new int[3];
+            for (int i = 0; i < 3; i++)
+            {
+                rgbInt[i] = int.Parse(rgb[i]);
+            }
+            if (rgbInt[0] < 250 & rgbInt[2] == 0)
+            {
+                rgbInt[0] += random.Next(100);
+                if (rgbInt[0] > 254) { rgbInt[0] = 254; }
+            } else if (rgbInt[1] > 0 & rgbInt[2] == 0)
+            {
+                rgbInt[1] -= random.Next(100);
+                if (rgbInt[1] < 0) { rgbInt[1] = 0; }
+            }else if (rgbInt[2] < 250 & rgbInt[1] == 0)
+            {
+                rgbInt[2] += random.Next(100);
+                if (rgbInt[2] > 254) { rgbInt[2] = 254; }
+            }else if (rgbInt[0] > 0)
+            {
+                rgbInt[0] -= random.Next(100);
+                if (rgbInt[0] < 0) { rgbInt[0] = 0; }
+            }else if (rgbInt[1] < 250)
+            {
+                rgbInt[1] += random.Next(100);
+                if (rgbInt[1] > 254) { rgbInt[1] = 254; }
+            }else if (rgbInt[2] > 0)
+            {
+                rgbInt[2] -= random.Next(100);
+                if (rgbInt[2] < 0) { rgbInt[2] = 0; }
+            }
+            color = rgbInt[0] + ", " + rgbInt[1] + ", " + rgbInt[2];
+            Console.WriteLine(color);
         }
         try
         {
