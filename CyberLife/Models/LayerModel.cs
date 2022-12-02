@@ -1,6 +1,6 @@
 namespace CyberLife.Models;
 
-public class LayerModel
+public class LayerModel : BaseModel
 {
     
     public int[] funcIndexNeuronsActivation { get; set; }
