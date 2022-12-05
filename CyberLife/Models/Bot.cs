@@ -272,7 +272,7 @@ public class Bot: BaseModel
         Random random = new Random();
         int mutationProbability = random.Next(100);
         bool isMutation = false;
-        if (mutationProbability <= 5)
+        if (mutationProbability <= 1)
         {
             brain = brain.makePerceptron();
             isMutation = true;
