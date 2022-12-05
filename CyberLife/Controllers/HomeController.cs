@@ -29,7 +29,7 @@ public class HomeController : Controller
         if (start)
         {
             start = false;
-            map.work();
+            map.Work();
         }
         start = true;
         return View(map);

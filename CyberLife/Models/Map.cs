@@ -4,11 +4,11 @@ namespace CyberLife.Models;
 
 public class Map : MapModel
 {
-    public Bot[,] bots;
-    public IList<Perceptron> botTypes = new List<Perceptron>();
-    private IList<long> beforeAllEnergyType = new List<long>();
-    private IList<long> beforePopulationType = new List<long>();
-    private int circle = 0;
+    public Bot[,] Bots;
+    public IList<Perceptron> BotTypes = new List<Perceptron>();
+    private IList<long> BeforeAllEnergyType = new List<long>();
+    private IList<long> BeforePopulationType = new List<long>();
+    private int Circle = 0;
     public Map()
     {
         
@@ -18,7 +18,8 @@ public class Map : MapModel
     {
         int n = 55;
         int m = 55;
-        mapTypes = new int[n, m];
+        MapTypes = new int[n, m];
+        Bots = new Bot[n, m];
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < m; j++)
@@ -34,129 +35,121 @@ public class Map : MapModel
         addType(bots[5, 5].brain);
     }
 
-    public void work()
+    public void Work()
     {
-        int x = mapTypes.GetLength(0);
-        int y = mapTypes.GetLength(1);
-        int iii = 0;
-        while (iii < 1)
+        int x = MapTypes.GetLength(0);
+        int y = MapTypes.GetLength(1);
+        for (int j = 0; j < BotTypes.Count; j++)
         {
-            for (int j = 0; j < botTypes.Count; j++)
+            if (BotTypes[j].Population <= 0)
             {
-                if (botTypes[j].population <= 0)
-                {
-                    botTypes.RemoveAt(j);
-                    beforePopulationType.RemoveAt(j);
-                    beforeAllEnergyType.RemoveAt(j);
-                }
+                BotTypes.RemoveAt(j);
+                BeforePopulationType.RemoveAt(j);
+                BeforeAllEnergyType.RemoveAt(j);
             }
-            for (int j = 0; j < botTypes.Count; j++)
+        }
+        for (int j = 0; j < BotTypes.Count; j++)
+        {
+            BeforePopulationType[j] = BotTypes[j].Population;
+            BeforeAllEnergyType[j] = BotTypes[j].AllEnergy;
+        }
+        for (int i = 0; i < x; i++)
+        {
+            for (int j = 0; j < y; j++)
             {
-                beforePopulationType[j] = botTypes[j].population;
-                beforeAllEnergyType[j] = botTypes[j].allEnergy;
-            }
-            iii++;
-            for (int i = 0; i < x; i++)
-            {
-                for (int j = 0; j < y; j++)
+                if (Bots[i, j] is not null)
                 {
-                    if (bots[i, j] is not null)
+                    int[] eye = new int[8];
+                    try
                     {
-                        int[] eye = new int[8];
-                        try
-                        {
-                            if (bots[i - 1, j - 1] is null) eye[0] = 0;
-                            else if (bots[i, j].color.Equals(bots[i - 1, j - 1].color)) eye[0] = 1;
-                            else eye[0] = 2;
-                        }
-                        catch (Exception ignore) { eye[0] = -1; }
-                        try
-                        {
-                            if (bots[i, j - 1] is null) eye[1] = 0;
-                            else if (bots[i, j].color.Equals(bots[i, j - 1].color)) eye[1] = 1;
-                            else eye[1] = 2;
-                        }
-                        catch (Exception ignore) { eye[1] = -1; }
-                        try
-                        {
-                            if (bots[i + 1, j - 1] is null) eye[2] = 0;
-                            else if (bots[i, j].color.Equals(bots[i + 1, j + 1].color)) eye[2] = 1;
-                            else eye[2] = 2;
-                        }
-                        catch (Exception ignore) { eye[2] = -1; }
-                        try
-                        {
-                            if (bots[i + 1, j] is null) eye[3] = 0;
-                            else if (bots[i, j].color.Equals(bots[i + 1, j].color)) eye[3] = 1;
-                            else eye[3] = 2;
-                        }
-                        catch (Exception ignore) { eye[3] = -1; }
-                        try
-                        {
-                            if (bots[i + 1, j + 1] is null) eye[4] = 0;
-                            else if (bots[i, j].color.Equals(bots[i + 1, j - 1].color)) eye[4] = 1;
-                            else eye[4] = 2;
-                        }
-                        catch (Exception ignore) { eye[4] = -1; }
-                        try
-                        {
-                            if (bots[i, j + 1] is null) eye[5] = 0;
-                            else if (bots[i, j].color.Equals(bots[i, j - 1].color)) eye[5] = 1;
-                            else eye[5] = 2;
-                        }
-                        catch (Exception ignore) { eye[5] = -1; }
-                        try
-                        {
-                            if (bots[i - 1, j + 1] is null) eye[6] = 0;
-                            else if (bots[i, j].color.Equals(bots[i - 1, j + 1].color)) eye[6] = 1;
-                            else eye[6] = 2;
-                        }
-                        catch (Exception ignore) { eye[6] = -1; }
-                        try
-                        {
-                            if (bots[i - 1, j] is null) eye[7] = 0;
-                            else if (bots[i, j].color.Equals(bots[i - 1, j].color)) eye[7] = 1;
-                            else eye[7] = 2;
-                        }
-                        catch (Exception ignore) { eye[7] = -1; }
-                        if (bots[i, j].isStep == 0 & circle == 0)
-                        {
-                            bots[i, j].isStep++;
-                            bots[i, j].activateBrain(eye, i, j, bots, mapTypes);
-                        }else if (bots[i, j].isStep == 1 & circle == 1)
-                        {
-                            bots[i, j].isStep--;
-                            bots[i, j].activateBrain(eye, i, j, bots, mapTypes);
-                        }
+                        if (Bots[i - 1, j - 1] is null) eye[0] = 0;
+                        else if (Bots[i, j].Color.Equals(Bots[i - 1, j - 1].Color)) eye[0] = 1;
+                        else eye[0] = 2;
+                    }
+                    catch (Exception ignore) { eye[0] = -1; }
+                    try
+                    {
+                        if (Bots[i, j - 1] is null) eye[1] = 0;
+                        else if (Bots[i, j].Color.Equals(Bots[i, j - 1].Color)) eye[1] = 1;
+                        else eye[1] = 2;
+                    }
+                    catch (Exception ignore) { eye[1] = -1; }
+                    try
+                    {
+                        if (Bots[i + 1, j - 1] is null) eye[2] = 0;
+                        else if (Bots[i, j].Color.Equals(Bots[i + 1, j + 1].Color)) eye[2] = 1;
+                        else eye[2] = 2;
+                    }
+                    catch (Exception ignore) { eye[2] = -1; }
+                    try
+                    {
+                        if (Bots[i + 1, j] is null) eye[3] = 0;
+                        else if (Bots[i, j].Color.Equals(Bots[i + 1, j].Color)) eye[3] = 1;
+                        else eye[3] = 2;
+                    }
+                    catch (Exception ignore) { eye[3] = -1; }
+                    try
+                    {
+                        if (Bots[i + 1, j + 1] is null) eye[4] = 0;
+                        else if (Bots[i, j].Color.Equals(Bots[i + 1, j - 1].Color)) eye[4] = 1;
+                        else eye[4] = 2;
+                    }
+                    catch (Exception ignore) { eye[4] = -1; }
+                    try
+                    {
+                        if (Bots[i, j + 1] is null) eye[5] = 0;
+                        else if (Bots[i, j].Color.Equals(Bots[i, j - 1].Color)) eye[5] = 1;
+                        else eye[5] = 2;
+                    }
+                    catch (Exception ignore) { eye[5] = -1; }
+                    try
+                    {
+                        if (Bots[i - 1, j + 1] is null) eye[6] = 0;
+                        else if (Bots[i, j].Color.Equals(Bots[i - 1, j + 1].Color)) eye[6] = 1;
+                        else eye[6] = 2;
+                    }
+                    catch (Exception ignore) { eye[6] = -1; }
+                    try
+                    {
+                        if (Bots[i - 1, j] is null) eye[7] = 0;
+                        else if (Bots[i, j].Color.Equals(Bots[i - 1, j].Color)) eye[7] = 1;
+                        else eye[7] = 2;
+                    }
+                    catch (Exception ignore) { eye[7] = -1; }
+                    if (Bots[i, j].IsStep == 0 & Circle == 0)
+                    {
+                        Bots[i, j].IsStep++;
+                        Bots[i, j].ActivateBrain(eye, i, j, Bots, MapTypes);
+                    }else if (Bots[i, j].IsStep == 1 & Circle == 1)
+                    {
+                        Bots[i, j].IsStep--;
+                        Bots[i, j].ActivateBrain(eye, i, j, Bots, MapTypes);
                     }
                 }
             }
+        }
 
-            if (circle == 0)
-            {
-                circle++;
-            }
-            else
-            {
-                circle--;
-            }
-            
-            for (int i = 0; i < botTypes.Count; i++)
-            {
-                botTypes[i].BackPropagation(botTypes[i].allEnergy- beforeAllEnergyType[i], botTypes[i].population - beforePopulationType[i]);
-            }
-            
-            
-            
+        if (Circle == 0)
+        {
+            Circle++;
+        }
+        else
+        {
+            Circle--;
+        }
+        
+        for (int i = 0; i < BotTypes.Count; i++)
+        {
+            BotTypes[i].BackPropagation(BotTypes[i].AllEnergy- BeforeAllEnergyType[i], BotTypes[i].Population - BeforePopulationType[i]);
         }
     }
 
 
-    public void addType(Perceptron perceptron)
+    public void AddType(Perceptron perceptron)
     {
-        botTypes.Add(perceptron);
-        beforePopulationType.Add(perceptron.population);
-        beforeAllEnergyType.Add(perceptron.allEnergy);
+        BotTypes.Add(perceptron);
+        BeforePopulationType.Add(perceptron.Population);
+        BeforeAllEnergyType.Add(perceptron.AllEnergy);
     }
     
 

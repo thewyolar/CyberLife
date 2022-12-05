@@ -5,10 +5,10 @@ namespace CyberLife.Models;
 
 public class User: IdentityUser
 {
-    [AllowNull] 
+
     public string FirstName { get; set; } = "";
-    [AllowNull]
+
     public string LastName { get; set; } = "";
     
-    public List<PerceptronModel> bots { get; set; }
+    public List<PerceptronModel> Bots { get; set; }
 }

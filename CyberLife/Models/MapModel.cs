@@ -14,6 +14,7 @@ public enum MapType
 public class MapModel : BaseModel
 {
     
-    public int[,] mapTypes { get; set; }
+    public string Name { get; set; }
+    public int[,] MapTypes { get; set; }
     
 }

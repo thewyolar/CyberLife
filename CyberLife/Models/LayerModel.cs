@@ -3,9 +3,9 @@ namespace CyberLife.Models;
 public class LayerModel : BaseModel
 {
     
-    public int[] funcIndexNeuronsActivation { get; set; }
+    public int[] FuncIndexNeuronsActivation { get; set; }
     
-    public int[] funcIndexDerivativeActivation  { get; set; }
+    public int[] FuncIndexDerivativeActivation  { get; set; }
     public int Size { get; set; }
     
     public double[] Neurons { get; set; }

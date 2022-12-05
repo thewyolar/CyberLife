@@ -4,39 +4,39 @@ namespace CyberLife.Neuronet;
 
 public class Perceptron : PerceptronModel
 {
-    public Layer[] Layers { get; set; }
-    public int[] activatedNeurons { get; set; }
-    public long population { get; set; } = 0;
-    public long allEnergy { get; set; } = 0;
+    public Layer[] layers { get; set; }
+    public int[] ActivatedNeurons { get; set; }
+    public long Population { get; set; } = 0;
+    public long AllEnergy { get; set; } = 0;
     
 
     public Perceptron(params int[] sizes)
     {
-        population = 0;
-        this.Layers = new Layer[sizes.Length];
+        Population = 0;
+        this.layers = new Layer[sizes.Length];
         for (int i = 0; i < sizes.Length; i++)
         {
             int nextSize = 0;
             if (i < sizes.Length - 1) 
                 nextSize = sizes[i + 1];
-            Layers[i] = new Layer(sizes[i], nextSize);
+            layers[i] = new Layer(sizes[i], nextSize);
             for (int j = 0; j < sizes[i]; j++)
             {
-                Layers[i].Biases[j] = new Random().NextDouble() * 2.0 - 1.0;
+                layers[i].Biases[j] = new Random().NextDouble() * 2.0 - 1.0;
                 for (int k = 0; k < nextSize; k++) {
-                    Layers[i].Weights[j, k] = new Random().NextDouble() * 2.0 - 1.0;
+                    layers[i].Weights[j, k] = new Random().NextDouble() * 2.0 - 1.0;
                 }
             }
         }
-        activatedNeurons = new int[sizes.Last()];
+        ActivatedNeurons = new int[sizes.Last()];
     }
     
     private Perceptron(Layer[] layers)
     {
-        this.Layers = layers;
-        activatedNeurons = new int[Layers.Last().Size];
-        population = 0;
-        allEnergy = 0;
+        this.layers = layers;
+        ActivatedNeurons = new int[this.layers.Last().Size];
+        Population = 0;
+        AllEnergy = 0;
     }
 
     public int FeedForward(int[] eye , double[] inputs)
@@ -50,11 +50,11 @@ public class Perceptron : PerceptronModel
         {
             inputss[i] = eye[i - inputs.Length];
         }
-        Array.Copy(inputss, 0, Layers[0].Neurons, 0, inputss.Length);
-        for (int i = 1; i < Layers.Length; i++)
+        Array.Copy(inputss, 0, layers[0].Neurons, 0, inputss.Length);
+        for (int i = 1; i < layers.Length; i++)
         {
-            Layer layer = Layers[i - 1];
-            Layer layerNext = Layers[i];
+            Layer layer = layers[i - 1];
+            Layer layerNext = layers[i];
             for (int j = 0; j < layerNext.Size; j++)
             {
                 layerNext.Neurons[j] = 0;
@@ -69,25 +69,16 @@ public class Perceptron : PerceptronModel
 
             }
         }
-
-        // for (int i = 0; i < Layers[Layers.Length - 1].Neurons.Length; i++)
-        // {
-        //     Console.WriteLine(Layers[Layers.Length - 1].Neurons[i]);
-        // }
-
-        double ma = Layers[Layers.Length - 1].Neurons.Max();
-        int index = Array.FindLastIndex(Layers[Layers.Length - 1].Neurons, delegate(double i) { return i == ma; });
-        for (int i = 0; i < Layers[Layers.Length - 1].Neurons.Length; i++)
+        double ma = layers[layers.Length - 1].Neurons.Max();
+        int index = Array.FindLastIndex(layers[layers.Length - 1].Neurons, delegate(double i) { return i == ma; });
+        for (int i = 0; i < layers[layers.Length - 1].Neurons.Length; i++)
         {
-            if (Layers[Layers.Length - 1].Neurons[i] == ma & index != i)
+            if (layers[layers.Length - 1].Neurons[i] == ma & index != i)
             {
-                Console.WriteLine(-1);
                 return -1;
             }
         }
-        // Console.WriteLine(index);
-        // Console.WriteLine("population=" + population);
-        return Array.FindLastIndex(Layers[Layers.Length - 1].Neurons, delegate(double i) { return i == ma;});
+        return Array.FindLastIndex(layers[layers.Length - 1].Neurons, delegate(double i) { return i == ma;});
     }
     
     
@@ -95,16 +86,9 @@ public class Perceptron : PerceptronModel
     // TODO dropOut - рандомное выключение нейронов. решить проблему переобучения
     public void BackPropagation(double energy, long population)
     {
-        int neuron = Array.FindLastIndex(activatedNeurons, delegate(int i) { return i == activatedNeurons.Max(); });
-
-        // foreach (int i in activatedNeurons)
-        // {
-        //     Console.Write(i + ";");
-        // }
-        
-        
-        double[] errors = new double[Layers[Layers.Length - 1].Size];
-        for (int i = 0; i < Layers[Layers.Length - 1].Size; i++) {
+        int neuron = Array.FindLastIndex(ActivatedNeurons, delegate(int i) { return i == ActivatedNeurons.Max(); });
+        double[] errors = new double[layers[layers.Length - 1].Size];
+        for (int i = 0; i < layers[layers.Length - 1].Size; i++) {
             if (population < 0)
             {
                 errors[neuron] -= 5;
@@ -128,15 +112,15 @@ public class Perceptron : PerceptronModel
 
         }
 
-        for (int k = Layers.Length - 2; k >= 0; k--)
+        for (int k = layers.Length - 2; k >= 0; k--)
         {
-            Layer layer = Layers[k];
-            Layer layerNext = Layers[k + 1];
+            Layer layer = layers[k];
+            Layer layerNext = layers[k + 1];
             double[] errorsNext = new double[layer.Size];
             double[] gradients = new double[layerNext.Size];
             for (int i = 0; i < layerNext.Size; i++)
             {
-                gradients[i] = errors[i] * layer.DerivativeActivation[i](Layers[k + 1].Neurons[i]);
+                gradients[i] = errors[i] * layer.DerivativeActivation[i](layers[k + 1].Neurons[i]);
                 gradients[i] *= 0.1;
             }
 
@@ -169,19 +153,19 @@ public class Perceptron : PerceptronModel
                 }
             }
             layer.Weights = weightsNew;
-            for (int i = 0; i < activatedNeurons.Length; i++)
+            for (int i = 0; i < ActivatedNeurons.Length; i++)
             {
-                activatedNeurons[i] = 0;
+                ActivatedNeurons[i] = 0;
             }
         }
     }
 
     public Perceptron makePerceptron()
     {
-        Layer[] layers = new Layer[this.Layers.Length];
-        for (int i = 0; i < this.Layers.Length; i++)
+        Layer[] layers = new Layer[this.layers.Length];
+        for (int i = 0; i < this.layers.Length; i++)
         {
-            layers[i] = this.Layers[i].clone();
+            layers[i] = this.layers[i].clone();
         }
         Random random = new Random();
         int indexLayers = random.Next(layers.Length);

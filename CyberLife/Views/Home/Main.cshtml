@@ -25,16 +25,16 @@
         <div><button id="minusSpeed" onClick="minusSpeed()">minusSpeed</button></div>
         <div><div id="speed"></div></div>
     </div>
-    <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.bots.GetLength(0), 14px); grid-template-rows: repeat(@Model.bots.GetLength(0), 14px)">
-        @for (int i = 0, j = 0, k = 0; i < Model.mapTypes.Length; i++)
+    <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.Bots.GetLength(0), 14px); grid-template-rows: repeat(@Model.Bots.GetLength(0), 14px)">
+        @for (int i = 0, j = 0, k = 0; i < Model.MapTypes.Length; i++)
         {
-            <div style="background: rgb(@Model.bots[j, k]?.rgb[0] @Model.bots[j, k]?.rgb[1] @Model.bots[j, k]?.rgb[2])">
-                @if (Model.bots[j, k] is not null)
+            <div style="background: rgb(@Model.Bots[j, k]?.RGB[0] @Model.Bots[j, k]?.RGB[1] @Model.Bots[j, k]?.RGB[2])">
+                @if (Model.Bots[j, k] is not null)
                 {
                     <div id="bot"></div>
                 }
             </div>
-            if (j == (Model.mapTypes.GetLength(0)) - 1)
+            if (j == (Model.MapTypes.GetLength(0)) - 1)
             {
                 j = 0;
                 k++;
@@ -44,15 +44,15 @@
                 j++;
             }
         }
-        <div id="statistics" class="statistics" style="margin-left: 800px">
+        <div id="statistics" class="scrol">
             <br>
-            @foreach (Perceptron perceptron in Model.botTypes)
+            @for (int i = 0; i < Model.BotTypes.Count; i++)
             {
-                @perceptron.allEnergy
+                <div class="typeBot" style="color: rgb(@Model.BotTypes[i].RGB[0] @Model.BotTypes[i].RGB[1] @Model.BotTypes[i].RGB[2])">
+                     @Model.BotTypes[i].AllEnergy:@Model.BotTypes[i].Population
+                </div><br>
             }
         </div>
-            
-
     </div>
 </div>
 </body>

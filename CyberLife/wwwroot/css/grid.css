@@ -13,13 +13,20 @@
     margin: 1px;
 }
 
-.statistics {
+#statistics {
     border-color: white;
     position: absolute;
     margin-left: 800px;
+    max-height: 500px;
+    max-width: 200px;
+    overflow: auto;
 }
-
-
+#c1 {
+    /*width: 400px;*/
+    /*height: 200px;*/
+    border: 3px solid black;
+    /*margin: 40px;*/
+}
 
 body{
     font-family: Arial, Helvetica, sans-serif;
