@@ -7,7 +7,7 @@ namespace CyberLife.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    public static Map map = new Map(1);
+    public static Map map = new Map();
     private static bool start = true;
 
     public HomeController(ILogger<HomeController> logger)
@@ -17,7 +17,7 @@ public class HomeController : Controller
 
     public IActionResult Restart()
     {
-        map = new Map(1);
+        map = new Map();
         return Redirect("Start");
     }
     public IActionResult Main()

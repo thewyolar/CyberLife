@@ -9,12 +9,8 @@ public class Map : MapModel
     private IList<long> BeforeAllEnergyType = new List<long>();
     private IList<long> BeforePopulationType = new List<long>();
     private int Circle = 0;
-    public Map()
-    {
-        
-    }
 
-    public Map(int q)
+    public Map()
     {
         int n = 55;
         int m = 55;
