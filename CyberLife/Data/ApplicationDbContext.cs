@@ -13,8 +13,7 @@ public class ApplicationDbContext :  IdentityDbContext<User, IdentityRole, strin
     public DbSet<LayerModel> Layers { get; set; } = null!;
     public DbSet<Admin> Admins { get; set; } = null!;
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
         Database.EnsureCreated();
     }

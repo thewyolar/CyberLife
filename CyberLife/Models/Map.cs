@@ -13,7 +13,7 @@ public class Map : MapModel
     public Map()
     {
         int n = 55;
-        int m = 55;
+        int m = 35;
         MapTypes = new int[n, m];
         Bots = new Bot[n, m];
         for (int i = 0; i < n; i++)
