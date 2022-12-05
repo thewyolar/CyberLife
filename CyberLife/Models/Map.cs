@@ -22,17 +22,18 @@ public class Map : MapModel
         Bots = new Bot[n, m];
         for (int i = 0; i < n; i++)
         {
+            Random random = new Random();
             for (int j = 0; j < m; j++)
             {
-                mapTypes[i, j] = (int) MapType.TEMPERATE;
+                bool hereBot = random.Next(100) > 98;
+                MapTypes[i, j] = (int) MapType.TEMPERATE;
+                if (hereBot)
+                {
+                    Bots[i, j] = new Bot(random.Next(250) + ", " + random.Next(250) +", " + random.Next(250));
+                    AddType(Bots[i, j].Brain);
+                }
             }
         }
-
-        bots = new Bot[n, m];
-        bots[0, 0] = new Bot("0, 250, 0");
-        bots[5, 5] = new Bot("0, 0, 250");
-        addType(bots[0, 0].brain);
-        addType(bots[5, 5].brain);
     }
 
     public void Work()
