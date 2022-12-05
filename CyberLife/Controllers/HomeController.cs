@@ -15,9 +15,10 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public void Restart()
+    public IActionResult Restart()
     {
         map = new Map(1);
+        return Redirect("Start");
     }
     public IActionResult Main()
     {
