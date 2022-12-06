@@ -37,15 +37,13 @@ public class Layer : LayerModel
                 DerivativeActivation[i] = Derivative[0];
                 FuncIndexNeuronsActivation[i] = 0;
                 FuncIndexDerivativeActivation[i] = 0;
-            }
-            if (45 < j & j <= 95)
+            } else if (j <= 95)
             {
                 NeuronsActivation[i] = Activation[1];
                 DerivativeActivation[i] = Derivative[1];
                 FuncIndexNeuronsActivation[i] = 1;
                 FuncIndexDerivativeActivation[i] = 1;
-            }
-            else
+            }else
             {
                 NeuronsActivation[i] = Activation[2];
                 DerivativeActivation[i] = Derivative[2];
