@@ -62,38 +62,6 @@ function stop()
     timerId = null;
 }
 
-function getSizeAndScaleInt(isUp){
-    let gr;
-    gr = document.getElementById("gr");
-    let gridTemplateColumns = gr.style.gridTemplateColumns;
-    let sizeAndScale = gridTemplateColumns.match(/\d+/g);
-    let sizeAndScaleInt = sizeAndScale.map(Number);
-    if(sizeAndScaleInt[1] <= 14 && isUp === 0){
-        sizeAndScaleInt[1] = -1;
-        return sizeAndScaleInt;
-    }
-    if(sizeAndScaleInt[1] >= 90 && isUp === 1){
-        sizeAndScaleInt[0] = -1;
-        return sizeAndScaleInt;
-    }
-    return sizeAndScaleInt;
-}
-
-function moveStatistics(){
-    let h = document.getElementById('gr').offsetHeight;
-    let ss = document.styleSheets[2];
-    let rules = ss.cssRules || ss.rules;
-    let h1Rule = null;
-    for (let i = 0; i < rules.length; i++) {
-        let rule = rules[i];
-        if (/(^|,) *\#statistics *(,|$)/i.test(rule.selectorText)) {
-            h1Rule = rule;
-            break;
-        }
-    }
-    h1Rule.style.marginLeft = h + "px";
-}
-
 function loadingBot(){
     stop();
     let bots = document.getElementsByClassName("bot");
@@ -184,7 +152,7 @@ document.onkeyup = function (event){
         }
         document.getElementById("gr").style = ("grid-template-columns: repeat(" + sizeAndScaleInt[0] + ", " 
             + (sizeAndScaleInt[1] + 2) + "px); " +
-            "grid-template-rows: repeat(" + sizeAndScaleInt[0] + ", " + (sizeAndScaleInt[1] + 2) + "px)");
+            "grid-template-rows: repeat(" + sizeAndScaleInt[2] + ", " + (sizeAndScaleInt[1] + 2) + "px)");
         moveStatistics();
     }
     if (event.code === 'KeyW') {
@@ -194,10 +162,45 @@ document.onkeyup = function (event){
         }
         document.getElementById("gr").style = ("grid-template-columns: repeat(" + sizeAndScaleInt[0] + ", "
             + (sizeAndScaleInt[1] - 2) + "px); " +
-            "grid-template-rows: repeat(" + sizeAndScaleInt[0] + ", " + (sizeAndScaleInt[1] - 2) + "px)");
+            "grid-template-rows: repeat(" + sizeAndScaleInt[2] + ", " + (sizeAndScaleInt[1] - 2) + "px)");
         moveStatistics();
     }
-};
+}
+
+
+function moveStatistics(){
+    let h = document.getElementById('gr').offsetWidth;
+    let ss = document.styleSheets[2];
+    let rules = ss.cssRules || ss.rules;
+    let h1Rule = null;
+    for (let i = 0; i < rules.length; i++) {
+        let rule = rules[i];
+        if (/(^|,) *\#statistics *(,|$)/i.test(rule.selectorText)) {
+            h1Rule = rule;
+            break;
+        }
+    }
+    h1Rule.style.marginLeft = h + "px";
+}
+
+function getSizeAndScaleInt(isUp){
+    let gr;
+    gr = document.getElementById("gr");
+    let gridTemplateColumns = gr.style.gridTemplateColumns;
+    let gridTemplateRows = gr.style.gridTemplateRows;
+    let sizeAndScale = gridTemplateColumns.match(/\d+/g);
+    sizeAndScale.push(gridTemplateRows.match(/\d+/g)[0]);
+    let sizeAndScaleInt = sizeAndScale.map(Number);
+    if(sizeAndScaleInt[1] <= 14 && isUp === 0){
+        sizeAndScaleInt[1] = -1;
+        return sizeAndScaleInt;
+    }
+    if(sizeAndScaleInt[1] >= 90 && isUp === 1){
+        sizeAndScaleInt[0] = -1;
+        return sizeAndScaleInt;
+    }
+    return sizeAndScaleInt;
+}
 
 function restart()
 {
