@@ -5,11 +5,7 @@
 @for (int i = 0, j = 0, k = 0; i < Model.MapTypes.Length; i++)
 {
 
-    <div style="background: rgb(@Model.Bots[j, k]?.RGB[0] @Model.Bots[j, k]?.RGB[1] @Model.Bots[j, k]?.RGB[2])">
-        @if (Model.Bots[j, k] is not null)
-        {
-            <div id="bot"></div>
-        }
+    <div botId="@j,@k" class="bot" style="background: rgb(@Model.Bots[j, k]?.RGB[0] @Model.Bots[j, k]?.RGB[1] @Model.Bots[j, k]?.RGB[2]); border-color: rgb(@Model.ColorMap[j, k])">
     </div>
     if (j == (Model.MapTypes.GetLength(0)) - 1)
     {
@@ -27,7 +23,7 @@
     @for (int i = 0; i < Model.BotTypes.Count; i++)
     {
         <div class="typeBot" style="color: rgb(@Model.BotTypes[i].RGB[0] @Model.BotTypes[i].RGB[1] @Model.BotTypes[i].RGB[2])">
-             @Model.BotTypes[i].AllEnergy:@Model.BotTypes[i].Population : @Array.FindLastIndex(Model.BotTypes[i].ActivatedNeurons, delegate(int i) { return i == Model.BotTypes[i].ActivatedNeurons.Max(); })
+             @Model.BotTypes[i].AllEnergy:@Model.BotTypes[i].Population
         </div><br>
     }
 </div>

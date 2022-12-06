@@ -82,6 +82,87 @@ function moveStatistics(){
     h1Rule.style.marginLeft= h;
 }
 
+function loadingBot(){
+    stop();
+    let bots = document.getElementsByClassName("bot");
+    for (let i = 0; i < bots.length; i++){
+        bots[i].onmouseover = function (){
+            this.style.borderWidth = "2";
+        };
+        bots[i].onmouseleave = function (){
+            this.style.borderWidth = "";
+        };
+        bots[i].onclick = function (){
+            this.style.borderWidth = "";
+            let bots = document.getElementsByClassName("bot");
+            for (let i = 0; i < bots.length; i++){
+                bots[i].onmouseover = null;
+                bots[i].onmouseleave = null;
+                bots[i].onclick = null;
+            }
+        };
+    }
+    
+}
+
+
+function saveBot(){
+    stop();
+    let bots = document.getElementsByClassName("bot");
+    for (let i = 0; i < bots.length; i++){
+        bots[i].onmouseover = function (){
+            this.style.borderWidth = "2";
+        };
+        bots[i].onmouseleave = function (){
+            this.style.borderWidth = "";
+        };
+        bots[i].onclick = function (){
+            selectSaveBot(this.attributes.botId.value);
+            this.style.borderWidth = "";
+            let bots = document.getElementsByClassName("bot");
+            for (let i = 0; i < bots.length; i++){
+                bots[i].onmouseover = null;
+                bots[i].onmouseleave = null;
+                bots[i].onclick = null;
+            }
+        };
+    }
+}
+
+function selectSaveBot(botId){
+    stop();
+    let xy = botId.split(",");
+    let nameBot = prompt("Ввидите имя бота");
+    $.ajax({
+        type: "POST",
+        url: "SaveBot",
+        data: {
+            x: xy[0],
+            y: xy[1],
+            name: nameBot
+        },
+        async: false,
+        success: function (result) {
+            let isSave = JSON.parse(result);
+            if(isSave["save"]){
+                alert("Бот сохранен");
+            }else {
+                alert("Бот не сохранен");
+            }
+        },
+        error: function (err) {
+            alert("Бот не сохранен");
+        },
+        complete: function (){
+            return true;
+        }
+    });
+}
+
+function mouseOverBot(){
+    let gr = document.getElementById();
+}
+
 
 document.onkeyup = function (event){
     if (event.code === 'KeyQ') {
@@ -105,7 +186,6 @@ document.onkeyup = function (event){
         moveStatistics();
     }
 };
-
 
 function restart()
 {

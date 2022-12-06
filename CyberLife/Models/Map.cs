@@ -9,31 +9,26 @@ public class Map : MapModel
     private IList<long> BeforeAllEnergyType = new List<long>();
     private IList<long> BeforePopulationType = new List<long>();
     private int Circle = 0;
+    private Dictionary<int, string> ColorMapInt = new Dictionary<int, string>
+    {
+        {2, "163, 116, 21"},
+        {0, "12, 86, 204"},
+        {7, "10, 84, 6"},
+        {6, "32, 168, 27"},
+        {3, "6, 191, 102"},
+        {1, "6, 191, 191"}
+    };
+
+    public string[,] ColorMap;
+    // DESERT = 2,
+    // WATER = 0,
+    // TROPIC = 7,
+    // TEMPERATE = 6,
+    // TAIGA = 3,
+    // TUNDRA = 1
     public Map()
     {
-        
-    }
-
-    public Map(int q)
-    {
-        int n = 55;
-        int m = 55;
-        MapTypes = new int[n, m];
-        Bots = new Bot[n, m];
-        for (int i = 0; i < n; i++)
-        {
-            Random random = new Random();
-            for (int j = 0; j < m; j++)
-            {
-                bool hereBot = random.Next(100) > 98;
-                MapTypes[i, j] = (int) MapType.TEMPERATE;
-                if (hereBot)
-                {
-                    Bots[i, j] = new Bot(random.Next(250) + ", " + random.Next(250) +", " + random.Next(250));
-                    AddType(Bots[i, j].Brain);
-                }
-            }
-        }
+        CreateMap(width: 100, height: 50, widthBiome: 30, sizeBiome: 300);
     }
 
     public void Work()
@@ -152,6 +147,152 @@ public class Map : MapModel
         BeforePopulationType.Add(perceptron.Population);
         BeforeAllEnergyType.Add(perceptron.AllEnergy);
     }
-    
+
+    private void CreateMap(int width = 10, int height = 10, int botSpawnChance = 50, int widthBiome = 5, int sizeBiome = 50)
+    {
+        int n = width;
+        int m = height;
+        MapTypes = new int[n, m];
+        Bots = new Bot[n, m];
+        ColorMap = new string[n, m];
+        Random random = new Random();
+        IList<int[]> bioms;
+       
+        // Цикл генирации биомов
+        bioms = BiomeGeneration(MapTypes.Length, n, m, sizeBiome, widthBiome);
+        // summ должна ровняться общему количеству клеток на карте (MapTypes.Length)
+        int summ = 0;
+        for (int i = 0; i < bioms.Count; i++)
+        {
+            summ += bioms[i][1];
+        }
+        Console.WriteLine(summ + " == " + MapTypes.Length);
+        // k = biom[i][1]; - количество оставшихся клеток для размещения на карте
+        // q biom[i][0]; - ширина биома
+        // x и y - итерация по карте
+        int k = 0;
+        int q = 0;
+        int x = 0;
+        int y = 0;
+        // i - количество биомов
+        for (int i = 0; i < bioms.Count; i++)
+        {
+            k = bioms[i][1];
+            x = 0;
+            for (; x <= MapTypes.GetLength(0) & k != 0; x++)
+            {
+                // если k == 0 значит все клетки в биома размещены на карте
+                if (k == 0)
+                {
+                    break;
+                }
+                if (x >= MapTypes.GetLength(0))
+                {
+                    x = 0;
+                }
+                q = bioms[i][0];
+                y = 0;
+                for (;y < MapTypes.GetLength(1); summ--, q--, k--, y++)
+                {
+                    // если k(все клетки биома) или q(ширина биома) == 0 -> выйти
+                    if (k == 0 || q == 0)
+                    { 
+                        break;
+                    }
+                    try
+                    {
+                        // если на клектке уже есть биом итерируем цикл и проверяем следующию
+                        if (ColorMap[x, y] is null)
+                        {
+                            MapTypes[x, y] = bioms[i][2];
+                            ColorMap[x, y] = ColorMapInt[bioms[i][2]];
+                        }else
+                        {
+                            // итерируется только y 
+                            if (x == MapTypes.GetLength(0) - 1)
+                            {
+                                q++;
+                                summ++;
+                                k++;
+                                x = 0;
+                                continue;
+                            }
+                            // Ни чего не итерируется. x++
+                            else
+                            {
+                                x++;
+                                y--;
+                                q++;
+                                k++;
+                                summ++;
+                                continue;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        break;
+                    }
+                    bool hereBot = random.Next(100) > botSpawnChance;
+                    if (hereBot)
+                    {
+                        Bots[x, y] = new Bot(random.Next(250) + ", " + random.Next(250) + ", " + random.Next(250));
+                        AddType(Bots[x, y].Brain);
+                    }
+
+                }
+            }
+        }
+        Console.WriteLine("EEE " + summ);
+        Console.WriteLine("EEE 2 " + bioms.Count);
+    }
+
+    private IList<int[]> BiomeGeneration(int mapLength, int x, int y, int sizeBiome, int widthBiome)
+    {
+        IList<int[]> bioms = new List<int[]>();
+        Random random = new Random();
+        int k = 0;
+        // Цикл генирации биомов
+        while (mapLength > 0){
+            // billomSizeM общиее количество клеток в биме
+            // dice какой биом выбрать
+            // biome - биом
+            int billomSizeY = random.Next(y);
+            int dice = random.Next(100);
+            int biome = 0;
+            if (dice < 5){ 
+                biome = 0;
+            }
+            else if (dice < 10){
+                biome = 1;
+            }
+            else if (dice < 15){
+                biome = 2;
+            }
+            else if (dice < 20){
+                biome = 3;
+            }
+            else if (dice < 60){
+                biome = 6;
+            }
+            else if (dice < 100){
+                biome = 7;
+            }
+            // Помещяется ли биом в карту
+            if (!(mapLength - (billomSizeY + sizeBiome) < 0)){
+                // добавление биома в общия массив
+                bioms.Add(new []{random.Next(x / 2) + widthBiome, billomSizeY + sizeBiome, biome});
+                mapLength -= bioms[k][1];
+                k++;
+            }
+            else{
+                // добавление последниго биома в общий массив
+                bioms.Add(new []{billomSizeY, billomSizeY + (mapLength - billomSizeY), biome});
+                mapLength -= bioms[k][1];
+            }
+        }
+        return bioms;
+    }
+
 
 }

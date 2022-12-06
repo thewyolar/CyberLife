@@ -1,4 +1,3 @@
-@using CyberLife.Neuronet
 @model Map
 @Html.AntiForgeryToken()
 @{
@@ -21,14 +20,16 @@
         <div><button id="start" onClick="start()">Start</button></div>
         <div><button id="restart" onClick="restart()">Restart</button></div>
         <div><button id="stop" onClick="stop()">Stop</button></div>
-        <div><button id="plusSpeed" onClick="plusSpeed()">plusSpeed</button></div>
-        <div><button id="minusSpeed" onClick="minusSpeed()">minusSpeed</button></div>
+        <div><button id="plusSpeed" onClick="plusSpeed()">plus Speed</button></div>
+        <div><button id="minusSpeed" onClick="minusSpeed()">minus Speed</button></div>
+        <div><button id="saveBot" onClick="saveBot()">save Bot</button></div>
+        <div><button id="loadingBot" onClick="loadingBot()">loading Bot</button></div>
         <div><div id="speed"></div></div>
     </div>
     <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.Bots.GetLength(0), 14px); grid-template-rows: repeat(@Model.Bots.GetLength(1), 14px)">
         @for (int i = 0, j = 0, k = 0; i < Model.MapTypes.Length; i++)
         {
-            <div style="background: rgb(@Model.Bots[j, k]?.RGB[0] @Model.Bots[j, k]?.RGB[1] @Model.Bots[j, k]?.RGB[2])">
+            <div botId="@j,@k" class="bot" style="background: rgb(@Model.Bots[j, k]?.RGB[0] @Model.Bots[j, k]?.RGB[1] @Model.Bots[j, k]?.RGB[2]); border-color:rgb( @Model.ColorMap[j, k] )">
                 @if (Model.Bots[j, k] is not null)
                 {
                     <div></div>
