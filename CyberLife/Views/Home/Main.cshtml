@@ -1,31 +1,10 @@
 @model Map
 @Html.AntiForgeryToken()
 @{
-    Layout = null;
+    ViewData["Title"] = "Evolution";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>Сетка</title>
-    <link rel="stylesheet" href="~/css/grid.css">
-    <script src="~/js/Aja.js"></script>
-    <script src="~/lib/Ajax/jquery-3.6.1.js"></script>
-    <script src="~/lib/Ajax/jquery.unobtrusive-ajax.js"></script>
-</head>
-<body>
-<div class="scrol">
-    <div style="display: flex;">
-        <div><button id="start" onClick="start()">Start</button></div>
-        <div><button id="restart" onClick="restart()">Restart</button></div>
-        <div><button id="stop" onClick="stop()">Stop</button></div>
-        <div><button id="plusSpeed" onClick="plusSpeed()">plus Speed</button></div>
-        <div><button id="minusSpeed" onClick="minusSpeed()">minus Speed</button></div>
-        <div><button id="saveBot" onClick="saveBot()">save Bot</button></div>
-        <div><button id="loadingBot" onClick="loadingBot()">loading Bot</button></div>
-        <div><div id="speed"></div></div>
-    </div>
+<div class="container-fluid" style="background-color: #ffffff;">
     <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.Bots.GetLength(0), 14px); grid-template-rows: repeat(@Model.Bots.GetLength(1), 14px)">
         @for (int i = 0, j = 0, k = 0; i < Model.MapTypes.Length; i++)
         {
@@ -54,7 +33,15 @@
                 </div><br>
             }
         </div>
+        <div class="buttons" style="display: flex;">
+                <div><button id="start" onClick="start()">Start</button></div>
+                <div><button id="restart" onClick="restart()">Restart</button></div>
+                <div><button id="stop" onClick="stop()">Stop</button></div>
+                <div><button id="plusSpeed" onClick="plusSpeed()">plusSpeed</button></div>
+                <div><button id="minusSpeed" onClick="minusSpeed()">minusSpeed</button></div>
+                <div><button id="saveBot" onClick="saveBot()">save Bot</button></div>
+                <div><button id="loadingBot" onClick="loadingBot()">loading Bot</button></div>
+                <div><div id="speed"></div></div>
+            </div>
     </div>
 </div>
-</body>
-</html>
