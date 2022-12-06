@@ -15,7 +15,7 @@
 
 #statistics {
     border-color: white;
-    position: relative;
+    position: absolute;
     margin-left: 800px;
     max-height: 500px;
     max-width: 200px;

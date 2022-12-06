@@ -28,7 +28,7 @@ public class Map : MapModel
     // TUNDRA = 1
     public Map()
     {
-        CreateMap(width: 100, height: 50, widthBiome: 30, sizeBiome: 300);
+        CreateMap(width: 75, height: 50, widthBiome: 30, sizeBiome: 300);
     }
 
     public void Work()

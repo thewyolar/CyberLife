@@ -24,16 +24,17 @@
                 j++;
             }
         }
+        <div id="statistics">
+             <br>
+             @for (int i = 0; i < Model.BotTypes.Count; i++)
+             {
+                 <div class="typeBot" style="color: rgb(@Model.BotTypes[i].RGB[0] @Model.BotTypes[i].RGB[1] @Model.BotTypes[i].RGB[2])">
+                     @Model.BotTypes[i].AllEnergy:@Model.BotTypes[i].Population
+                 </div><br>
+             }
+        </div>
     </div>
-    <!--<div id="statistics">
-        <br>
-        @for (int i = 0; i < Model.BotTypes.Count; i++)
-        {
-            <div class="typeBot" style="color: rgb(@Model.BotTypes[i].RGB[0] @Model.BotTypes[i].RGB[1] @Model.BotTypes[i].RGB[2])">
-                @Model.BotTypes[i].AllEnergy:@Model.BotTypes[i].Population
-            </div><br>
-        }
-    </div>-->
+    
     <div class="container mt-2">
         <div class="row">
             <div class="col">
@@ -49,13 +50,8 @@
                 <input id="speedSwitcher"type="range" min="-100" max="100" step="10" value="0" onChange="changeSpeed(this.value)">
             </div>
         </div>
-                        <div><button id="start" onClick="start()">Start</button></div>
-                        <div><button id="restart" onClick="restart()">Restart</button></div>
-                        <div><button id="stop" onClick="stop()">Stop</button></div>
-                        <div><button id="plusSpeed" onClick="plusSpeed()">plusSpeed</button></div>
-                        <div><button id="minusSpeed" onClick="minusSpeed()">minusSpeed</button></div>
-                        <div><button id="saveBot" onClick="saveBot()">save Bot</button></div>
-                        <div><button id="loadingBot" onClick="loadingBot()">loading Bot</button></div>
+        <div><button id="saveBot" onClick="saveBot()">save Bot</button></div>
+        <div><button id="loadingBot" onClick="loadingBot()">loading Bot</button></div>
         <!--<button id="start" type="button" class="btn btn-success" onClick="start()">Start</button>
         <button id="stop" type="button" class="btn btn-danger" onClick="stop()">Stop</button>
         <button id="restart" type="button" class="btn btn-info" onClick="restart()">Restart</button>

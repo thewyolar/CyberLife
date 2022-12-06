@@ -81,7 +81,7 @@ function getSizeAndScaleInt(isUp){
 
 function moveStatistics(){
     let h = document.getElementById('gr').offsetHeight;
-    let ss = document.styleSheets[0];
+    let ss = document.styleSheets[2];
     let rules = ss.cssRules || ss.rules;
     let h1Rule = null;
     for (let i = 0; i < rules.length; i++) {
@@ -91,7 +91,7 @@ function moveStatistics(){
             break;
         }
     }
-    h1Rule.style.marginLeft= h;
+    h1Rule.style.marginLeft = h + "px";
 }
 
 function loadingBot(){

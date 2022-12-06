@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-CyberLife-80B57CD7-A773-4C07-82BA-2BCCB2961D64</UserSecretsId>
-        <LangVersion>11</LangVersion>
+        <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
