@@ -5,7 +5,7 @@
     ViewData["Title"] = "Evolution";
 }
 
-<div class="container-fluid" style="background-color: #ffffff;">
+<div class="container-fluid">
     <div id="gr" class="grid" style="grid-template-columns: repeat(@Model.Bots.GetLength(0), 14px); grid-template-rows: repeat(@Model.Bots.GetLength(1), 14px);">
         @for (int i = 0, j = 0, k = 0; i < Model.MapTypes.Length; i++)
         {
@@ -35,12 +35,27 @@
             </div><br>
         }
     </div>-->
-    <div class="buttons">
-        <div><button id="start" onClick="start()">Start</button></div>
-        <div><button id="restart" onClick="restart()">Restart</button></div>
-        <div><button id="stop" onClick="stop()">Stop</button></div>
-        <div><button id="plusSpeed" onClick="plusSpeed()">plusSpeed</button></div>
-        <div><button id="minusSpeed" onClick="minusSpeed()">minusSpeed</button></div>
-        <div><div id="speed"></div></div>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col">
+                <button id="start" type="button" class="btn btn-success" onClick="start()">Start</button>
+            </div>
+            <div class="col">
+                <button id="stop" type="button" class="btn btn-danger" onClick="stop()">Stop</button>
+            </div>
+            <div class="col">
+                <button id="restart" type="button" class="btn btn-info" onClick="restart()">Restart</button>
+            </div>
+            <div class="col">
+                <input id="speedSwitcher"type="range" min="-100" max="100" step="10" value="0" onChange="changeSpeed(this.value)">
+            </div>
+        </div>
+        <!--<button id="start" type="button" class="btn btn-success" onClick="start()">Start</button>
+        <button id="stop" type="button" class="btn btn-danger" onClick="stop()">Stop</button>
+        <button id="restart" type="button" class="btn btn-info" onClick="restart()">Restart</button>
+        <input id="speedSwitcher"type="range" min="-100" max="100" step="10" value="0" onChange="changeSpeed(this.value)">-->
+        <!--<button id="plusSpeed" class="btn-primary" onClick="plusSpeed()">plusSpeed</button>
+        <button id="minusSpeed" class="btn-primary" onClick="minusSpeed()">minusSpeed</button>
+        <div id="speed"></div>-->
     </div>
 </div>

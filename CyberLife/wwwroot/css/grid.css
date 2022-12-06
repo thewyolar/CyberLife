@@ -38,11 +38,6 @@
     overflow: scroll;
 }
 
-.buttons {
-    position: absolute;
-    display: flex;
-}
-
 /* {
     border: 1px solid red;
 }
