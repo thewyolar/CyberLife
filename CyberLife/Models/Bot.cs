@@ -10,6 +10,7 @@ public class Bot: BaseModel
     public long Energy { get; set; }
     public Perceptron Brain { get; set; }
     public int IsStep { get; set; } = 0;
+    private int isGenerator = 0;
 
     private Bot(long energy, Perceptron brain, string color, int isStep)
     {
@@ -51,13 +52,21 @@ public class Bot: BaseModel
         }
 
         Random random = new Random();
-        if (random.Next(100) > 98)
+        if (random.Next(100) > 95)
         {
             step = random.Next(12);
+            if (step == 8)
+            {
+                step++;
+            }
         }
         if (step == -1)
         {
             step = random.Next(12);
+            if (step == 8)
+            {
+                step++;
+            }
         }
         UpdateEnergy(-1);
         Brain.ActivatedNeurons[step]++;
@@ -66,20 +75,25 @@ public class Bot: BaseModel
             int[] xy = Move(step, x, y, eye, bots);
             x = xy[0];
             y = xy[1];
+            isGenerator = 0;
         }else if (step == 10)
         {
-            Generation(x, y, map);
+            if (isGenerator <= 2)
+            {
+                isGenerator++;
+                Generation(x, y, map);
+            }
         }else if (step == 11)
         {
-            long loseEnergy = -(Energy / 2);
+            long loseEnergy = -Math.Abs(Energy / 2);
             UpdateEnergy(loseEnergy);
             Reproduction(x, y, -loseEnergy, bots, Brain, Color, IsStep);
+            isGenerator = 0;
         }
-        if (Energy <= 0 & bots[x, y] is null)
+        if (Energy <= 0)
         {
             Death(x, y, bots);
         }
-        
     }
 
     public bool Attack(int xAttacking, int yAttacking, int xDefensive, int yDefensive,  Bot[,] bots)
