@@ -21,6 +21,7 @@ function ajaxUpdate()
 
 let timerId = null;
 let speedAjax = 70;
+let lastVal = 0;
 
 function start()
 {
@@ -41,6 +42,17 @@ function minusSpeed()
 {
     stop();
     speedAjax += 10;
+    $("#speed").html(speedAjax);
+}
+
+function changeSpeed(switcher) 
+{
+    var switcher = parseInt(switcher);
+    if (switcher > lastVal) {
+        speedAjax -= Math.abs(switcher - lastVal);
+    } else if (switcher <= lastVal)
+        speedAjax += Math.abs(lastVal - switcher);
+    lastVal = switcher;
     $("#speed").html(speedAjax);
 }
 
