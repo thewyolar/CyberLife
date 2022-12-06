@@ -54,7 +54,7 @@ function getSizeAndScaleInt(isUp){
     let gr;
     gr = document.getElementById("gr");
     let gridTemplateColumns = gr.style.gridTemplateColumns;
-    let sizeAndScale = gridTemplateColumns.match(/\d./g);
+    let sizeAndScale = gridTemplateColumns.match(/\d+/g);
     let sizeAndScaleInt = sizeAndScale.map(Number);
     if(sizeAndScaleInt[1] <= 14 && isUp === 0){
         sizeAndScaleInt[1] = -1;

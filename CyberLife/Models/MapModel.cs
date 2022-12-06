@@ -13,8 +13,8 @@ public enum MapType
 
 public class MapModel : BaseModel
 {
-    
-    public string Name { get; set; }
+
+    public string Name { get; set; } = "map";
     public int[,] MapTypes { get; set; }
     
 }

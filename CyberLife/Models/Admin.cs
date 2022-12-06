@@ -3,6 +3,6 @@ namespace CyberLife.Models;
 public class Admin : User
 {
     
-    public List<MapModel> Maps { get; set; }
+    public IList<MapModel> Maps { get; set; }
     
 }

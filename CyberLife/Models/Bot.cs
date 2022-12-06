@@ -34,7 +34,7 @@ public class Bot: BaseModel
         Energy = 100;
         this.Color = color;
         this.RGB = this.Color.Split(" ");
-        Brain = new Perceptron(9, 10, 10, 10, 10, 12);
+        Brain = new Perceptron(9, 10, 10, 10, 10, 10, 12);
         this.Brain.RGB = this.RGB;
         this.Brain.AllEnergy += this.Energy;
         this.Brain.Population++;
@@ -86,11 +86,11 @@ public class Bot: BaseModel
     {
         long energyA = bots[xAttacking, yAttacking].Energy;
         long energyD = bots[xDefensive, yDefensive].Energy;
-        bots[xDefensive, yDefensive].UpdateEnergy(-(long) Math.Round(energyA / 1.5));
-        bots[xAttacking, yAttacking].UpdateEnergy(-(long) Math.Round(energyD / 2.5));
+        bots[xDefensive, yDefensive].UpdateEnergy(-Math.Abs((long) Math.Round(energyA / 0.5)));
+        bots[xAttacking, yAttacking].UpdateEnergy(-Math.Abs((long) Math.Round(energyD / 2.5)));
         if (bots[xDefensive, yDefensive].Energy <= 0)
         {
-            bots[xAttacking, yAttacking].UpdateEnergy((long) Math.Round(energyD / 1.5));
+            bots[xAttacking, yAttacking].UpdateEnergy((long) Math.Abs(Math.Round(energyD / 0.8)));
             bots[xDefensive, yDefensive].Death(xDefensive, yDefensive, bots);
             return true;
         }
@@ -235,7 +235,7 @@ public class Bot: BaseModel
 
     public void Generation(int x, int y, int[,] map)
     {
-        UpdateEnergy((long) (14 + map[x, y]));
+        UpdateEnergy((long) (map[x, y]));
     }
 
     public void Death(int x, int y, Bot[,] bots)
@@ -268,10 +268,15 @@ public class Bot: BaseModel
     
     public void Reproduction(int x, int y, long energy, Bot[,] bots, Perceptron brain, string color, int isStep)
     {
+        if (energy <= 0)
+        {
+            bots[x, y].UpdateEnergy(energy - 50);
+            return;
+        }
         Random random = new Random();
         int mutationProbability = random.Next(100);
         bool isMutation = false;
-        if (mutationProbability <= 1)
+        if (mutationProbability <= 2)
         {
             brain = brain.makePerceptron();
             isMutation = true;
@@ -312,7 +317,6 @@ public class Bot: BaseModel
                 rgbInt[2] = random.Next(250);
             }
             color = rgbInt[0] + ", " + rgbInt[1] + ", " + rgbInt[2];
-            Console.WriteLine(color);
         }
         try
         {

@@ -86,7 +86,7 @@ public class Perceptron : PerceptronModel
     // TODO dropOut - рандомное выключение нейронов. решить проблему переобучения
     public void BackPropagation(double energy, long population)
     {
-        int neuron = Array.FindLastIndex(ActivatedNeurons, delegate(int i) { return i == ActivatedNeurons.Max(); });
+        int neuron = Array.FindLastIndex(ActivatedNeurons, delegate(int i) { return i == ActivatedNeurons.Max();});
         double[] errors = new double[layers[layers.Length - 1].Size];
         for (int i = 0; i < layers[layers.Length - 1].Size; i++) {
             if (population < 0)
@@ -121,7 +121,7 @@ public class Perceptron : PerceptronModel
             for (int i = 0; i < layerNext.Size; i++)
             {
                 gradients[i] = errors[i] * layer.DerivativeActivation[i](layers[k + 1].Neurons[i]);
-                gradients[i] *= 0.1;
+                gradients[i] *= 0.01;
             }
 
             double[,] deltas = new double[layerNext.Size, layer.Size];

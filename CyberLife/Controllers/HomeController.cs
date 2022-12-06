@@ -17,7 +17,7 @@ public class HomeController : Controller
 
     public IActionResult Restart()
     {
-        map = new Map(1);
+        map = new Map();
         return Redirect("Start");
     }
     public IActionResult Main()
