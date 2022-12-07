@@ -75,20 +75,15 @@ public class Bot: BaseModel
             int[] xy = Move(step, x, y, eye, bots);
             x = xy[0];
             y = xy[1];
-            isGenerator = 0;
         }else if (step == 10)
         {
-            if (isGenerator <= 2)
-            {
-                isGenerator++;
-                Generation(x, y, map);
-            }
+            Generation(x, y, map);
         }else if (step == 11)
         {
             long loseEnergy = -Math.Abs(Energy / 2);
             UpdateEnergy(loseEnergy);
             Reproduction(x, y, -loseEnergy, bots, Brain, Color, IsStep);
-            isGenerator = 0;
+
         }
         if (Energy <= 0)
         {
@@ -267,6 +262,16 @@ public class Bot: BaseModel
 
     public void UpdateEnergy(long energyLoss)
     {
+        if (this.Energy >= 200 & energyLoss > 0) {
+            isGenerator = 0;
+            return;
+        }
+        if (this.Energy <= 100) {
+            isGenerator = 1;
+        }
+        if (isGenerator == 0 & energyLoss > 0) {
+            return;
+        }
         this.Energy += energyLoss;
         if (this.Energy <= 0)
         {
@@ -290,7 +295,7 @@ public class Bot: BaseModel
         Random random = new Random();
         int mutationProbability = random.Next(100);
         bool isMutation = false;
-        if (mutationProbability <= 2)
+        if (mutationProbability <= 5)
         {
             brain = brain.makePerceptron();
             isMutation = true;
