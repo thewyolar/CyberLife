@@ -24,13 +24,13 @@
             }
         }
         <div id="statistics">
-             <br>
-             @for (int i = 0; i < Model.BotTypes.Count; i++)
-             {
-                 <div class="typeBot" style="color: rgb(@Model.BotTypes[i].RGB[0] @Model.BotTypes[i].RGB[1] @Model.BotTypes[i].RGB[2])">
-                     @Model.BotTypes[i].AllEnergy:@Model.BotTypes[i].Population
-                 </div><br>
-             }
+            AllEnergy:Population
+            @for (int i = 0; i < Model.BotTypes.Count; i++)
+            {
+                <div class="typeBot" style="color: rgb(@Model.BotTypes[i].RGB[0] @Model.BotTypes[i].RGB[1] @Model.BotTypes[i].RGB[2])">
+                    @Model.BotTypes[i].AllEnergy:@Model.BotTypes[i].Population
+                </div><br>
+            }
         </div>
     </div>
     

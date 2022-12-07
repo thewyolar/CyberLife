@@ -1,8 +1,8 @@
 .grid {
     /*border: 5px solid #d1e231;*/
-    display: grid;
+    display: inline-grid;
     position: relative;
-    background: #ffffff;
+    background: rgb(36, 36, 36);
 }
 
 .grid > * {
@@ -17,9 +17,8 @@
     border-color: white;
     position: absolute;
     margin-left: 800px;
-    max-height: 500px;
-    max-width: 200px;
     overflow: auto;
+    width: 170px;
 }
 
 #c1 {

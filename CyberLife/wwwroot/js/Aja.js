@@ -91,7 +91,8 @@ function saveBot(){
     let bots = document.getElementsByClassName("bot");
     for (let i = 0; i < bots.length; i++){
         bots[i].onmouseover = function (){
-            this.style.borderWidth = "2";
+            this.style.borderWidth = "3px";
+            // this.style.borderColor = "rgb(0, 0, 0);"
         };
         bots[i].onmouseleave = function (){
             this.style.borderWidth = "";
@@ -169,7 +170,10 @@ document.onkeyup = function (event){
 
 
 function moveStatistics(){
-    let h = document.getElementById('gr').offsetWidth;
+    let w = document.getElementById('gr').offsetWidth;
+    let h = document.getElementById('gr').offsetHeight;
+    let statistics = document.getElementById('statistics');
+    statistics.style.height = h + "px";
     let ss = document.styleSheets[2];
     let rules = ss.cssRules || ss.rules;
     let h1Rule = null;
@@ -180,7 +184,8 @@ function moveStatistics(){
             break;
         }
     }
-    h1Rule.style.marginLeft = h + "px";
+    h1Rule.style.marginLeft = w + "px";
+    h1Rule.style.height = h + "px";
 }
 
 function getSizeAndScaleInt(isUp){
