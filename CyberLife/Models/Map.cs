@@ -87,14 +87,14 @@ public class Map : MapModel
                     try
                     {
                         if (Bots[i + 1, j + 1] is null) eye[4] = 0;
-                        else if (Bots[i, j].Color.Equals(Bots[i + 1, j - 1].Color)) eye[4] = 1;
+                        else if (Bots[i, j].Color.Equals(Bots[i + 1, j + 1].Color)) eye[4] = 1;
                         else eye[4] = 2;
                     }
                     catch (Exception ignore) { eye[4] = -1; }
                     try
                     {
                         if (Bots[i, j + 1] is null) eye[5] = 0;
-                        else if (Bots[i, j].Color.Equals(Bots[i, j - 1].Color)) eye[5] = 1;
+                        else if (Bots[i, j].Color.Equals(Bots[i, j + 1].Color)) eye[5] = 1;
                         else eye[5] = 2;
                     }
                     catch (Exception ignore) { eye[5] = -1; }
@@ -177,6 +177,7 @@ public class Map : MapModel
         // i - количество биомов
         for (int i = 0; i < bioms.Count; i++)
         {
+            Console.WriteLine(i);
             k = bioms[i][1];
             x = 0;
             for (; x <= MapTypes.GetLength(0) & k != 0; x++)

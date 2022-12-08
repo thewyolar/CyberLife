@@ -118,7 +118,7 @@ function selectSaveBot(botId){
     let nameBot = prompt("Ввидите имя бота");
     $.ajax({
         type: "POST",
-        url: "SaveBot",
+        url: "Home/SaveBot",
         data: {
             x: xy[0],
             y: xy[1],
@@ -142,8 +142,21 @@ function selectSaveBot(botId){
     });
 }
 
-function mouseOverBot(){
-    let gr = document.getElementById();
+function getAllBot(){
+    stop();
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "Home/GetAllBot",
+            dataType: "html",
+            success: function (result) {
+                $("#allBot").html(result);
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
 }
 
 

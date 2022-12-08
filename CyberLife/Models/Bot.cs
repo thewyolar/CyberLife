@@ -96,10 +96,10 @@ public class Bot: BaseModel
         long energyA = bots[xAttacking, yAttacking].Energy;
         long energyD = bots[xDefensive, yDefensive].Energy;
         bots[xDefensive, yDefensive].UpdateEnergy(-Math.Abs((long) Math.Round(energyA / 0.5)));
-        bots[xAttacking, yAttacking].UpdateEnergy(-Math.Abs((long) Math.Round(energyD / 2.5)));
+        bots[xAttacking, yAttacking].UpdateEnergy(-Math.Abs((long) Math.Round(energyD / 3.0)));
         if (bots[xDefensive, yDefensive].Energy <= 0)
         {
-            bots[xAttacking, yAttacking].UpdateEnergy((long) Math.Abs(Math.Round(energyD / 0.8)));
+            bots[xAttacking, yAttacking].UpdateEnergy((long) Math.Abs(Math.Round(energyD / 1.0)), true);
             bots[xDefensive, yDefensive].Death(xDefensive, yDefensive, bots);
             return true;
         }
@@ -260,16 +260,16 @@ public class Bot: BaseModel
         }
     }
 
-    public void UpdateEnergy(long energyLoss)
+    public void UpdateEnergy(long energyLoss, bool isAttack = false)
     {
-        if (this.Energy >= 200 & energyLoss > 0) {
+        if (this.Energy >= 200 & energyLoss > 0 & !isAttack) {
             isGenerator = 0;
             return;
         }
         if (this.Energy <= 100) {
             isGenerator = 1;
         }
-        if (isGenerator == 0 & energyLoss > 0) {
+        if (isGenerator == 0 & energyLoss > 0 & !isAttack) {
             return;
         }
         this.Energy += energyLoss;
@@ -344,7 +344,7 @@ public class Bot: BaseModel
                 bots[x - 1, y - 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -357,7 +357,7 @@ public class Bot: BaseModel
                 bots[x, y - 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -370,7 +370,7 @@ public class Bot: BaseModel
                 bots[x + 1, y - 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -384,7 +384,7 @@ public class Bot: BaseModel
                 bots[x + 1, y] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -398,7 +398,7 @@ public class Bot: BaseModel
                 bots[x + 1, y + 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -412,7 +412,7 @@ public class Bot: BaseModel
                 bots[x, y + 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -426,7 +426,7 @@ public class Bot: BaseModel
                 bots[x - 1, y + 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -440,7 +440,7 @@ public class Bot: BaseModel
                 bots[x - 1, y] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
