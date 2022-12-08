@@ -24,7 +24,7 @@
             }
         }
         <div id="statistics">
-            AllEnergy:Population
+            <p>AllEnergy:Population</p>
             @for (int i = 0; i < Model.BotTypes.Count; i++)
             {
                 <div class="typeBot" style="color: rgb(@Model.BotTypes[i].RGB[0] @Model.BotTypes[i].RGB[1] @Model.BotTypes[i].RGB[2])">
@@ -36,31 +36,37 @@
     
     <div class="container mt-2">
         <div class="row">
-            <div class="col">
-                <button id="start" type="button" class="btn btn-success" onClick="start()">Start</button>
+            <div class="col-1">
+                <div class="d-inline-block">
+                    <span class="fa-2x float-s" onclick="saveBot()">
+                        <i class="fa-regular fa-floppy-disk"></i>
+                    </span>
+                </div>
+                <div class="d-inline-block ms-2">
+                     <span class="fa-2x float-s" onclick="loadingBot()">
+                         <i class="fa-solid fa-download"></i>
+                     </span>
+                </div>
             </div>
-            <div class="col">
-                <button id="stop" type="button" class="btn btn-danger" onClick="stop()">Stop</button>
+            <div class="col-5">
+                <span class="fa-3x float-end" onclick="toggle()">
+                    <i id="playBtn" class="fa-sharp fa-solid fa-play"></i>
+                </span>
             </div>
-            <div class="col">
-                <button id="restart" type="button" class="btn btn-info" onClick="restart()">Restart</button>
+            <div class="col-4">
+                <span class="fa-3x" onclick="restart()">
+                    <i id="restartBtn" class="fa-sharp fa-solid fa-rotate-right"></i>
+                </span>
             </div>
-            <div class="col">
-                <input id="speedSwitcher"type="range" min="-100" max="100" step="10" value="0" onChange="changeSpeed(this.value)">
+            <div class="col-2">
+                <div class="d-inline-block ms-2 pt-2">
+                    <p id="speed"></p>
+                </div>
+                <div class="d-inline-block float-end pt-3">
+                    <input id="speedSwitcher"type="range" min="-100" max="100" step="10" value="0" onChange="changeSpeed(this.value)">
+                </div>
             </div>
         </div>
-        <div><button id="saveBot" onClick="saveBot()">save Bot</button></div>
-        <div><button id="loadingBot" onClick="getAllBot()">loading Bot</button></div>
-        
         <div id="allBot"></div>
-
-
-            <!--<button id="start" type="button" class="btn btn-success" onClick="start()">Start</button>
-        <button id="stop" type="button" class="btn btn-danger" onClick="stop()">Stop</button>
-        <button id="restart" type="button" class="btn btn-info" onClick="restart()">Restart</button>
-        <input id="speedSwitcher"type="range" min="-100" max="100" step="10" value="0" onChange="changeSpeed(this.value)">-->
-        <!--<button id="plusSpeed" class="btn-primary" onClick="plusSpeed()">plusSpeed</button>
-        <button id="minusSpeed" class="btn-primary" onClick="minusSpeed()">minusSpeed</button>
-        <div id="speed"></div>-->
     </div>
 </div>

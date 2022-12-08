@@ -31,7 +31,7 @@ function start()
     }
 }
 
-function plusSpeed()
+/*function plusSpeed()
 {
     stop();
     speedAjax -= 10;
@@ -43,17 +43,19 @@ function minusSpeed()
     stop();
     speedAjax += 10;
     $("#speed").html(speedAjax);
-}
+}*/
 
-function changeSpeed(switcher) 
+function changeSpeed() 
 {
-    var switcher = parseInt(switcher);
-    if (switcher > lastVal) {
-        speedAjax -= Math.abs(switcher - lastVal);
+    let speed = document.getElementById("speed");
+    let switcher = document.getElementById("speedSwitcher");
+    if (switcher.value > lastVal) {
+        speedAjax -= Math.abs(switcher.value - lastVal);
     } else if (switcher <= lastVal)
-        speedAjax += Math.abs(lastVal - switcher);
-    lastVal = switcher;
+        speedAjax += Math.abs(lastVal - switcher.value);
+    lastVal = switcher.value;
     $("#speed").html(speedAjax);
+    speed.value = speedAjax;
 }
 
 function stop()
@@ -260,7 +262,15 @@ function getSizeAndScaleInt(isUp){
 
 function restart()
 {
-    stop();
+    let btn = document.getElementById("restartBtn");
+    if (isStart) {
+        stop();
+        toggle();
+    }
+    btn.classList.add("fa-spin");
+    btn.addEventListener( "animationend",  function() {
+        btn.classList.remove("fa-spin");
+    });
     $(document).ready(function () {
         $.ajax({
             type: "GET",
