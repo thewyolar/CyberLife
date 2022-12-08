@@ -344,7 +344,7 @@ public class Bot: BaseModel
                 bots[x - 1, y - 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -357,7 +357,7 @@ public class Bot: BaseModel
                 bots[x, y - 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -370,7 +370,7 @@ public class Bot: BaseModel
                 bots[x + 1, y - 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -384,7 +384,7 @@ public class Bot: BaseModel
                 bots[x + 1, y] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -398,7 +398,7 @@ public class Bot: BaseModel
                 bots[x + 1, y + 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -412,7 +412,7 @@ public class Bot: BaseModel
                 bots[x, y + 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -426,7 +426,7 @@ public class Bot: BaseModel
                 bots[x - 1, y + 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }
@@ -440,7 +440,7 @@ public class Bot: BaseModel
                 bots[x - 1, y] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    HomeController.map.AddType(brain);
+                    AjaxController.Maps[0].AddType(brain);
                 }
                 return;
             }

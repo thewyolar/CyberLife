@@ -116,7 +116,7 @@ function selectSaveBot(botId){
     let nameBot = prompt("Ввидите имя бота");
     $.ajax({
         type: "POST",
-        url: "SaveBot",
+        url: "Home/SaveBot",
         data: {
             x: xy[0],
             y: xy[1],
