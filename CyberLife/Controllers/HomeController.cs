@@ -14,6 +14,12 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
+    
+    public IActionResult GetAllBot()
+    {
+        return View(_context.Perceptrons.ToList());
+    }
+    
     [HttpPost]
     public Task SaveBot(int x, int y, string name)
     {
