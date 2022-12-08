@@ -19,7 +19,7 @@ public class Perceptron : PerceptronModel
             int nextSize = 0;
             if (i < sizes.Length - 1) 
                 nextSize = sizes[i + 1];
-            layers[i] = new Layer(sizes[i], nextSize);
+            layers[i] = new Layer(sizes[i], nextSize, i);
             for (int j = 0; j < sizes[i]; j++)
             {
                 layers[i].Biases[j] = new Random().NextDouble() * 2.0 - 1.0;
@@ -31,7 +31,7 @@ public class Perceptron : PerceptronModel
         ActivatedNeurons = new int[sizes.Last()];
     }
     
-    private Perceptron(Layer[] layers)
+    public Perceptron(Layer[] layers)
     {
         this.layers = layers;
         ActivatedNeurons = new int[this.layers.Last().Size];
