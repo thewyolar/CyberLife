@@ -177,6 +177,7 @@ public class Map : MapModel
         // i - количество биомов
         for (int i = 0; i < bioms.Count; i++)
         {
+            Console.WriteLine(i);
             k = bioms[i][1];
             x = 0;
             for (; x <= MapTypes.GetLength(0) & k != 0; x++)
