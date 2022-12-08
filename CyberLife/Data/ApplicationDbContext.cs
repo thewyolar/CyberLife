@@ -23,9 +23,9 @@ public class ApplicationDbContext :  IdentityDbContext<User, IdentityRole, strin
     {
         Database.EnsureCreated();
     }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string configuring = File.ReadAllText("Data/OnConfiguring.txt");
         optionsBuilder.UseNpgsql(configuring);
-    }
+    }*/
 }

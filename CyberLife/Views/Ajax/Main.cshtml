@@ -1,6 +1,6 @@
 @model Map
 @{
-    ViewData["Title"] = "Evolution";
+    ViewData["Title"] = "Мир";
 }
 
 <div class="container-fluid">
@@ -24,7 +24,7 @@
             }
         }
         <div id="statistics">
-            <p>AllEnergy:Population</p>
+            <p>Энергия:Популяция</p>
             @for (int i = 0; i < Model.BotTypes.Count; i++)
             {
                 <div class="typeBot" style="color: rgb(@Model.BotTypes[i].RGB[0] @Model.BotTypes[i].RGB[1] @Model.BotTypes[i].RGB[2])">
@@ -43,7 +43,7 @@
                     </span>
                 </div>
                 <div class="d-inline-block ms-2">
-                     <span class="fa-2x float-s" onclick="loadingBot()">
+                     <span class="fa-2x float-s" onclick="getAllBot()">
                          <i class="fa-solid fa-download"></i>
                      </span>
                 </div>

@@ -33,11 +33,16 @@ public class HomeController : Controller
         return Response.WriteAsJsonAsync("{ \"save\": true }");
     }
 
-    public IActionResult Index()
+    public IActionResult About()
     {
         return View();
     }
 
+    public IActionResult Trends()
+    {
+        return View();
+    }
+    
     public IActionResult Privacy()
     {
         return View();

@@ -27,4 +27,8 @@
       <AdditionalFiles Include="Views\Ajax\Start.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Models\Map.cs" />
+    </ItemGroup>
+
 </Project>

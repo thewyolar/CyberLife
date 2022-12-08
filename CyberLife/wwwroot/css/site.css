@@ -6,7 +6,7 @@ html * {
 }
 
 html {
-  font-size: 14px;
+  font-size: 24px;
 }
 
 @media (min-width: 768px) {
@@ -25,6 +25,45 @@ body {
   background-color: #242424;
 }
 
+a {
+  color: #148c7b;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+h1 {
+  margin-top: 1.5em;
+  text-shadow: 1px 2px #000;
+  font-family: latin-modern-mono, monospace;
+  color: #fffdfc;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  line-height: 1.125;
+  font-size: 2rem;
+}
+
+h2 {
+  margin-bottom: 1em;
+  font-family: latin-modern-mono,monospace;
+  color: #fffdfc;
+  font-size: 1.2em;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+p {
+  margin-bottom: 1em;
+  font-family: latin-modern-mono,monospace;
+  color: #fffdfc;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.about-container {
+  padding: 3rem 1.5rem;
+}
+
 .nav-link {
   font-size: 24px;
   line-height: 30px;
@@ -32,7 +71,7 @@ body {
   text-decoration: none;
 }
 
-.nav-link:hover {
+a:hover, .nav-link:hover {
   color: #ffffff;
 }
 
