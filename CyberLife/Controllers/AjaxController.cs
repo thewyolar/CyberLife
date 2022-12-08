@@ -26,8 +26,9 @@ public class AjaxController : Controller
         {
             start = false;
             Maps[0].Work();
+            start = true;
         }
-        start = true;
         return View(Maps[0]);
     }
+
 }

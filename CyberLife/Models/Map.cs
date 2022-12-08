@@ -234,7 +234,7 @@ public class Map : MapModel
                     {
                         break;
                     }
-                    bool hereBot = random.Next(100) > botSpawnChance;
+                    bool hereBot = random.Next(100) < botSpawnChance;
                     if (hereBot)
                     {
                         Bots[x, y] = new Bot(random.Next(250) + ", " + random.Next(250) + ", " + random.Next(250));
