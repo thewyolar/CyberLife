@@ -29,7 +29,7 @@ public class Bot: BaseModel
         this.Brain.RGB = this.RGB;
         this.Brain.Population++;
     }
-    
+
     public Bot(string color)
     {
         Energy = 100;
@@ -38,6 +38,16 @@ public class Bot: BaseModel
         Brain = new Perceptron(9, 10, 10, 10, 10, 10, 12);
         this.Brain.RGB = this.RGB;
         this.Brain.AllEnergy += this.Energy;
+        this.Brain.Population++;
+    }
+    
+    public Bot(Perceptron brain)
+    {
+        this.Energy = 100;
+        this.Brain = brain;
+        this.Brain.AllEnergy += this.Energy;
+        this.RGB = brain.RGB;
+        this.Color = RGB[0] + " " + RGB[1] + " " + RGB[2];
         this.Brain.Population++;
     }
 

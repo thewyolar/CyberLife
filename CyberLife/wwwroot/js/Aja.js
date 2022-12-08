@@ -64,30 +64,6 @@ function stop()
     timerId = null;
 }
 
-function loadingBot(){
-    stop();
-    let bots = document.getElementsByClassName("bot");
-    for (let i = 0; i < bots.length; i++){
-        bots[i].onmouseover = function (){
-            this.style.borderWidth = "2";
-        };
-        bots[i].onmouseleave = function (){
-            this.style.borderWidth = "";
-        };
-        bots[i].onclick = function (){
-            this.style.borderWidth = "";
-            let bots = document.getElementsByClassName("bot");
-            for (let i = 0; i < bots.length; i++){
-                bots[i].onmouseover = null;
-                bots[i].onmouseleave = null;
-                bots[i].onclick = null;
-            }
-        };
-    }
-    
-}
-
-
 function saveBot(){
     stop();
     let bots = document.getElementsByClassName("bot");
@@ -118,7 +94,7 @@ function selectSaveBot(botId){
     let nameBot = prompt("Ввидите имя бота");
     $.ajax({
         type: "POST",
-        url: "Home/SaveBot",
+        url: "/Home/SaveBot",
         data: {
             x: xy[0],
             y: xy[1],
@@ -147,7 +123,70 @@ function getAllBot(){
     $(document).ready(function () {
         $.ajax({
             type: "GET",
-            url: "Home/GetAllBot",
+            url: "/Home/GetAllBot",
+            dataType: "html",
+            success: function (result) {
+                $("#allBot").html(result);
+                selectBotForLoading();
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
+    
+}
+let loadingBots = [];
+function selectBotForLoading(){
+    stop();
+    let bots = document.getElementsByClassName("botLoading");
+    for (let i = 0; i < bots.length; i++) {
+        bots[i].onmouseover = function () {
+            this.style.color = "rgb(0, 0, 0)";
+        };
+        bots[i].onmouseleave = function () {
+            this.style.color = "";
+        };
+        bots[i].onclick = function () {
+            selectBotLoading(this.style.backgroundColor);
+            loadingBots.push(this.id);
+            this.style.backgroundColor = "rgb(0, 0, 0)";
+            let bots = document.getElementsByClassName("botLoading");
+            for (let i = 0; i < bots.length; i++) {
+                bots[i].onmouseover = null;
+                bots[i].onmouseleave = null;
+                bots[i].onclick = null;
+            }
+        };
+    }
+}
+
+function selectBotLoading(color){
+    stop();
+    let bots = document.getElementsByClassName("bot");
+    for (let i = 0; i < bots.length; i++) {
+        bots[i].onmouseover = function () {
+            this.style.borderWidth = "3px";
+        };
+        bots[i].onmouseleave = function () {
+            this.style.borderWidth = "";
+        };
+        bots[i].onclick = function () {
+            loadingBots.push(this.attributes.botId.value);
+            this.style.backgroundColor = color;
+        }
+    }
+}
+
+function loadingBot(){
+    stop();
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/LoadingBot",
+            data: {
+                bots : loadingBots
+            },
             dataType: "html",
             success: function (result) {
                 $("#allBot").html(result);
@@ -158,7 +197,6 @@ function getAllBot(){
         });
     })
 }
-
 
 document.onkeyup = function (event){
     if (event.code === 'KeyQ') {

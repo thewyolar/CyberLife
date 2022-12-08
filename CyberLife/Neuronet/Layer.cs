@@ -2,7 +2,7 @@
 
 namespace CyberLife.Neuronet;
 
-public class Layer : LayerModel
+public class Layer : LayerModel, IComparable<Layer>
 {
     public Func<double, double>[]  NeuronsActivation { get; set; }
     public Func<double, double>[]  DerivativeActivation { get; set; }
@@ -18,8 +18,9 @@ public class Layer : LayerModel
                                                                 
     };
 
-    public Layer(int size, int nextSize)
+    public Layer(int size, int nextSize, int indexLayer)
     {
+        this.IndexLayer = indexLayer;
         this.Size = size;
         this.Neurons = new double[size];
         this.Biases = new double[size];
@@ -52,10 +53,11 @@ public class Layer : LayerModel
             }
         }
     }
-    private Layer(int size, double[] neurons, Func<double, double>[] neuronsActivation, Func<double, double>[] 
+    private Layer(int indexLayer, int size, double[] neurons, Func<double, double>[] neuronsActivation, Func<double, double>[] 
         derivativeActivation,double[] biases, double[,] weights, int[] 
         funcIndexDerivativeActivation, int[] funcIndexNeuronsActivation)
     {
+        this.IndexLayer = indexLayer;
         this.Size = size;
         this.Neurons = neurons;
         this.NeuronsActivation = neuronsActivation;
@@ -66,8 +68,27 @@ public class Layer : LayerModel
         this.FuncIndexNeuronsActivation = funcIndexNeuronsActivation;
     }
     
+    public Layer(LayerModel layerModel)
+    {
+        this.IndexLayer = layerModel.IndexLayer;
+        this.Size = layerModel.Size;
+        this.Neurons = layerModel.Neurons;
+        this.FuncIndexDerivativeActivation = layerModel.FuncIndexDerivativeActivation;
+        this.FuncIndexNeuronsActivation = layerModel.FuncIndexNeuronsActivation;
+        this.DerivativeActivation = new Func<double, double>[layerModel.FuncIndexDerivativeActivation.Length];
+        this.NeuronsActivation = new Func<double, double>[layerModel.FuncIndexNeuronsActivation.Length];
+        for (int i = 0; i < layerModel.FuncIndexNeuronsActivation.Length; i++)
+        {
+            this.DerivativeActivation[i] = Derivative[layerModel.FuncIndexDerivativeActivation[i]];
+            this.NeuronsActivation[i] = Activation[layerModel.FuncIndexNeuronsActivation[i]];
+        }
+        this.Biases = layerModel.Biases;
+        this.Weights = layerModel.Weights;
+    }
+    
     public Layer clone()
     {
+        int index1 = this.IndexLayer;
         int size = this.Size;
         double[] neurons = new double[this.Neurons.Length];
         this.Neurons.CopyTo(neurons, 0);
@@ -92,7 +113,7 @@ public class Layer : LayerModel
                 weights[i, j] = this.Weights[i, j];
             }
         }
-        return new Layer(size, neurons, neuronsActivation, derivativeActivation, biases, 
+        return new Layer(index1, size, neurons, neuronsActivation, derivativeActivation, biases, 
             weights, funcIndexDerivativeActivationClone, funcIndexNeuronsActivationClone);
     }
     
@@ -110,5 +131,11 @@ public class Layer : LayerModel
             FuncIndexDerivativeActivation[indexNeuronsActivation] = indexFunc;
         }
     }
-
+    
+    public int CompareTo(Layer? other)
+    {
+        if (this.IndexLayer < other.IndexLayer) {return -1;}
+        else if (this.IndexLayer > other.IndexLayer) {return 1;}
+        else {return 0;}
+    }
 }
