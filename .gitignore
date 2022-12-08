@@ -438,3 +438,4 @@ FodyWeavers.xsd
 /CyberLife/obj/
 /.idea/
 CyberLife/appsettings.json
+CyberLife/Data/OnConfiguring.txt

@@ -25,6 +25,7 @@ public class ApplicationDbContext :  IdentityDbContext<User, IdentityRole, strin
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Cyber;Username=postgres;Password=postgres");
+        string configuring = File.ReadAllText("Data/OnConfiguring.txt");
+        optionsBuilder.UseNpgsql(configuring);
     }
 }
