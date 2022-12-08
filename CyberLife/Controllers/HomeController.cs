@@ -3,6 +3,7 @@ using CyberLife.Data;
 using Microsoft.AspNetCore.Mvc;
 using CyberLife.Models;
 using CyberLife.Neuronet;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace CyberLife.Controllers;
@@ -22,7 +23,7 @@ public class HomeController : Controller
     {
         return View(_context.Perceptrons.ToList());
     }
-    
+    [Authorize]
     [HttpPost]
     public Task SaveBot(int x, int y, string name)
     {
@@ -30,7 +31,8 @@ public class HomeController : Controller
         {
             return Response.WriteAsJsonAsync("{ \"save\": false }");
         }
-        _context.Perceptrons.Add(new PerceptronModel(AjaxController.Maps[0].Bots[x, y].Brain, name));
+        List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
+        _context.Perceptrons.Add(new PerceptronModel(AjaxController.Maps[0].Bots[x, y].Brain, name, user[0]));
         _context.SaveChanges();
         return Response.WriteAsJsonAsync("{ \"save\": true }");
     }
