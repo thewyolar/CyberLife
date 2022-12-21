@@ -78,7 +78,7 @@ public class Bot: BaseModel
         }else if (step == 10)
         {
             Generation(x, y, map);
-        }else if (step == 11)
+        }else if (step == 11 & Energy > 2)
         {
             long loseEnergy = -Math.Abs(Energy / 2);
             UpdateEnergy(loseEnergy);
