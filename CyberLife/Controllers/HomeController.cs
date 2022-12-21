@@ -18,10 +18,11 @@ public class HomeController : Controller
         _logger = logger;
         _context = context;
     }
-    
+    [Authorize]
     public IActionResult GetAllBot()
     {
-        return View(_context.Perceptrons.ToList());
+        List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
+        return View(_context.Perceptrons.Where(x => x.User.Id == user[0].Id).ToList());
     }
     [Authorize]
     [HttpPost]
@@ -36,7 +37,7 @@ public class HomeController : Controller
         _context.SaveChanges();
         return Response.WriteAsJsonAsync("{ \"save\": true }");
     }
-    
+    [Authorize]
     [HttpPost]
     public void LoadingBot(IList<string> bots)
     {
