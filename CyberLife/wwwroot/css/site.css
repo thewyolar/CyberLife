@@ -79,6 +79,11 @@ a:hover, .nav-link:hover {
   color: #ffffff;
 }
 
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #148c7b;
+}
+
 span i {
   size: 48px;
   transition: color .15s ease;
@@ -98,4 +103,27 @@ span i:hover {
 
 #speed {
   font-size: 20px;
+}
+
+.btn-primary {
+  background-color: #148c7b;
+  border-color: #148c7b;
+}
+
+.btn-primary:hover {
+  background-color: #148c7b;
+  border-color: #147f6e;
+}
+
+.form-label {
+  color: black;
+}
+
+.rememberme-form-label {
+  color: white;
+}
+
+.form-check-input:checked {
+  background-color: #148c7b;
+  border-color: #148c7b;
 }

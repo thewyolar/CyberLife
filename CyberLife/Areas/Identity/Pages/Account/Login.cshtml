@@ -10,22 +10,22 @@
     <div class="col-md-4 mx-auto">
         <section>
             <form id="account" method="post">
-                <h2>Используйте локальную учетную запись для входа в систему.</h2>
+                <h2>Используйте свою учетную запись для входа в систему.</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                    <label asp-for="Input.Email" class="form-label">Email</label>
+                    <label asp-for="Input.Email" class="form-label"></label>
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
-                    <label asp-for="Input.Password" class="form-label">Password</label>
+                    <label asp-for="Input.Password" class="form-label">Пароль</label>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div>
                     <div class="checkbox">
-                        <label asp-for="Input.RememberMe" class="form-label">
+                        <label asp-for="Input.RememberMe" class="form-label rememberme-form-label">
                             <input class="form-check-input" asp-for="Input.RememberMe" />
                             Запомнить меня?
                         </label>
@@ -39,10 +39,7 @@
                         <a id="forgot-password" asp-page="./ForgotPassword">Забыли свой пароль?</a>
                     </p>
                     <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Зарегистрируйтесь как новый пользователь</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Повторно отправьте подтверждение по электронной почте</a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Зарегистрироваться как новый пользователь</a>
                     </p>
                 </div>
             </form>
