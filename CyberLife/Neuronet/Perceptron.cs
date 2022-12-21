@@ -51,15 +51,28 @@ public class Perceptron : PerceptronModel
             inputss[i] = eye[i - inputs.Length];
         }
         Array.Copy(inputss, 0, layers[0].Neurons, 0, inputss.Length);
+        Random random = new Random();
+        int lastLayer = layers.Length;
+        bool[] dropOutLayerNeuron = new bool[layers[0].Size];
+        bool[] dropOutLayerNeuronNext;
+        Array.Fill(dropOutLayerNeuron, false);
         for (int i = 1; i < layers.Length; i++)
         {
             Layer layer = layers[i - 1];
             Layer layerNext = layers[i];
+            dropOutLayerNeuronNext = new bool[layers[i].Size];
             for (int j = 0; j < layerNext.Size; j++)
             {
+                dropOutLayerNeuronNext[j] = false;
                 layerNext.Neurons[j] = 0;
+                if (random.Next(100) <= 55 & lastLayer - 1 != i)
+                {
+                    dropOutLayerNeuronNext[j] = true;
+                    continue;
+                }
                 for (int k = 0; k < layer.Size; k++)
                 {
+                    if(dropOutLayerNeuron[k]){ continue;}
                     layerNext.Neurons[j] += layer.Neurons[k] * layer.Weights[k, j];
                 }
                 
@@ -68,6 +81,7 @@ public class Perceptron : PerceptronModel
 
 
             }
+            dropOutLayerNeuron = dropOutLayerNeuronNext;
         }
         double ma = layers[layers.Length - 1].Neurons.Max();
         int index = Array.FindLastIndex(layers[layers.Length - 1].Neurons, delegate(double i) { return i == ma; });
@@ -81,9 +95,6 @@ public class Perceptron : PerceptronModel
         return Array.FindLastIndex(layers[layers.Length - 1].Neurons, delegate(double i) { return i == ma;});
     }
     
-    
-    
-    // TODO dropOut - рандомное выключение нейронов. решить проблему переобучения
     public void BackPropagation(double energy, long population)
     {
         int neuron = Array.FindLastIndex(ActivatedNeurons, delegate(int i) { return i == ActivatedNeurons.Max();});

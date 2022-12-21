@@ -60,19 +60,9 @@ public class Bot: BaseModel
             Death(x, y, bots);
             return;
         }
-
-        Random random = new Random();
-        if (random.Next(100) > 95)
-        {
-            step = random.Next(12);
-            if (step == 8)
-            {
-                step++;
-            }
-        }
         if (step == -1)
         {
-            step = random.Next(12);
+            step = new Random().Next(12);
             if (step == 8)
             {
                 step++;
