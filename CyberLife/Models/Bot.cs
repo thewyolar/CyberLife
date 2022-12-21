@@ -60,19 +60,9 @@ public class Bot: BaseModel
             Death(x, y, bots);
             return;
         }
-
-        Random random = new Random();
-        if (random.Next(100) > 95)
-        {
-            step = random.Next(12);
-            if (step == 8)
-            {
-                step++;
-            }
-        }
         if (step == -1)
         {
-            step = random.Next(12);
+            step = new Random().Next(12);
             if (step == 8)
             {
                 step++;
@@ -88,7 +78,7 @@ public class Bot: BaseModel
         }else if (step == 10)
         {
             Generation(x, y, map);
-        }else if (step == 11)
+        }else if (step == 11 & Energy > 2)
         {
             long loseEnergy = -Math.Abs(Energy / 2);
             UpdateEnergy(loseEnergy);
@@ -317,32 +307,32 @@ public class Bot: BaseModel
             }
             if (rgbInt[0] < 250 & rgbInt[2] == 0)
             {
-                rgbInt[0] += random.Next(100);
+                rgbInt[0] += random.Next(50) + 50;
                 if (rgbInt[0] > 254) { rgbInt[0] = 250; }
             } else if (rgbInt[1] > 0 & rgbInt[2] == 0)
             {
-                rgbInt[1] -= random.Next(100);
+                rgbInt[1] -= random.Next(50) + 50;
                 if (rgbInt[1] < 0) { rgbInt[1] = 0; }
             }else if (rgbInt[2] < 250 & rgbInt[1] == 0)
             {
-                rgbInt[2] += random.Next(100);
+                rgbInt[2] += random.Next(50) + 50;
                 if (rgbInt[2] > 254) { rgbInt[2] = 250; }
             }else if (rgbInt[0] > 0)
             {
-                rgbInt[0] -= random.Next(100);
+                rgbInt[0] -= random.Next(50) + 50;
                 if (rgbInt[0] < 0) { rgbInt[0] = 0; }
             }else if (rgbInt[1] < 250)
             {
-                rgbInt[1] += random.Next(100);
+                rgbInt[1] += random.Next(50) + 50;
                 if (rgbInt[1] > 254) { rgbInt[1] = 250; }
             }else if (rgbInt[2] > 0)
             {
-                rgbInt[2] -= random.Next(100);
+                rgbInt[2] -= random.Next(50) + 50;
                 if (rgbInt[2] < 0) { rgbInt[2] = 0; }
             }else
             {
                 rgbInt[0] = random.Next(250);
-                rgbInt[1] = random.Next(250);
+                rgbInt[1] = 250;
                 rgbInt[2] = random.Next(250);
             }
             color = rgbInt[0] + ", " + rgbInt[1] + ", " + rgbInt[2];

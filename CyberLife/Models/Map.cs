@@ -73,7 +73,7 @@ public class Map : MapModel
                     try
                     {
                         if (Bots[i + 1, j - 1] is null) eye[2] = 0;
-                        else if (Bots[i, j].Color.Equals(Bots[i + 1, j + 1].Color)) eye[2] = 1;
+                        else if (Bots[i, j].Color.Equals(Bots[i + 1, j - 1].Color)) eye[2] = 1;
                         else eye[2] = 2;
                     }
                     catch (Exception ignore) { eye[2] = -1; }
@@ -237,7 +237,7 @@ public class Map : MapModel
                     bool hereBot = random.Next(100) < botSpawnChance;
                     if (hereBot)
                     {
-                        Bots[x, y] = new Bot(random.Next(250) + ", " + random.Next(250) + ", " + random.Next(250));
+                        Bots[x, y] = new Bot(random.Next(250) + ", " + "250, " + random.Next(250));
                         AddType(Bots[x, y].Brain);
                     }
 
