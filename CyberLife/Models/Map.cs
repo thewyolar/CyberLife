@@ -2,6 +2,16 @@ using CyberLife.Neuronet;
 
 namespace CyberLife.Models;
 
+public enum BiomType
+{
+    DESERT = 2,
+    WATER = 0,
+    TROPIC = 7,
+    TEMPERATE = 6,
+    TAIGA = 3,
+    TUNDRA = 1
+    
+}
 public class Map : MapModel
 {
     public Bot[,] Bots;
@@ -20,12 +30,6 @@ public class Map : MapModel
     };
 
     public string[,] ColorMap;
-    // DESERT = 2,
-    // WATER = 0,
-    // TROPIC = 7,
-    // TEMPERATE = 6,
-    // TAIGA = 3,
-    // TUNDRA = 1
     public Map()
     {
         CreateMap(width: 78, height: 40, widthBiome: 30, sizeBiome: 300);
@@ -262,22 +266,22 @@ public class Map : MapModel
             int dice = random.Next(100);
             int biome = 0;
             if (dice < 5){ 
-                biome = 0;
+                biome = (int)BiomType.WATER;
             }
             else if (dice < 10){
-                biome = 1;
+                biome = (int)BiomType.TUNDRA;
             }
             else if (dice < 15){
-                biome = 2;
+                biome = (int)BiomType.DESERT;
             }
             else if (dice < 20){
-                biome = 3;
+                biome = (int)BiomType.TAIGA;
             }
             else if (dice < 60){
-                biome = 6;
+                biome = (int)BiomType.TEMPERATE;
             }
             else if (dice < 100){
-                biome = 7;
+                biome = (int)BiomType.TROPIC;
             }
             // Помещяется ли биом в карту
             if (!(mapLength - (billomSizeY + sizeBiome) < 0)){
