@@ -10,11 +10,18 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ApplicationDbContext>();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    await RoleInitializer.InitializeAsync(
+        scope.ServiceProvider.GetRequiredService<UserManager<User>>(), 
+        scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>());
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
