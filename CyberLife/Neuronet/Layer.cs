@@ -7,13 +7,13 @@ public class Layer : LayerModel, IComparable<Layer>
     public Func<double, double>[]  NeuronsActivation { get; set; }
     public Func<double, double>[]  DerivativeActivation { get; set; }
 
-    private static readonly Func<double, double>[] Activation = { (x) => (1 / (1 + Math.Exp(-x * 10000))),
+    private static readonly Func<double, double>[] Activation = { (x) => (1 / (1 + Math.Exp(-x * 10))),
                                                                 (x) => (1 / (1 + Math.Exp(-x))),
                                                                 (x) => (Math.Pow(Math.Sin(10000 * x), 2))
                                                                 
     };
-    private static readonly Func<double, double>[] Derivative = { (y) => (10000 * y / (1 + y * y)),
-                                                                (y) => (y / (1 + y * y)),
+    private static readonly Func<double, double>[] Derivative = { (y) => ((10 * Math.Exp(10 * y)) / (Math.Pow((Math.Exp(10 * y) + 1), 2))),
+                                                                (y) => (Math.Exp(y) / (Math.Pow((Math.Exp(y) + 1), 2))),
                                                                 (y) => (20000 * Math.Sin(10000 * y) * Math.Cos(10000 * y))
                                                                 
     };
