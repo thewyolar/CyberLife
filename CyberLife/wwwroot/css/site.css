@@ -127,3 +127,7 @@ span i:hover {
   background-color: #148c7b;
   border-color: #148c7b;
 }
+
+.botLoading{
+  color: black;
+}
