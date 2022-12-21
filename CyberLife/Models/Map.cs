@@ -2,6 +2,17 @@ using CyberLife.Neuronet;
 
 namespace CyberLife.Models;
 
+public enum BiomType
+{
+    DESERT = 2,
+    WATER = 0,
+    TROPIC = 7,
+    TEMPERATE = 6,
+    TAIGA = 3,
+    TUNDRA = 1
+}
+
+
 public class Map : MapModel
 {
     public Bot[,] Bots;
@@ -186,6 +197,7 @@ public class Map : MapModel
         int x = 0;
         int y = 0;
         // i - количество биомов
+        Console.WriteLine(bioms.Count);
         for (int i = 0; i < bioms.Count; i++)
         {
             Console.WriteLine(i);
@@ -305,6 +317,4 @@ public class Map : MapModel
         }
         return bioms;
     }
-
-
 }
