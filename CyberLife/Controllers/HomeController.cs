@@ -18,12 +18,14 @@ public class HomeController : Controller
         _logger = logger;
         _context = context;
     }
+    
     [Authorize]
     public IActionResult GetAllBot()
     {
         List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
         return View(_context.Perceptrons.Where(x => x.User.Id == user[0].Id).ToList());
     }
+    
     [Authorize]
     public IActionResult BotList()
     {
@@ -43,6 +45,7 @@ public class HomeController : Controller
         _context.SaveChanges();
         return Response.WriteAsJsonAsync("{ \"save\": true }");
     }
+    
     [Authorize]
     [HttpPost]
     public void LoadingBot(IList<string> bots)
@@ -65,6 +68,30 @@ public class HomeController : Controller
             AjaxController.Maps[0].Bots[x, y] = new Bot(perceptron);
         }
         AjaxController.Maps[0].AddType(perceptron);
+    }
+    
+    [Authorize(Roles = "Admin")]
+    public IActionResult GetAllMaps()
+    {
+        return View(_context.Maps.ToList());
+    }
+    
+    [Authorize(Roles = "Admin")]
+    public Task SaveMap(string name)
+    {
+        List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
+        _context.Maps.Add(new MapModel(AjaxController.Maps[0].MapTypes, name, user[0]));
+        _context.SaveChanges();
+        return Response.WriteAsJsonAsync("{ \"save\": true }");
+    }
+
+    [Authorize]
+    public RedirectResult loadMap(string mapId)
+    {
+        IList<MapModel> mapModels = _context.Maps.Where(x => x.Id==Guid.Parse(mapId)).ToList();
+        AjaxController.Maps[0].MapTypes = mapModels[0].MapTypes;
+        AjaxController.Maps[0].ChangeColorMap();
+        return Redirect("/Ajax/Start");
     }
 
     public IActionResult About()

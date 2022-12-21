@@ -10,8 +10,8 @@ public enum BiomType
     TEMPERATE = 6,
     TAIGA = 3,
     TUNDRA = 1
-    
 }
+
 public class Map : MapModel
 {
     public Bot[,] Bots;
@@ -19,6 +19,7 @@ public class Map : MapModel
     private IList<long> BeforeAllEnergyType = new List<long>();
     private IList<long> BeforePopulationType = new List<long>();
     private int Circle = 0;
+    public string[,] ColorMap;
     private Dictionary<int, string> ColorMapInt = new Dictionary<int, string>
     {
         {2, "163, 116, 21"},
@@ -29,7 +30,6 @@ public class Map : MapModel
         {1, "6, 191, 191"}
     };
 
-    public string[,] ColorMap;
     public Map()
     {
         CreateMap(width: 78, height: 40, widthBiome: 30, sizeBiome: 300);
@@ -150,6 +150,17 @@ public class Map : MapModel
         BotTypes.Add(perceptron);
         BeforePopulationType.Add(perceptron.Population);
         BeforeAllEnergyType.Add(perceptron.AllEnergy);
+    }
+
+    public void ChangeColorMap()
+    {
+        for (int i = 0; i < MapTypes.GetLength(0); i++)
+        {
+            for (int j = 0; j < MapTypes.GetLength(1); j++)
+            {
+                ColorMap[i, j] = ColorMapInt[MapTypes[i, j]];
+            }
+        }
     }
 
     private void CreateMap(int width = 10, int height = 10, int botSpawnChance = 50, int widthBiome = 5, int sizeBiome = 50)
@@ -298,6 +309,4 @@ public class Map : MapModel
         }
         return bioms;
     }
-
-
 }
