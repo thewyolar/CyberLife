@@ -19,9 +19,11 @@ public class HomeController : Controller
         _context = context;
     }
     
+    [Authorize]
     public IActionResult GetAllBot()
     {
-        return View(_context.Perceptrons.ToList());
+        List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
+        return View(_context.Perceptrons.Where(x => x.User.Id == user[0].Id).ToList());
     }
     
     [Authorize]
@@ -37,7 +39,8 @@ public class HomeController : Controller
         _context.SaveChanges();
         return Response.WriteAsJsonAsync("{ \"save\": true }");
     }
-
+    
+    [Authorize]
     [HttpPost]
     public void LoadingBot(IList<string> bots)
     {
@@ -76,7 +79,7 @@ public class HomeController : Controller
         return Response.WriteAsJsonAsync("{ \"save\": true }");
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public RedirectResult loadMap(string mapId)
     {
         IList<MapModel> mapModels = _context.Maps.Where(x => x.Id==Guid.Parse(mapId)).ToList();

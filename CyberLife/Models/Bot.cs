@@ -35,7 +35,7 @@ public class Bot: BaseModel
         Energy = 100;
         this.Color = color;
         this.RGB = this.Color.Split(" ");
-        Brain = new Perceptron(9, 10, 10, 10, 10, 10, 12);
+        Brain = new Perceptron(9, 9, 9, 9, 9, 12);
         this.Brain.RGB = this.RGB;
         this.Brain.AllEnergy += this.Energy;
         this.Brain.Population++;
@@ -60,8 +60,19 @@ public class Bot: BaseModel
             Death(x, y, bots);
             return;
         }
+        Random random = new Random();
+        if (random.Next(100) > 95)
+        {
+            step = random.Next(12);
+            if (step == 8)
+            {
+                step++;
+            }
+        }
         if (step == -1)
         {
+            UpdateEnergy(-1);
+            return;
             step = new Random().Next(12);
             if (step == 8)
             {
@@ -78,12 +89,15 @@ public class Bot: BaseModel
         }else if (step == 10)
         {
             Generation(x, y, map);
-        }else if (step == 11 & Energy > 2)
+        }else if (step == 11 & Energy > 2 & eye.Contains(0))
         {
             long loseEnergy = -Math.Abs(Energy / 2);
             UpdateEnergy(loseEnergy);
             Reproduction(x, y, -loseEnergy, bots, Brain, Color, IsStep);
 
+        }else
+        {
+            UpdateEnergy(-1);
         }
         if (Energy <= 0)
         {
@@ -271,6 +285,19 @@ public class Bot: BaseModel
         }
         if (isGenerator == 0 & energyLoss > 0 & !isAttack) {
             return;
+        }
+        if (isAttack)
+        {
+            if (this.Energy >= 500 & energyLoss > 0) {
+                isGenerator = 0;
+                return;
+            }
+            if (this.Energy <= 250) {
+                isGenerator = 1;
+            }
+            if (isGenerator == 0 & energyLoss > 0) {
+                return;
+            }
         }
         this.Energy += energyLoss;
         if (this.Energy <= 0)

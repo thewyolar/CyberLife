@@ -102,11 +102,11 @@ public class Perceptron : PerceptronModel
         for (int i = 0; i < layers[layers.Length - 1].Size; i++) {
             if (population < 0)
             {
-                errors[neuron] -= 5;
+                errors[neuron] -= 2;
             }
             else if (population > 0)
             {
-                errors[neuron] += 5;
+                errors[neuron] += 2;
             }
             else if(energy > 0)
             {
@@ -132,7 +132,7 @@ public class Perceptron : PerceptronModel
             for (int i = 0; i < layerNext.Size; i++)
             {
                 gradients[i] = errors[i] * layer.DerivativeActivation[i](layers[k + 1].Neurons[i]);
-                gradients[i] *= 0.01;
+                gradients[i] *= 0.001;
             }
 
             double[,] deltas = new double[layerNext.Size, layer.Size];
