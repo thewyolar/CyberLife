@@ -1,5 +1,4 @@
-function ajaxUpdate()
-{
+function ajaxUpdate() {
     return $(document).ready(function () {
         $.ajax({
             type: "GET",
@@ -23,8 +22,7 @@ let timerId = null;
 let speedAjax = 70;
 let lastVal = 0;
 
-function start()
-{
+function start() {
     $("#speed").html(speedAjax);
     if(timerId == null){
         timerId = setInterval(ajaxUpdate, speedAjax);
@@ -45,8 +43,7 @@ function minusSpeed()
     $("#speed").html(speedAjax);
 }*/
 
-function changeSpeed() 
-{
+function changeSpeed() {
     let speed = document.getElementById("speed");
     let switcher = document.getElementById("speedSwitcher");
     if (switcher.value > lastVal) {
@@ -58,13 +55,12 @@ function changeSpeed()
     speed.value = speedAjax;
 }
 
-function stop()
-{
+function stop() {
     clearInterval(timerId);
     timerId = null;
 }
 
-function saveBot(){
+function saveBot() {
     stop();
     let bots = document.getElementsByClassName("bot");
     for (let i = 0; i < bots.length; i++){
@@ -88,10 +84,10 @@ function saveBot(){
     }
 }
 
-function selectSaveBot(botId){
+function selectSaveBot(botId) {
     stop();
     let xy = botId.split(",");
-    let nameBot = prompt("Ввидите имя бота");
+    let nameBot = prompt("Введите имя бота");
     $.ajax({
         type: "POST",
         url: "/Home/SaveBot",
@@ -118,7 +114,7 @@ function selectSaveBot(botId){
     });
 }
 
-function getAllBot(){
+function getAllBot() {
     stop();
     $(document).ready(function () {
         $.ajax({
@@ -134,10 +130,11 @@ function getAllBot(){
             }
         });
     })
-    
 }
+
 let loadingBots = [];
-function selectBotForLoading(){
+
+function selectBotForLoading() {
     stop();
     let bots = document.getElementsByClassName("botLoading");
     for (let i = 0; i < bots.length; i++) {
@@ -161,7 +158,7 @@ function selectBotForLoading(){
     }
 }
 
-function selectBotLoading(color){
+function selectBotLoading(color) {
     stop();
     let bots = document.getElementsByClassName("bot");
     for (let i = 0; i < bots.length; i++) {
@@ -178,7 +175,7 @@ function selectBotLoading(color){
     }
 }
 
-function loadingBot(){
+function loadingBot() {
     stop();
     $(document).ready(function () {
         $.ajax({
@@ -190,6 +187,94 @@ function loadingBot(){
             dataType: "html",
             success: function (result) {
                 $("#allBot").html(result);
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
+}
+
+function getAllMaps() {
+    stop();
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetAllMaps",
+            dataType: "html",
+            success: function (result) {
+                $("#allMaps").html(result);
+                selectMapForLoading();
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
+}
+
+function saveMap() {
+    stop();
+    let mapName = prompt("Введите название карты");
+    $.ajax({
+        type: "POST",
+        url: "/Home/SaveMap",
+        data: {
+            name: mapName
+        },
+        async: false,
+        success: function (result) {
+            let isSave = JSON.parse(result);
+            if(isSave["save"]){
+                alert("Карта сохранена");
+            }else {
+                alert("Карта не сохранена");
+            }
+        },
+        error: function (err) {
+            alert("Карта не сохранена");
+        },
+        complete: function (){
+            return true;
+        }
+    });
+}
+
+function selectMapForLoading() {
+    stop();
+    let maps = document.getElementsByClassName("mapLoading");
+    for (let i = 0; i < maps.length; i++) {
+        maps[i].onmouseover = function () {
+            this.style.color = "rgb(0, 0, 0)";
+        };
+        maps[i].onmouseleave = function () {
+            this.style.color = "";
+        };
+        maps[i].onclick = function () {
+            loadMap(this.id);
+            this.style.backgroundColor = "rgb(0, 0, 0)";
+            let maps = document.getElementsByClassName("mapLoading");
+            for (let i = 0; i < maps.length; i++) {
+                maps[i].onmouseover = null;
+                maps[i].onmouseleave = null;
+                maps[i].onclick = null;
+            }
+        };
+    }
+}
+
+function loadMap(id) {
+    stop();
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/LoadMap",
+            data: {
+                mapId: id
+            },
+            dataType: "html",
+            success: function (result) {
+                $("#gr").html(result);
             },
             error: function (err) {
                 $("#gr").val("Error while uploading data: \n\n" + err);

@@ -148,6 +148,17 @@ public class Map : MapModel
         BeforeAllEnergyType.Add(perceptron.AllEnergy);
     }
 
+    public void ChangeColorMap()
+    {
+        for (int i = 0; i < MapTypes.GetLength(0); i++)
+        {
+            for (int j = 0; j < MapTypes.GetLength(1); j++)
+            {
+                ColorMap[i, j] = ColorMapInt[MapTypes[i, j]];
+            }
+        }
+    }
+
     private void CreateMap(int width = 10, int height = 10, int botSpawnChance = 50, int widthBiome = 5, int sizeBiome = 50)
     {
         int n = width;

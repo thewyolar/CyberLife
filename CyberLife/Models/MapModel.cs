@@ -1,20 +1,17 @@
 namespace CyberLife.Models;
-public enum MapType
-{
-    DESERT = 2,
-    WATER = 0,
-    TROPIC = 7,
-    TEMPERATE = 6,
-    TAIGA = 3,
-    TUNDRA = 1
-    
-}
-
 
 public class MapModel : BaseModel
 {
-
     public string Name { get; set; } = "map";
+    public User User { get; set; }
     public int[,] MapTypes { get; set; }
     
+    public MapModel() {}
+    
+    public MapModel(int[,] mapType, string name, User user)
+    {
+        this.MapTypes = mapType;
+        this.Name = name;
+        this.User = user;
+    }
 }

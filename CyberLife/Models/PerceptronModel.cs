@@ -8,7 +8,7 @@ public class PerceptronModel : BaseModel
     public IList<LayerModel> Layers { get; set; }
     public string[] RGB { get; set; }
     public User User { get; set; }
-    public PerceptronModel(){}
+    public PerceptronModel() {}
     
     public PerceptronModel(Perceptron perceptron, string name, User user)
     {
