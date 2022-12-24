@@ -20,7 +20,6 @@ function ajaxUpdate() {
 
 let timerId = null;
 let speedAjax = 70;
-let lastVal = 0;
 
 function start() {
     $("#speed").html(speedAjax);
@@ -29,30 +28,17 @@ function start() {
     }
 }
 
-/*function plusSpeed()
-{
+function plusSpeed() {
     stop();
-    speedAjax -= 10;
+    if (speedAjax > 0)
+        speedAjax -= 10;
     $("#speed").html(speedAjax);
 }
 
-function minusSpeed()
-{
+function minusSpeed() {
     stop();
     speedAjax += 10;
     $("#speed").html(speedAjax);
-}*/
-
-function changeSpeed() {
-    let speed = document.getElementById("speed");
-    let switcher = document.getElementById("speedSwitcher");
-    if (switcher.value > lastVal) {
-        speedAjax -= Math.abs(switcher.value - lastVal);
-    } else if (switcher <= lastVal)
-        speedAjax += Math.abs(lastVal - switcher.value);
-    lastVal = switcher.value;
-    $("#speed").html(speedAjax);
-    speed.value = speedAjax;
 }
 
 function stop() {

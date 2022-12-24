@@ -36,13 +36,15 @@
     
     <div class="container mt-2">
         <div class="row">
-            <div class="col-2">
-                <div class="d-inline-block">
+            <div class="col-1">
+                <div class="d-inline-block mb-1">
                     <span class="fa-2x float-s" onclick="saveBot()">
-                        <i class="fa-regular fa-floppy-disk"></i>
+                        <p title="Сохранить бота">
+                            <i class="fa-regular fa-floppy-disk"></i>
+                        </p>
                     </span>
                 </div>
-                <div class="d-inline-block ms-2">
+                <div class="d-inline-block ms-2 pb-0">
                     <span class="fa-2x float-s" onclick="getAllBot()">
                         <i class="fa-solid fa-download"></i>
                     </span>
@@ -62,15 +64,21 @@
                 <div class="d-inline-block pt-2">
                     <p id="speed"></p>
                 </div>
-                <div class="d-inline-block float-end pt-3">
-                    <input id="speedSwitcher" type="range" min="-100" max="100" step="10" value="0" onchange="changeSpeed(this.value)">
+                <div class="d-inline-block ms-2 pt-1">
+                    <span class="fa-2x" onclick="plusSpeed()">
+                        <p title="Увеличить скорость">
+                            <i class="fa-solid fa-plus"></i>
+                        </p>
+                    </span>
+                </div>
+                <div class="d-inline-block ms-2 pt-1">
+                    <span class="fa-2x float-s" onclick="minusSpeed()">
+                        <p title="Уменьшить скорость">
+                            <i class="fa-solid fa-minus"></i>
+                        </p>
+                    </span>
                 </div>
             </div>
-        </div>
-        <div>
-            <span class="fa-2x float-s" onclick="getAllMaps()">
-                <i class="fa-solid fa-download"></i>
-            </span>
         </div>
         <div id="allMaps"></div>
         <div id="allBot"></div>

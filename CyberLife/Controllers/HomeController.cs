@@ -25,13 +25,7 @@ public class HomeController : Controller
         List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
         return View(_context.Perceptrons.Where(x => x.User.Id == user[0].Id).ToList());
     }
-    
-    [Authorize]
-    public IActionResult BotList()
-    {
-        List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
-        return View(_context.Perceptrons.Where(x => x.User.Id == user[0].Id).ToList());
-    }
+
     [Authorize]
     [HttpPost]
     public Task SaveBot(int x, int y, string name)
