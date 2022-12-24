@@ -52,7 +52,6 @@ function saveBot() {
     for (let i = 0; i < bots.length; i++){
         bots[i].onmouseover = function (){
             this.style.borderWidth = "3px";
-            // this.style.borderColor = "rgb(0, 0, 0);"
         };
         bots[i].onmouseleave = function (){
             this.style.borderWidth = "";
@@ -162,32 +161,9 @@ function changeBot(perceptronId) {
 
 let loadingBots = [];
 
-function selectBotForLoading() {
+function selectBotLoading(botId, color) {
     stop();
-    let bots = document.getElementsByClassName("botLoading");
-    for (let i = 0; i < bots.length; i++) {
-        bots[i].onmouseover = function () {
-            this.style.color = "rgb(0, 0, 0)";
-        };
-        bots[i].onmouseleave = function () {
-            this.style.color = "";
-        };
-        bots[i].onclick = function () {
-            selectBotLoading(this.style.backgroundColor);
-            loadingBots.push(this.id);
-            this.style.backgroundColor = "rgb(0, 0, 0)";
-            let bots = document.getElementsByClassName("botLoading");
-            for (let i = 0; i < bots.length; i++) {
-                bots[i].onmouseover = null;
-                bots[i].onmouseleave = null;
-                bots[i].onclick = null;
-            }
-        };
-    }
-}
-
-function selectBotLoading(color) {
-    stop();
+    loadingBots.push(botId);
     let bots = document.getElementsByClassName("bot");
     for (let i = 0; i < bots.length; i++) {
         bots[i].onmouseover = function () {
@@ -215,6 +191,7 @@ function loadingBot() {
             dataType: "html",
             success: function (result) {
                 $("#allBot").html(result);
+                loadingBots = [];
             },
             error: function (err) {
                 $("#gr").val("Error while uploading data: \n\n" + err);
@@ -231,8 +208,7 @@ function getAllMaps() {
             url: "/Home/GetAllMaps",
             dataType: "html",
             success: function (result) {
-                $("#allMaps").html(result);
-                selectMapForLoading();
+                $("#mapListModalBody").html(result);
             },
             error: function (err) {
                 $("#gr").val("Error while uploading data: \n\n" + err);
@@ -273,14 +249,14 @@ function selectMapForLoading() {
     let maps = document.getElementsByClassName("mapLoading");
     for (let i = 0; i < maps.length; i++) {
         maps[i].onmouseover = function () {
-            this.style.color = "rgb(0, 0, 0)";
+            this.style.border = "1px solid black";
         };
         maps[i].onmouseleave = function () {
-            this.style.color = "";
+            this.style.border = "";
         };
         maps[i].onclick = function () {
             loadMap(this.id);
-            this.style.backgroundColor = "rgb(0, 0, 0)";
+            this.style.border = "1px solid black";
             let maps = document.getElementsByClassName("mapLoading");
             for (let i = 0; i < maps.length; i++) {
                 maps[i].onmouseover = null;

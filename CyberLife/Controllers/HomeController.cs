@@ -25,6 +25,7 @@ public class HomeController : Controller
         List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
         return View(_context.Perceptrons.Where(x => x.User.Id == user[0].Id).ToList());
     }
+    
     [Authorize]
     public IActionResult DeleteBot(string perceptronId)
     {
@@ -39,6 +40,7 @@ public class HomeController : Controller
         }
         return Redirect("GetAllBot");
     }
+    
     [Authorize]
     public IActionResult ChangeBot(string perceptronId, string name)
     {
