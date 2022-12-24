@@ -6,29 +6,29 @@ namespace CyberLife.Controllers;
 public class AjaxController : Controller
 {
     
-    public static IList<Map> Maps = new List<Map> {new Map()};
-    private static bool start = true;
-
-
+    public static Dictionary<string, Map> Maps = new Dictionary<string, Map>();
+    public static IList<string> Session = new List<string>();
+    
     public IActionResult Restart()
     {
-        Maps[0] = new Map();
+        Maps[HttpContext.Session.GetString(HttpContext.Session.Id)] = new Map();
         return Redirect("Start");
     }
     public IActionResult Main()
     {
-        return View(Maps[0]);
+        if (!Maps.ContainsKey(HttpContext.Session.Id))
+        {
+            HttpContext.Session.SetString(HttpContext.Session.Id, HttpContext.Session.Id);
+            Session.Add(HttpContext.Session.Id);
+            Maps.Add(HttpContext.Session.Id, new Map());
+        }
+        return View(Maps[HttpContext.Session.GetString(HttpContext.Session.Id)]);
     }
     
     public IActionResult Start()
     {
-        if (start)
-        {
-            start = false;
-            Maps[0].Work();
-            start = true;
-        }
-        return View(Maps[0]);
+        Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].Work(HttpContext.Session.GetString(HttpContext.Session.Id));
+        return View(Maps[HttpContext.Session.GetString(HttpContext.Session.Id)]);
     }
 
 }

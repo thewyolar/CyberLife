@@ -20,6 +20,7 @@ public class Map : MapModel
     private IList<long> BeforePopulationType = new List<long>();
     private int Circle = 0;
     public string[,] ColorMap;
+    private bool IsWork = false;
     private Dictionary<int, string> ColorMapInt = new Dictionary<int, string>
     {
         {2, "163, 116, 21"},
@@ -35,8 +36,10 @@ public class Map : MapModel
         CreateMap(width: 78, height: 40, widthBiome: 30, sizeBiome: 300);
     }
 
-    public void Work()
+    public void Work(string session)
     {
+        if(IsWork) return;
+        IsWork = true;
         int x = MapTypes.GetLength(0);
         int y = MapTypes.GetLength(1);
         for (int j = 0; j < BotTypes.Count; j++)
@@ -119,11 +122,11 @@ public class Map : MapModel
                     if (Bots[i, j].IsStep == 0 & Circle == 0)
                     {
                         Bots[i, j].IsStep++;
-                        Bots[i, j].ActivateBrain(eye, i, j, Bots, MapTypes);
+                        Bots[i, j].ActivateBrain(eye, i, j, Bots, MapTypes, session);
                     }else if (Bots[i, j].IsStep == 1 & Circle == 1)
                     {
                         Bots[i, j].IsStep--;
-                        Bots[i, j].ActivateBrain(eye, i, j, Bots, MapTypes);
+                        Bots[i, j].ActivateBrain(eye, i, j, Bots, MapTypes, session);
                     }
                 }
             }
@@ -142,6 +145,7 @@ public class Map : MapModel
         {
             BotTypes[i].BackPropagation(BotTypes[i].AllEnergy- BeforeAllEnergyType[i], BotTypes[i].Population - BeforePopulationType[i]);
         }
+        IsWork = false;
     }
 
 
