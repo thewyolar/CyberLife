@@ -131,3 +131,7 @@ span i:hover {
 .botLoading{
   color: black;
 }
+
+.modal-content {
+  background-color: #242424;
+}

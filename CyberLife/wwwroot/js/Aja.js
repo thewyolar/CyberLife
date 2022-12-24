@@ -122,7 +122,7 @@ function getAllBot() {
             url: "/Home/GetAllBot",
             dataType: "html",
             success: function (result) {
-                $("#allBot").html(result);
+                $("#botListModalBody").html(result);
                 selectBotForLoading();
             },
             error: function (err) {
