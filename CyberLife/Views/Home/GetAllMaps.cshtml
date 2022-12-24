@@ -1,11 +1,44 @@
-﻿@model IList<MapModel>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@model IList<MapModel>
 @{
     Layout = null;
 }
-<!--<div>
-    <button onClick="loadMap()">loading</button>
-</div>-->
-@for (int i = 0; i < Model.Count; i++)
+@if (Model.Count == 0)
 {
-    <div id="@Model[i].Id" class="mapLoading">@Model[i].Name</div>
+    <p>У вас нет сохраненных карт!</p>
+}
+else
+{
+    <ol class="list-group list-group-numbered">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <li id="@Model[i].Id" class="list-group-item mapLoading pb-0">@Model[i].Name
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="d-inline-block float-end">
+                        <span class="fa-1x" onclick="deleteMap('@Model[i].Id')">
+                            <p title="Удалить карту">
+                                <i class="fa-solid fa-trash"></i>
+                            </p>
+                        </span>
+                    </div>
+                    <div class="d-inline-block float-end mx-1">
+                        <span class="fa-1x" onclick="changeMap('@Model[i].Id')">
+                            <p title="Изменить название карты">
+                                <i class="fa-solid fa-pen"></i>
+                            </p>
+                        </span>
+                    </div>
+                }
+                <div class="d-inline-block float-end mx-1">
+                    <span class="fa-1x" onclick="loadMap('@Model[i].Id')">
+                        <p title="Загрузить карту">
+                            <i class="fa-solid fa-download"></i>
+                        </p>
+                    </span>
+                </div>
+            </li>
+        }
+    </ol>
 }

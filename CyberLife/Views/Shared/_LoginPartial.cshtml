@@ -6,6 +6,9 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#mapListModal" id="botList" onclick="getAllMaps()">MapList</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-bs-toggle="modal" data-bs-target="#botListModal" id="botList" onclick="getAllBot()">BotList</a>
         </li>
         <li class="nav-item">
@@ -35,6 +38,18 @@
                 <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body" id="botListModalBody">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="mapListModal" class="modal fade" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="mapModalLabel">Список сохраненных карт</h5>
+                <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body" id="mapListModalBody">
             </div>
         </div>
     </div>

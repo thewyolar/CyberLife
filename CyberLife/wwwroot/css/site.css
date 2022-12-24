@@ -128,10 +128,16 @@ span i:hover {
   border-color: #148c7b;
 }
 
-.botLoading {
-  color: black;
-}
-
 .modal-content {
   background-color: #242424;
+}
+
+.botLoading, .mapLoading {
+  color: black;
+  height: 40px;
+}
+
+#botListModalBody, #mapListModalBody {
+  max-height: 500px;
+  overflow-y: scroll;
 }
