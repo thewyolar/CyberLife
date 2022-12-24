@@ -22,10 +22,37 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult GetAllBot()
     {
-        List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
+        List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
         return View(_context.Perceptrons.Where(x => x.User.Id == user[0].Id).ToList());
     }
-
+    [Authorize]
+    public IActionResult DeleteBot(string perceptronId)
+    {
+        List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
+        List<LayerModel> layer = _context.Layers.Where(x => x.PerceptronModel.Id == Guid.Parse(perceptronId)).ToList();
+        PerceptronModel perceptron = _context.Perceptrons.Find(Guid.Parse(perceptronId));
+        if (user[0].Id.Equals(perceptron.User.Id))
+        {
+            _context.Layers.RemoveRange(layer);
+            _context.Perceptrons.Remove(perceptron);
+            _context.SaveChanges();
+        }
+        return Redirect("GetAllBot");
+    }
+    
+    public IActionResult ChangeBot(string perceptronId, string name)
+    {
+        List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
+        PerceptronModel perceptron = _context.Perceptrons.Find(Guid.Parse(perceptronId));
+        perceptron.Name = name;
+        if (user[0].Id.Equals(perceptron.User.Id))
+        {
+            _context.Perceptrons.Update(perceptron);
+            _context.SaveChanges();
+        }
+        return Redirect("GetAllBot");
+    }
+    
     [Authorize]
     [HttpPost]
     public Task SaveBot(int x, int y, string name)
@@ -34,7 +61,7 @@ public class HomeController : Controller
         {
             return Response.WriteAsJsonAsync("{ \"save\": false }");
         }
-        List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
+        List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
         _context.Perceptrons.Add(new PerceptronModel(AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].Bots[x, y].Brain, name, user[0]));
         _context.SaveChanges();
         return Response.WriteAsJsonAsync("{ \"save\": true }");
@@ -81,7 +108,7 @@ public class HomeController : Controller
     [Authorize]
     public RedirectResult loadMap(string mapId)
     {
-        IList<MapModel> mapModels = _context.Maps.Where(x => x.Id==Guid.Parse(mapId)).ToList();
+        IList<MapModel> mapModels = _context.Maps.Where(x => x.Id == Guid.Parse(mapId)).ToList();
         AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].MapTypes = mapModels[0].MapTypes;
         AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].ChangeColorMap();
         return Redirect("/Ajax/Start");
