@@ -3,7 +3,7 @@ using CyberLife.Neuronet;
 
 namespace CyberLife.Models;
 
-public class Bot: BaseModel
+public class Bot
 {
     public string Color { get; set; }
     public string[] RGB { get; set; }
@@ -17,7 +17,7 @@ public class Bot: BaseModel
         if (isStep == 1)
         {
             this.IsStep = 0;
-        }else if (isStep == 0)
+        }else
         {
             this.IsStep = 1;
         }
@@ -176,7 +176,8 @@ public class Bot: BaseModel
                 return new int[] {x - 1, y - 1};
             }
         }
-        catch (Exception ignore){ }
+        catch (Exception) { // ignored
+        }
         try
         {
             if (step == 1 & bots[x, y - 1] is null)
@@ -186,7 +187,8 @@ public class Bot: BaseModel
                 return new int[] {x, y - 1};
             }
         }
-        catch (Exception ignore){ }
+        catch (Exception) { // ignored
+        }
         try
         {
             if (step == 2 & bots[x + 1, y - 1] is null)
@@ -196,8 +198,8 @@ public class Bot: BaseModel
                 return new int[] {x + 1, y - 1};
             }
         }
-        catch (Exception ignore) { }
-
+        catch (Exception) { // ignored
+        }
         try
         {
             if (step == 3 & bots[x + 1, y] is null)
@@ -207,8 +209,8 @@ public class Bot: BaseModel
                 return new int[] {x + 1, y};
             }
         }
-        catch (Exception ignore) { }
-
+        catch (Exception){ // ignored
+        }
         try
         {
             if (step == 4 & bots[x + 1, y + 1] is null)
@@ -218,8 +220,8 @@ public class Bot: BaseModel
                 return new int[] {x + 1, y + 1};
             }
         }
-        catch (Exception ignore) { }
-
+        catch (Exception) { // ignored
+        }
         try
         {
             if (step == 5 & bots[x, y + 1] is null)
@@ -229,8 +231,8 @@ public class Bot: BaseModel
                 return new int[] {x, y + 1};
             }
         }
-        catch (Exception ignore) { }
-
+        catch (Exception) { // ignored
+        }
         try
         {
             if (step == 6 & bots[x - 1, y + 1] is null)
@@ -240,8 +242,8 @@ public class Bot: BaseModel
                 return new int[] {x - 1, y + 1};
             }
         }
-        catch (Exception ignore) { }
-
+        catch (Exception) { // ignored
+        }
         try
         {
             if (step == 7 & bots[x - 1, y] is null)
@@ -251,7 +253,9 @@ public class Bot: BaseModel
                 return new int[] {x - 1, y};
             }
         }
-        catch (Exception ignore) { }
+        catch (Exception) { // ignored
+        }
+
         UpdateEnergy(-10);
         return new int[] {x, y};
     }
@@ -324,7 +328,7 @@ public class Bot: BaseModel
         bool isMutation = false;
         if (mutationProbability <= 5)
         {
-            brain = brain.makePerceptron();
+            brain = brain.MakePerceptron();
             isMutation = true;
             string[] rgb = color.Split(", ");
             int[] rgbInt = new int[3];
@@ -376,7 +380,8 @@ public class Bot: BaseModel
                 return;
             }
         }
-        catch (Exception ignore){ }
+        catch (Exception) { // ignored
+        }
         try
         {
             if (bots[x, y - 1] is null)
@@ -389,7 +394,8 @@ public class Bot: BaseModel
                 return;
             }
         }
-        catch (Exception ignore){ }
+        catch (Exception) { // ignored
+        }
         try
         {
             if (bots[x + 1, y - 1] is null)
@@ -402,8 +408,8 @@ public class Bot: BaseModel
                 return;
             }
         }
-        catch (Exception ignore) { }
-
+        catch (Exception) { // ignored
+        }
         try
         {
             if (bots[x + 1, y] is null)
@@ -416,8 +422,8 @@ public class Bot: BaseModel
                 return;
             }
         }
-        catch (Exception ignore) { }
-
+        catch (Exception) { // ignored
+        }
         try
         {
             if (bots[x + 1, y + 1] is null)
@@ -430,8 +436,8 @@ public class Bot: BaseModel
                 return;
             }
         }
-        catch (Exception ignore) { }
-
+        catch (Exception) { // ignored
+        }
         try
         {
             if (bots[x, y + 1] is null)
@@ -444,8 +450,8 @@ public class Bot: BaseModel
                 return;
             }
         }
-        catch (Exception ignore) { }
-
+        catch (Exception) { // ignored
+        }
         try
         {
             if (bots[x - 1, y + 1] is null)
@@ -458,8 +464,8 @@ public class Bot: BaseModel
                 return;
             }
         }
-        catch (Exception ignore) { }
-
+        catch (Exception) { // ignored
+        }
         try
         {
             if (bots[x - 1, y] is null)
@@ -472,9 +478,9 @@ public class Bot: BaseModel
                 return;
             }
         }
-        catch (Exception ignore) { }
+        catch (Exception) { // ignored
+        }
         bots[x, y].UpdateEnergy(energy - 50);
-        return;
     }
 
 }

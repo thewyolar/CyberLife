@@ -73,8 +73,7 @@ public class HomeController : Controller
     [Authorize(Roles = "Admin")]
     public Task SaveMap(string name)
     {
-        List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
-        _context.Maps.Add(new MapModel(AjaxController.Maps[0].MapTypes, name, user[0]));
+        _context.Maps.Add(new MapModel(AjaxController.Maps[0].MapTypes, name));
         _context.SaveChanges();
         return Response.WriteAsJsonAsync("{ \"save\": true }");
     }

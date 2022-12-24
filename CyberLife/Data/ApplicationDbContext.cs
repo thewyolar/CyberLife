@@ -11,7 +11,6 @@ public class ApplicationDbContext :  IdentityDbContext<User, IdentityRole, strin
     public DbSet<MapModel> Maps { get; set; } = null!;
     public DbSet<PerceptronModel> Perceptrons { get; set; } = null!;
     public DbSet<LayerModel> Layers { get; set; } = null!;
-    public DbSet<Admin> Admins { get; set; } = null!;
 
     public ApplicationDbContext()
     {

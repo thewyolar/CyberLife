@@ -66,56 +66,56 @@ public class Map : MapModel
                         else if (Bots[i, j].Color.Equals(Bots[i - 1, j - 1].Color)) eye[0] = 1;
                         else eye[0] = 2;
                     }
-                    catch (Exception ignore) { eye[0] = -1; }
+                    catch (Exception) { eye[0] = -1; }
                     try
                     {
                         if (Bots[i, j - 1] is null) eye[1] = 0;
                         else if (Bots[i, j].Color.Equals(Bots[i, j - 1].Color)) eye[1] = 1;
                         else eye[1] = 2;
                     }
-                    catch (Exception ignore) { eye[1] = -1; }
+                    catch (Exception) { eye[1] = -1; }
                     try
                     {
                         if (Bots[i + 1, j - 1] is null) eye[2] = 0;
                         else if (Bots[i, j].Color.Equals(Bots[i + 1, j - 1].Color)) eye[2] = 1;
                         else eye[2] = 2;
                     }
-                    catch (Exception ignore) { eye[2] = -1; }
+                    catch (Exception) { eye[2] = -1; }
                     try
                     {
                         if (Bots[i + 1, j] is null) eye[3] = 0;
                         else if (Bots[i, j].Color.Equals(Bots[i + 1, j].Color)) eye[3] = 1;
                         else eye[3] = 2;
                     }
-                    catch (Exception ignore) { eye[3] = -1; }
+                    catch (Exception) { eye[3] = -1; }
                     try
                     {
                         if (Bots[i + 1, j + 1] is null) eye[4] = 0;
                         else if (Bots[i, j].Color.Equals(Bots[i + 1, j + 1].Color)) eye[4] = 1;
                         else eye[4] = 2;
                     }
-                    catch (Exception ignore) { eye[4] = -1; }
+                    catch (Exception) { eye[4] = -1; }
                     try
                     {
                         if (Bots[i, j + 1] is null) eye[5] = 0;
                         else if (Bots[i, j].Color.Equals(Bots[i, j + 1].Color)) eye[5] = 1;
                         else eye[5] = 2;
                     }
-                    catch (Exception ignore) { eye[5] = -1; }
+                    catch (Exception) { eye[5] = -1; }
                     try
                     {
                         if (Bots[i - 1, j + 1] is null) eye[6] = 0;
                         else if (Bots[i, j].Color.Equals(Bots[i - 1, j + 1].Color)) eye[6] = 1;
                         else eye[6] = 2;
                     }
-                    catch (Exception ignore) { eye[6] = -1; }
+                    catch (Exception) { eye[6] = -1; }
                     try
                     {
                         if (Bots[i - 1, j] is null) eye[7] = 0;
                         else if (Bots[i, j].Color.Equals(Bots[i - 1, j].Color)) eye[7] = 1;
                         else eye[7] = 2;
                     }
-                    catch (Exception ignore) { eye[7] = -1; }
+                    catch (Exception) { eye[7] = -1; }
                     if (Bots[i, j].IsStep == 0 & Circle == 0)
                     {
                         Bots[i, j].IsStep++;
@@ -245,7 +245,7 @@ public class Map : MapModel
                             }
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         break;
                     }
