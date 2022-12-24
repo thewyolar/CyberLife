@@ -13,6 +13,8 @@ else
     </div>
     @for (int i = 0; i < Model.Count; i++)
     {
-        <div id="@Model[i].Id" class="botLoading" style="background: rgb(@Model[i].RGB[0] @Model[i].RGB[1] @Model[i].RGB[2])"> @Model[i].Name</div>
-    }
+        <div id="@Model[i].Id" class="botLoading" onClick="selectBotForLoading()" style="background: rgb(@Model[i].RGB[0] @Model[i].RGB[1] @Model[i].RGB[2])"> @Model[i].Name 
+            <button onclick="deleteBot('@Model[i].Id')">delete</button><button onclick="changeBot('@Model[i].Id')">change</button>
+        </div> 
+        }
 }

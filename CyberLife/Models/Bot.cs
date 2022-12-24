@@ -51,7 +51,7 @@ public class Bot
         this.Brain.Population++;
     }
 
-    public void ActivateBrain(int[] eye, int x, int y, Bot[,] bots, int[,] map)
+    public void ActivateBrain(int[] eye, int x, int y, Bot[,] bots, int[,] map, string session)
     {
         double[] input = new double[]{Energy};
         int step = Brain.FeedForward(eye, input);
@@ -93,8 +93,7 @@ public class Bot
         {
             long loseEnergy = -Math.Abs(Energy / 2);
             UpdateEnergy(loseEnergy);
-            Reproduction(x, y, -loseEnergy, bots, Brain, Color, IsStep);
-
+            Reproduction(x, y, -loseEnergy, bots, Brain, Color, IsStep, session);
         }else
         {
             UpdateEnergy(-1);
@@ -316,7 +315,7 @@ public class Bot
         }
     }
     
-    public void Reproduction(int x, int y, long energy, Bot[,] bots, Perceptron brain, string color, int isStep)
+    public void Reproduction(int x, int y, long energy, Bot[,] bots, Perceptron brain, string color, int isStep, string session)
     {
         if (energy <= 0)
         {
@@ -375,7 +374,7 @@ public class Bot
                 bots[x - 1, y - 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    AjaxController.Maps[0].AddType(brain);
+                    AjaxController.Maps[session].AddType(brain);
                 }
                 return;
             }
@@ -389,7 +388,7 @@ public class Bot
                 bots[x, y - 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    AjaxController.Maps[0].AddType(brain);
+                    AjaxController.Maps[session].AddType(brain);
                 }
                 return;
             }
@@ -403,7 +402,7 @@ public class Bot
                 bots[x + 1, y - 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    AjaxController.Maps[0].AddType(brain);
+                    AjaxController.Maps[session].AddType(brain);
                 }
                 return;
             }
@@ -417,7 +416,7 @@ public class Bot
                 bots[x + 1, y] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    AjaxController.Maps[0].AddType(brain);
+                    AjaxController.Maps[session].AddType(brain);
                 }
                 return;
             }
@@ -431,7 +430,7 @@ public class Bot
                 bots[x + 1, y + 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    AjaxController.Maps[0].AddType(brain);
+                    AjaxController.Maps[session].AddType(brain);
                 }
                 return;
             }
@@ -445,7 +444,7 @@ public class Bot
                 bots[x, y + 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    AjaxController.Maps[0].AddType(brain);
+                    AjaxController.Maps[session].AddType(brain);
                 }
                 return;
             }
@@ -459,7 +458,7 @@ public class Bot
                 bots[x - 1, y + 1] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    AjaxController.Maps[0].AddType(brain);
+                    AjaxController.Maps[session].AddType(brain);
                 }
                 return;
             }
@@ -473,7 +472,7 @@ public class Bot
                 bots[x - 1, y] = new Bot(energy, brain, color, isStep);
                 if (isMutation)
                 {
-                    AjaxController.Maps[0].AddType(brain);
+                    AjaxController.Maps[session].AddType(brain);
                 }
                 return;
             }

@@ -22,20 +22,47 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult GetAllBot()
     {
-        List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
+        List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
         return View(_context.Perceptrons.Where(x => x.User.Id == user[0].Id).ToList());
     }
-
+    [Authorize]
+    public IActionResult DeleteBot(string perceptronId)
+    {
+        List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
+        List<LayerModel> layer = _context.Layers.Where(x => x.PerceptronModel.Id == Guid.Parse(perceptronId)).ToList();
+        PerceptronModel perceptron = _context.Perceptrons.Find(Guid.Parse(perceptronId));
+        if (user[0].Id.Equals(perceptron.User.Id))
+        {
+            _context.Layers.RemoveRange(layer);
+            _context.Perceptrons.Remove(perceptron);
+            _context.SaveChanges();
+        }
+        return Redirect("GetAllBot");
+    }
+    [Authorize]
+    public IActionResult ChangeBot(string perceptronId, string name)
+    {
+        List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
+        PerceptronModel perceptron = _context.Perceptrons.Find(Guid.Parse(perceptronId));
+        perceptron.Name = name;
+        if (user[0].Id.Equals(perceptron.User.Id))
+        {
+            _context.Perceptrons.Update(perceptron);
+            _context.SaveChanges();
+        }
+        return Redirect("GetAllBot");
+    }
+    
     [Authorize]
     [HttpPost]
     public Task SaveBot(int x, int y, string name)
     {
-        if (AjaxController.Maps[0].Bots[x, y] is null)
+        if (AjaxController.Maps[HttpContext.Session.Id].Bots[x, y] is null)
         {
             return Response.WriteAsJsonAsync("{ \"save\": false }");
         }
-        List<User> user = _context.Users.Where(x => x.UserName == User.Identity.Name).ToList();
-        _context.Perceptrons.Add(new PerceptronModel(AjaxController.Maps[0].Bots[x, y].Brain, name, user[0]));
+        List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
+        _context.Perceptrons.Add(new PerceptronModel(AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].Bots[x, y].Brain, name, user[0]));
         _context.SaveChanges();
         return Response.WriteAsJsonAsync("{ \"save\": true }");
     }
@@ -59,12 +86,12 @@ public class HomeController : Controller
             string[] xyStrings = bots[i].Split(",");
             int x = int.Parse(xyStrings[0]);
             int y = int.Parse(xyStrings[1]);
-            AjaxController.Maps[0].Bots[x, y] = new Bot(perceptron);
+            AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].Bots[x, y] = new Bot(perceptron);
         }
-        AjaxController.Maps[0].AddType(perceptron);
+        AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].AddType(perceptron);
     }
     
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public IActionResult GetAllMaps()
     {
         return View(_context.Maps.ToList());
@@ -73,7 +100,7 @@ public class HomeController : Controller
     [Authorize(Roles = "Admin")]
     public Task SaveMap(string name)
     {
-        _context.Maps.Add(new MapModel(AjaxController.Maps[0].MapTypes, name));
+        _context.Maps.Add(new MapModel(AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].MapTypes, name));
         _context.SaveChanges();
         return Response.WriteAsJsonAsync("{ \"save\": true }");
     }
@@ -81,9 +108,9 @@ public class HomeController : Controller
     [Authorize]
     public RedirectResult loadMap(string mapId)
     {
-        IList<MapModel> mapModels = _context.Maps.Where(x => x.Id==Guid.Parse(mapId)).ToList();
-        AjaxController.Maps[0].MapTypes = mapModels[0].MapTypes;
-        AjaxController.Maps[0].ChangeColorMap();
+        IList<MapModel> mapModels = _context.Maps.Where(x => x.Id == Guid.Parse(mapId)).ToList();
+        AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].MapTypes = mapModels[0].MapTypes;
+        AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].ChangeColorMap();
         return Redirect("/Ajax/Start");
     }
 

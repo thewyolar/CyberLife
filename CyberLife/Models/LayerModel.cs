@@ -7,5 +7,6 @@ public class LayerModel : BaseModel
     public int Size { get; set; }
     public double[] Biases { get; set; }
     public double[,] Weights { get; set; }
+    public PerceptronModel PerceptronModel { get; set; }
 
 }
