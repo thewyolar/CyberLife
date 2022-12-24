@@ -109,7 +109,49 @@ function getAllBot() {
             dataType: "html",
             success: function (result) {
                 $("#botListModalBody").html(result);
-                selectBotForLoading();
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
+}
+
+function deleteBot(perceptronId) {
+    stop();
+    
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Home/DeleteBot",
+            dataType: "html",
+            data: {
+                perceptronId: perceptronId
+            },
+            success: function (result) {
+                $("#botListModalBody").html(result);
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
+}
+
+function changeBot(perceptronId) {
+    stop();
+    let nameBot = prompt("Введите имя бота");
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Home/ChangeBot",
+            dataType: "html",
+            data: {
+                perceptronId: perceptronId,
+                name: nameBot
+            },
+            success: function (result) {
+                $("#botListModalBody").html(result);
             },
             error: function (err) {
                 $("#gr").val("Error while uploading data: \n\n" + err);
