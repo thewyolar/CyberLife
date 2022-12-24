@@ -21,6 +21,12 @@ public class Map : MapModel
     private int Circle = 0;
     public string[,] ColorMap;
     private bool IsWork = false;
+    public int Width { get; set; } = 78;
+    public int Height { get; set; } = 40;
+    public int WidthBiome { get; set; } = 30;
+    public int SizeBiome { get; set; } = 300;
+    public int BotSpawnChance { get; set; } = 50;
+    
     private Dictionary<int, string> ColorMapInt = new Dictionary<int, string>
     {
         {2, "163, 116, 21"},
@@ -33,7 +39,17 @@ public class Map : MapModel
 
     public Map()
     {
-        CreateMap(width: 78, height: 40, widthBiome: 30, sizeBiome: 300);
+        CreateMap();
+    }
+    
+    public Map(int width, int height, int widthBiome, int sizeBiome, int botSpawnChance)
+    {
+        Width = width;
+        Height = height;
+        WidthBiome = widthBiome;
+        SizeBiome = sizeBiome;
+        BotSpawnChance = botSpawnChance;
+        CreateMap(width: width, height: height, widthBiome: widthBiome, sizeBiome: sizeBiome, botSpawnChance: botSpawnChance);
     }
 
     public void Work(string session)
@@ -156,18 +172,39 @@ public class Map : MapModel
         BeforeAllEnergyType.Add(perceptron.AllEnergy);
     }
 
-    public void ChangeColorMap()
+    public void ChangeColorMap(int[,] map)
     {
-        for (int i = 0; i < MapTypes.GetLength(0); i++)
+        Bot[,] bots = new Bot[map.GetLength(0), map.GetLength(1)];
+        string[,] colorMap = new string[map.GetLength(0), map.GetLength(1)];
+        int x = bots.GetLength(0) > Bots.GetLength(0) ? bots.GetLength(0) : Bots.GetLength(0);
+        int y = bots.GetLength(1) > Bots.GetLength(1) ? bots.GetLength(1) : Bots.GetLength(1);
+        for (int i = 0; i < x; i++)
         {
-            for (int j = 0; j < MapTypes.GetLength(1); j++)
+            for (int j = 0; j < y; j++)
             {
-                ColorMap[i, j] = ColorMapInt[MapTypes[i, j]];
+                try
+                {
+                    colorMap[i, j] = ColorMapInt[map[i, j]];
+                    bots[i, j] = Bots[i, j];
+                }
+                catch (Exception)
+                {
+                    try
+                    {
+                        Bots[i, j]?.UpdateEnergy(-1000);
+                        Bots[i, j]?.Death(i, j, Bots);
+                    }
+                    catch (Exception) { // ignored
+                    }
+                }
+                
             }
         }
+        ColorMap = colorMap;
+        Bots = bots;
     }
 
-    private void CreateMap(int width = 10, int height = 10, int botSpawnChance = 50, int widthBiome = 5, int sizeBiome = 50)
+    private void CreateMap(int width = 78, int height = 40, int widthBiome = 30, int sizeBiome = 300, int botSpawnChance = 50)
     {
         int n = width;
         int m = height;

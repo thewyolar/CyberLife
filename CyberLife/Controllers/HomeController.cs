@@ -110,7 +110,7 @@ public class HomeController : Controller
     {
         IList<MapModel> mapModels = _context.Maps.Where(x => x.Id == Guid.Parse(mapId)).ToList();
         AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].MapTypes = mapModels[0].MapTypes;
-        AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].ChangeColorMap();
+        AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].ChangeColorMap(mapModels[0].MapTypes);
         return Redirect("/Ajax/Start");
     }
 

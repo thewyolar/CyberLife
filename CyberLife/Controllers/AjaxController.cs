@@ -1,4 +1,5 @@
 using CyberLife.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CyberLife.Controllers;
@@ -11,9 +12,18 @@ public class AjaxController : Controller
     
     public IActionResult Restart()
     {
-        Maps[HttpContext.Session.GetString(HttpContext.Session.Id)] = new Map();
+        Map map = Maps[HttpContext.Session.GetString(HttpContext.Session.Id)];
+        Maps[HttpContext.Session.GetString(HttpContext.Session.Id)] = new Map(map.Width, map.Height, map.WidthBiome, map.SizeBiome, map.BotSpawnChance);
         return Redirect("Start");
     }
+    
+    [Authorize]
+    public IActionResult SetMapParameters(int width, int height, int widthBiome, int sizeBiome, int botSpawnChance)
+    {
+        Maps[HttpContext.Session.GetString(HttpContext.Session.Id)] = new Map(width, height, widthBiome, sizeBiome, botSpawnChance);
+        return Redirect("Start");
+    }
+    
     public IActionResult Main()
     {
         if (!Maps.ContainsKey(HttpContext.Session.Id))
