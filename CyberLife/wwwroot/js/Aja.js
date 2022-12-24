@@ -217,6 +217,50 @@ function getAllMaps() {
     })
 }
 
+function deleteMap(mapId) {
+    stop();
+
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Home/DeleteMap",
+            dataType: "html",
+            data: {
+                mapId: mapId
+            },
+            success: function (result) {
+                $("#mapListModalBody").html(result);
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
+}
+
+function changeMap(mapId) {
+    stop();
+    let nameMap = prompt("Введите название карты");
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Home/ChangeMap",
+            dataType: "html",
+            data: {
+                mapId: mapId,
+                name: nameMap
+            },
+            success: function (result) {
+                $("#mapListModalBody").html(result);
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
+}
+
+
 function saveMap() {
     stop();
     let mapName = prompt("Введите название карты");

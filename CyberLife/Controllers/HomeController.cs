@@ -100,6 +100,25 @@ public class HomeController : Controller
     }
     
     [Authorize(Roles = "Admin")]
+    public IActionResult DeleteMap(string mapId)
+    {
+        MapModel map = _context.Maps.Find(Guid.Parse(mapId));
+        _context.Maps.Remove(map);
+        _context.SaveChanges();
+        return Redirect("GetAllMaps");
+    }
+    
+    [Authorize(Roles = "Admin")]
+    public IActionResult ChangeMap(string mapId, string name)
+    {
+        MapModel map = _context.Maps.Find(Guid.Parse(mapId));
+        map.Name = name;
+        _context.Maps.Update(map);
+        _context.SaveChanges();
+        return Redirect("GetAllMaps");
+    }
+    
+    [Authorize(Roles = "Admin")]
     public Task SaveMap(string name)
     {
         _context.Maps.Add(new MapModel(AjaxController.Maps[HttpContext.Session.GetString(HttpContext.Session.Id)].MapTypes, name));
