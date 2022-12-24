@@ -171,18 +171,17 @@ public class Perceptron : PerceptronModel
         }
     }
 
-    public Perceptron makePerceptron()
+    public Perceptron MakePerceptron()
     {
         Layer[] layers = new Layer[this.layers.Length];
         for (int i = 0; i < this.layers.Length; i++)
         {
-            layers[i] = this.layers[i].clone();
+            layers[i] = this.layers[i].Clone();
         }
-        Random random = new Random();
-        int indexLayers = random.Next(layers.Length);
         for (int i = 0; i < 4; i++)
         {
-            layers[indexLayers].mutation();
+            int indexLayers = new Random().Next(layers.Length);
+            layers[indexLayers].Mutation();
         }
         return new Perceptron(layers);
     }

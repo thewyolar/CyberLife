@@ -86,7 +86,7 @@ public class Layer : LayerModel, IComparable<Layer>
         this.Weights = layerModel.Weights;
     }
     
-    public Layer clone()
+    public Layer Clone()
     {
         int index1 = this.IndexLayer;
         int size = this.Size;
@@ -118,12 +118,13 @@ public class Layer : LayerModel, IComparable<Layer>
     }
     
     
-    public void mutation()
+    public void Mutation()
     {
+        if (NeuronsActivation.Length == 0) return;
         Random random = new Random();
-        int indexFunc = random.Next(3);
-        if (NeuronsActivation.Length != 0)
+        for (int i = 0; i < 2; i++)
         {
+            int indexFunc = random.Next(3);
             int indexNeuronsActivation = random.Next(NeuronsActivation.Length);
             NeuronsActivation[indexNeuronsActivation] = Activation[indexFunc];
             DerivativeActivation[indexNeuronsActivation] = Derivative[indexFunc];
@@ -135,7 +136,6 @@ public class Layer : LayerModel, IComparable<Layer>
     public int CompareTo(Layer? other)
     {
         if (this.IndexLayer < other.IndexLayer) {return -1;}
-        else if (this.IndexLayer > other.IndexLayer) {return 1;}
-        else {return 0;}
+        return this.IndexLayer > other.IndexLayer ? 1 : 0;
     }
 }
