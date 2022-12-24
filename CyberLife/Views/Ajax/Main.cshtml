@@ -46,7 +46,28 @@
                 </div>
                 <div class="d-inline-block ms-2 pb-0">
                     <span class="fa-2x float-s" onclick="getAllBot()">
-                        <i class="fa-solid fa-download"></i>
+                        <p title="Загрузить бота">
+                            <i class="fa-solid fa-download"></i>
+                        </p>
+                    </span>
+                </div>
+            </div>
+            <div class="col-1">
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="d-inline-block">
+                        <span class="fa-2x float-s" onclick="saveMap()">
+                            <p title="Сохранить карту">
+                                <i class="fa-regular fa-map"></i>
+                            </p>
+                        </span>
+                    </div>
+                }
+                <div class="d-inline-block ms-2">
+                    <span class="fa-2x float-s" onclick="getAllMaps()">
+                        <p title="Загрузить карту">
+                            <i class="fa-solid fa-upload"></i>
+                        </p>
                     </span>
                 </div>
             </div>
