@@ -95,26 +95,26 @@ public class Perceptron : PerceptronModel
         return Array.FindLastIndex(layers[layers.Length - 1].Neurons, delegate(double i) { return i == ma;});
     }
     
-    public void BackPropagation(double energy, long population)
+    public void BackPropagation(double energy, double population)
     {
         int neuron = Array.FindLastIndex(ActivatedNeurons, delegate(int i) { return i == ActivatedNeurons.Max();});
         double[] errors = new double[layers[layers.Length - 1].Size];
         for (int i = 0; i < layers[layers.Length - 1].Size; i++) {
             if (population < 0)
             {
-                errors[neuron] -= 2;
+                errors[neuron] -= population / 100;
             }
             else if (population > 0)
             {
-                errors[neuron] += 2;
+                errors[neuron] += population / 100;
             }
             else if(energy > 0)
             {
-                errors[neuron] += 1;
+                errors[neuron] += energy / 100;
             }
             else if (energy < 0)
             {
-                errors[neuron] -= 1;
+                errors[neuron] -= energy / 100;
             }
             else
             {
