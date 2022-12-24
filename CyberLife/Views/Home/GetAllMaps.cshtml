@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<User> SignInManager
-@model IList<MapModel>
+﻿@model IList<MapModel>
 @{
     Layout = null;
 }
@@ -23,7 +21,7 @@ else
                             </p>
                         </span>
                     </div>
-                    <div class="d-inline-block float-end mx-1">
+                    <div class="d-inline-block float-end mx-3">
                         <span class="fa-1x" onclick="changeMap('@Model[i].Id')">
                             <p title="Изменить название карты">
                                 <i class="fa-solid fa-pen"></i>
@@ -31,7 +29,7 @@ else
                         </span>
                     </div>
                 }
-                <div class="d-inline-block float-end mx-1">
+                <div class="d-inline-block float-end">
                     <span class="fa-1x" onclick="loadMap('@Model[i].Id')">
                         <p title="Загрузить карту">
                             <i class="fa-solid fa-download"></i>
