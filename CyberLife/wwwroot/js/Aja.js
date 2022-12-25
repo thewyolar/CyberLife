@@ -323,12 +323,54 @@ function loadMap(id) {
             dataType: "html",
             success: function (result) {
                 $("#gr").html(result);
+                location.reload();
             },
             error: function (err) {
                 $("#gr").val("Error while uploading data: \n\n" + err);
             }
         });
     })
+}
+
+function setMapParameters(isDefault, mapParameter) {
+    stop();
+    if(!isDefault){
+        let formParameter = document.getElementById("formMapParameter");
+        mapParameter = [];
+        mapParameter.push(formParameter[0].valueAsNumber)
+        mapParameter.push(formParameter[1].valueAsNumber)
+        mapParameter.push(formParameter[2].valueAsNumber)
+        mapParameter.push(formParameter[3].valueAsNumber)
+        mapParameter.push(formParameter[4].valueAsNumber)
+    }
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Ajax/SetMapParameters",
+            data: {
+                mapParameter: mapParameter
+            },
+            dataType: "html",
+            success: function (result) {
+                $("#gr").html(result);
+                location.reload();
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
+}
+
+function setMapParametersDefault() {
+    stop();
+    let mapParameter = [];
+    mapParameter.push(78)
+    mapParameter.push(40)
+    mapParameter.push(30)
+    mapParameter.push(300)
+    mapParameter.push(50)
+    setMapParameters(true, mapParameter)
 }
 
 document.onkeyup = function (event){

@@ -174,6 +174,8 @@ public class Map : MapModel
 
     public void ChangeColorMap(int[,] map)
     {
+        Width = map.GetLength(0);
+        Height = map.GetLength(1);
         Bot[,] bots = new Bot[map.GetLength(0), map.GetLength(1)];
         string[,] colorMap = new string[map.GetLength(0), map.GetLength(1)];
         int x = bots.GetLength(0) > Bots.GetLength(0) ? bots.GetLength(0) : Bots.GetLength(0);

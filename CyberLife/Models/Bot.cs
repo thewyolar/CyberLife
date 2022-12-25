@@ -337,27 +337,27 @@ public class Bot
             }
             if (rgbInt[0] < 250 & rgbInt[2] == 0)
             {
-                rgbInt[0] += random.Next(50) + 50;
+                rgbInt[0] += random.Next(50) + 100;
                 if (rgbInt[0] > 254) { rgbInt[0] = 250; }
             } else if (rgbInt[1] > 0 & rgbInt[2] == 0)
             {
-                rgbInt[1] -= random.Next(50) + 50;
+                rgbInt[1] -= random.Next(50) + 100;
                 if (rgbInt[1] < 0) { rgbInt[1] = 0; }
             }else if (rgbInt[2] < 250 & rgbInt[1] == 0)
             {
-                rgbInt[2] += random.Next(50) + 50;
+                rgbInt[2] += random.Next(50) + 100;
                 if (rgbInt[2] > 254) { rgbInt[2] = 250; }
             }else if (rgbInt[0] > 0)
             {
-                rgbInt[0] -= random.Next(50) + 50;
+                rgbInt[0] -= random.Next(50) + 100;
                 if (rgbInt[0] < 0) { rgbInt[0] = 0; }
             }else if (rgbInt[1] < 250)
             {
-                rgbInt[1] += random.Next(50) + 50;
+                rgbInt[1] += random.Next(50) + 100;
                 if (rgbInt[1] > 254) { rgbInt[1] = 250; }
             }else if (rgbInt[2] > 0)
             {
-                rgbInt[2] -= random.Next(50) + 50;
+                rgbInt[2] -= random.Next(50) + 100;
                 if (rgbInt[2] < 0) { rgbInt[2] = 0; }
             }else
             {

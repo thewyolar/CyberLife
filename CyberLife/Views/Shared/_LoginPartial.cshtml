@@ -6,7 +6,10 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#mapListModal" id="botList" onclick="getAllMaps()">MapList</a>
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#mapParameterModal" id="mapParameter" onclick="">SetMapParameters</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#mapListModal" id="mapList" onclick="getAllMaps()">MapList</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="modal" data-bs-target="#botListModal" id="botList" onclick="getAllBot()">BotList</a>
@@ -50,6 +53,26 @@
                 <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body" id="mapListModalBody">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="mapParameterModal" class="modal fade" tabindex="-1" aria-labelledby="mapParameter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <h5 class="modal-title" id="mapParameterLabel">Set Map Parameters</h5>
+            <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            <div class="modal-body" id="mapParameterBody">
+                <form id="formMapParameter" asp-controller="Ajax" asp-action="SetMapParameters">
+                    <label for="width"></label>width<input id="width" type="number"/><br/>
+                    <label for="height"></label>height<input id="height" type="number"/><br/>
+                    <label for="widthBiome">widthBiome</label><input id="widthBiome" type="number"/><br/>
+                    <label for="sizeBiome">sizeBiome</label><input id="sizeBiome" type="number"/><br/>
+                    <label for="botSpawnChance">botSpawnChance</label><input id="botSpawnChance" type="number"/><br/>
+                    <button type="button" onclick="setMapParameters()"> Создать </button>
+                    <button type="button" onclick="setMapParametersDefault()"> Создать стандартную карту </button>
+                </form>
+                
             </div>
         </div>
     </div>
