@@ -350,7 +350,11 @@ function setMapParameters(isDefault, mapParameter) {
             type: "POST",
             url: "/Ajax/SetMapParameters",
             data: {
-                mapParameter: mapParameter
+                width: mapParameter[0],
+                height: mapParameter[1],
+                widthBiome: mapParameter[2],
+                sizeBiome: mapParameter[3],
+                botSpawnChance: mapParameter[4]
             },
             dataType: "html",
             success: function (result) {

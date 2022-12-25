@@ -19,10 +19,9 @@ public class AjaxController : Controller
     
     [Authorize]
     [HttpPost]
-    public IActionResult SetMapParameters(int[] mapParameter)
+    public IActionResult SetMapParameters(int width = 78, int height = 40, int widthBiome = 30, int sizeBiome = 300, int botSpawnChance = 50)
     {
-        Maps[HttpContext.Session.GetString(HttpContext.Session.Id)] = new Map(mapParameter[0],
-            mapParameter[1], mapParameter[2], mapParameter[3], mapParameter[4]);
+        Maps[HttpContext.Session.GetString(HttpContext.Session.Id)] = new Map(width, height, widthBiome, sizeBiome, botSpawnChance);
         return Redirect("Start");
     }
     
