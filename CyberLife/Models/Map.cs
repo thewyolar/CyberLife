@@ -52,7 +52,7 @@ public class Map : MapModel
         CreateMap(width: width, height: height, widthBiome: widthBiome, sizeBiome: sizeBiome, botSpawnChance: botSpawnChance);
     }
 
-    public void Work(string session)
+    public void Work(string sessionId)
     {
         if(IsWork) return;
         IsWork = true;
@@ -138,11 +138,11 @@ public class Map : MapModel
                     if (Bots[i, j].IsStep == 0 & Circle == 0)
                     {
                         Bots[i, j].IsStep++;
-                        Bots[i, j].ActivateBrain(eye, i, j, Bots, MapTypes, session);
+                        Bots[i, j].ActivateBrain(eye, i, j, Bots, MapTypes, sessionId);
                     }else if (Bots[i, j].IsStep == 1 & Circle == 1)
                     {
                         Bots[i, j].IsStep--;
-                        Bots[i, j].ActivateBrain(eye, i, j, Bots, MapTypes, session);
+                        Bots[i, j].ActivateBrain(eye, i, j, Bots, MapTypes, sessionId);
                     }
                 }
             }
@@ -225,23 +225,23 @@ public class Map : MapModel
             summ += bioms[i][1];
         }
         Console.WriteLine(summ + " == " + MapTypes.Length);
-        // k = biom[i][1]; - количество оставшихся клеток для размещения на карте
-        // q biom[i][0]; - ширина биома
+        // sizeBiome = biom[biom][1]; - количество оставшихся клеток для размещения на карте
+        // widthBiome biom[biom][0]; - ширина биома
         // x и y - итерация по карте
-        int k = 0;
-        int q = 0;
+        sizeBiome = 0;
+        widthBiome = 0;
         int x = 0;
         int y = 0;
-        // i - количество биомов
-        for (int i = 0; i < bioms.Count; i++)
+        // biom - количество биомов
+        for (int biom = 0; biom < bioms.Count; biom++)
         {
-            Console.WriteLine(i);
-            k = bioms[i][1];
+            Console.WriteLine(biom);
+            sizeBiome = bioms[biom][1];
             x = 0;
-            for (; x <= MapTypes.GetLength(0) & k != 0; x++)
+            for (; x <= MapTypes.GetLength(0) & sizeBiome != 0; x++)
             {
-                // если k == 0 значит все клетки в биома размещены на карте
-                if (k == 0)
+                // если sizeBiome == 0 значит все клетки в биома размещены на карте
+                if (sizeBiome == 0)
                 {
                     break;
                 }
@@ -249,12 +249,12 @@ public class Map : MapModel
                 {
                     x = 0;
                 }
-                q = bioms[i][0];
+                widthBiome = bioms[biom][0];
                 y = 0;
-                for (;y < MapTypes.GetLength(1); summ--, q--, k--, y++)
+                for (;y < MapTypes.GetLength(1); summ--, widthBiome--, sizeBiome--, y++)
                 {
-                    // если k(все клетки биома) или q(ширина биома) == 0 -> выйти
-                    if (k == 0 || q == 0)
+                    // если sizeBiome(все клетки биома) или widthBiome(ширина биома) == 0 -> выйти
+                    if (sizeBiome == 0 || widthBiome == 0)
                     { 
                         break;
                     }
@@ -263,16 +263,16 @@ public class Map : MapModel
                         // если на клектке уже есть биом итерируем цикл и проверяем следующию
                         if (ColorMap[x, y] is null)
                         {
-                            MapTypes[x, y] = bioms[i][2];
-                            ColorMap[x, y] = ColorMapInt[bioms[i][2]];
+                            MapTypes[x, y] = bioms[biom][2];
+                            ColorMap[x, y] = ColorMapInt[bioms[biom][2]];
                         }else
                         {
                             // итерируется только y 
                             if (x == MapTypes.GetLength(0) - 1)
                             {
-                                q++;
+                                widthBiome++;
                                 summ++;
-                                k++;
+                                sizeBiome++;
                                 x = 0;
                                 continue;
                             }
@@ -281,8 +281,8 @@ public class Map : MapModel
                             {
                                 x++;
                                 y--;
-                                q++;
-                                k++;
+                                widthBiome++;
+                                sizeBiome++;
                                 summ++;
                                 continue;
                             }
