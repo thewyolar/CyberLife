@@ -368,17 +368,6 @@ function setMapParameters(isDefault, mapParameter) {
     })
 }
 
-function setMapParametersDefault() {
-    stop();
-    let mapParameter = [];
-    mapParameter.push(78)
-    mapParameter.push(40)
-    mapParameter.push(30)
-    mapParameter.push(300)
-    mapParameter.push(50)
-    setMapParameters(true, mapParameter)
-}
-
 document.onkeyup = function (event){
     if (event.code === 'KeyQ') {
         let sizeAndScaleInt = getSizeAndScaleInt(1);
