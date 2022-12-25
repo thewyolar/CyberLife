@@ -163,6 +163,7 @@ let loadingBots = [];
 
 function selectBotLoading(botId, color) {
     stop();
+    loadingBots = []
     loadingBots.push(botId);
     let bots = document.getElementsByClassName("bot");
     for (let i = 0; i < bots.length; i++) {
@@ -177,6 +178,8 @@ function selectBotLoading(botId, color) {
             this.style.backgroundColor = color;
         }
     }
+    let botListModal = bootstrap.Modal.getInstance(document.getElementById("botListModal"));
+    botListModal.hide();
 }
 
 function loadingBot() {
@@ -189,8 +192,7 @@ function loadingBot() {
                 bots : loadingBots
             },
             dataType: "html",
-            success: function (result) {
-                $("#allBot").html(result);
+            success: function () {
                 loadingBots = [];
             },
             error: function (err) {

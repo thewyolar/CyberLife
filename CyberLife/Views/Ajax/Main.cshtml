@@ -41,7 +41,7 @@
         <div class="row">
             @if (SignInManager.IsSignedIn(User))
             {
-                <div class="col-1">
+                <div class="col-2">
                     <div class="d-inline-block mb-1">
                         <span class="fa-2x float-s" onclick="saveBot()">
                             <p title="Сохранить бота">
@@ -56,11 +56,9 @@
                             </p>
                         </span>
                     </div>
-                </div>
-                <div class="col-1">
                     @if (User.IsInRole("Admin"))
                     {
-                        <div class="d-inline-block">
+                        <div class="d-inline-block ms-2">
                             <span class="fa-2x float-s" onclick="saveMap()">
                                 <p title="Сохранить карту">
                                     <i class="fa-regular fa-map"></i>
@@ -68,13 +66,6 @@
                             </span>
                         </div>
                     }
-                    <div class="d-inline-block ms-2">
-                        <span class="fa-2x float-s" onclick="getAllMaps()">
-                            <p title="Загрузить карту">
-                                <i class="fa-solid fa-upload"></i>
-                            </p>
-                        </span>
-                    </div>
                 </div>
                 <div class="col-4">
                     <span class="fa-3x float-end" onclick="toggle()">
@@ -139,7 +130,5 @@
                 </div>
             }
         </div>
-        <div id="allMaps"></div>
-        <div id="allBot"></div>
     </div>
 </div>
