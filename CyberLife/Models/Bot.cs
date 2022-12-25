@@ -7,7 +7,7 @@ public class Bot
 {
     public string Color { get; set; }
     public string[] RGB { get; set; }
-    public long Energy { get; set; }
+    private long Energy { get; set; }
     public Perceptron Brain { get; set; }
     public int IsStep { get; set; } = 0;
     private int isGenerator = 0;
@@ -104,7 +104,7 @@ public class Bot
         }
     }
 
-    public bool Attack(int xAttacking, int yAttacking, int xDefensive, int yDefensive,  Bot[,] bots)
+    private bool Attack(int xAttacking, int yAttacking, int xDefensive, int yDefensive,  Bot[,] bots)
     {
         long energyA = bots[xAttacking, yAttacking].Energy;
         long energyD = bots[xDefensive, yDefensive].Energy;
@@ -119,7 +119,7 @@ public class Bot
         return false;
     }
 
-    public int[] Move(int step, int x, int y, int[] eye,  Bot[,] bots)
+    private int[] Move(int step, int x, int y, int[] eye,  Bot[,] bots)
     {
         if (step >= 8)
         {
@@ -259,7 +259,7 @@ public class Bot
         return new int[] {x, y};
     }
 
-    public void Generation(int x, int y, int[,] map)
+    private void Generation(int x, int y, int[,] map)
     {
         UpdateEnergy((long) (map[x, y]));
     }
@@ -314,8 +314,8 @@ public class Bot
             Brain.AllEnergy += energyLoss;
         }
     }
-    
-    public void Reproduction(int x, int y, long energy, Bot[,] bots, Perceptron brain, string color, int isStep, string session)
+
+    private void Reproduction(int x, int y, long energy, Bot[,] bots, Perceptron brain, string color, int isStep, string session)
     {
         if (energy <= 0)
         {
