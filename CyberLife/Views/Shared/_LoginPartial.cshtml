@@ -58,21 +58,36 @@
     </div>
 </div>
 <div id="mapParameterModal" class="modal fade" tabindex="-1" aria-labelledby="mapParameter" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-scrollable modal-sm">
         <div class="modal-content">
-            <h5 class="modal-title" id="mapParameterLabel">Set Map Parameters</h5>
-            <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="mapParameterLabel">Создание карты</h5>
+                <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
             <div class="modal-body" id="mapParameterBody">
-                <form id="formMapParameter" asp-controller="Ajax" asp-action="SetMapParameters">
-                    <label for="width"></label>width<input id="width" type="number"/><br/>
-                    <label for="height"></label>height<input id="height" type="number"/><br/>
-                    <label for="widthBiome">widthBiome</label><input id="widthBiome" type="number"/><br/>
-                    <label for="sizeBiome">sizeBiome</label><input id="sizeBiome" type="number"/><br/>
-                    <label for="botSpawnChance">botSpawnChance</label><input id="botSpawnChance" type="number"/><br/>
-                    <button type="button" onclick="setMapParameters()"> Создать </button>
-                    <button type="button" onclick="setMapParametersDefault()"> Создать стандартную карту </button>
+                <form id="formMapParameter">
+                    <div class="mb-2">
+                        <label for="width">Ширина карты</label>
+                        <input id="width" type="number" class="form-control"/>
+                    </div>
+                    <div class="mb-2">
+                        <label for="height">Высота карты</label>
+                        <input id="height" type="number" class="form-control"/>
+                    </div>
+                    <div class="mb-2">
+                        <label for="widthBiome">Ширина биома</label>
+                        <input id="widthBiome" type="number" class="form-control"/>
+                    </div>
+                    <div class="mb-2">
+                        <label for="sizeBiome">Размер биома (в клетках)</label>
+                        <input id="sizeBiome" type="number" class="form-control"/>
+                    </div>
+                    <div class="mb-2">
+                        <label for="botSpawnChance">Вероятность спавна ботов</label>
+                        <input id="botSpawnChance" type="number" class="form-control"/>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="setMapParameters()">Создать</button>
                 </form>
-                
             </div>
         </div>
     </div>
