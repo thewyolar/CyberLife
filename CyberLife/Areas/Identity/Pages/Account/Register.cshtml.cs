@@ -71,6 +71,16 @@ namespace CyberLife.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            [Required(ErrorMessage = "Имя не может быть пустым.")]
+            [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} и не более {1} символов.", MinimumLength = 6)]
+            [Display(Name = "Имя")]
+            public string FirstName { get; set; }
+        
+            [Required(ErrorMessage = "Фамилия не может быть пустым.")]
+            [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} и не более {1} символов.", MinimumLength = 6)]
+            [Display(Name = "Фамилия")]
+            public string LastName { get; set; }
+            
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -114,7 +124,9 @@ namespace CyberLife.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
