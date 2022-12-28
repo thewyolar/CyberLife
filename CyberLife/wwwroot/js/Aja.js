@@ -116,6 +116,27 @@ function getAllBot() {
     })
 }
 
+function getFilteredBots() {
+    stop();
+    let mapNameFilter = document.getElementById("botNameFilter").value;
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetFilteredBots/",
+            dataType: "html",
+            data: {
+                name: mapNameFilter
+            },
+            success: function (result) {
+                $("#botListModalBody").html(result);
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
+}
+
 function deleteBot(perceptronId) {
     stop();
     
@@ -207,8 +228,29 @@ function getAllMaps() {
     $(document).ready(function () {
         $.ajax({
             type: "GET",
-            url: "/Home/GetAllMaps",
+            url: "/Home/GetAllMaps/",
             dataType: "html",
+            success: function (result) {
+                $("#mapListModalBody").html(result);
+            },
+            error: function (err) {
+                $("#gr").val("Error while uploading data: \n\n" + err);
+            }
+        });
+    })
+}
+
+function getFilteredMaps() {
+    stop();
+    let mapNameFilter = document.getElementById("mapNameFilter").value;
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetFilteredMaps/",
+            dataType: "html",
+            data: {
+                name: mapNameFilter
+            },
             success: function (result) {
                 $("#mapListModalBody").html(result);
             },
@@ -221,7 +263,6 @@ function getAllMaps() {
 
 function deleteMap(mapId) {
     stop();
-
     $(document).ready(function () {
         $.ajax({
             type: "GET",
@@ -290,29 +331,6 @@ function saveMap() {
     });
 }
 
-function selectMapForLoading() {
-    stop();
-    let maps = document.getElementsByClassName("mapLoading");
-    for (let i = 0; i < maps.length; i++) {
-        maps[i].onmouseover = function () {
-            this.style.border = "1px solid black";
-        };
-        maps[i].onmouseleave = function () {
-            this.style.border = "";
-        };
-        maps[i].onclick = function () {
-            loadMap(this.id);
-            this.style.border = "1px solid black";
-            let maps = document.getElementsByClassName("mapLoading");
-            for (let i = 0; i < maps.length; i++) {
-                maps[i].onmouseover = null;
-                maps[i].onmouseleave = null;
-                maps[i].onclick = null;
-            }
-        };
-    }
-}
-
 function loadMap(id) {
     stop();
     $(document).ready(function () {
@@ -334,17 +352,15 @@ function loadMap(id) {
     })
 }
 
-function setMapParameters(isDefault, mapParameter) {
+function setMapParameters(mapParameter) {
     stop();
-    if(!isDefault){
-        let formParameter = document.getElementById("formMapParameter");
-        mapParameter = [];
-        mapParameter.push(formParameter[0].valueAsNumber)
-        mapParameter.push(formParameter[1].valueAsNumber)
-        mapParameter.push(formParameter[2].valueAsNumber)
-        mapParameter.push(formParameter[3].valueAsNumber)
-        mapParameter.push(formParameter[4].valueAsNumber)
-    }
+    let formParameter = document.getElementById("formMapParameter");
+    mapParameter = [];
+    mapParameter.push(formParameter[0].valueAsNumber)
+    mapParameter.push(formParameter[1].valueAsNumber)
+    mapParameter.push(formParameter[2].valueAsNumber)
+    mapParameter.push(formParameter[3].valueAsNumber)
+    mapParameter.push(formParameter[4].valueAsNumber)
     $(document).ready(function () {
         $.ajax({
             type: "POST",
@@ -392,7 +408,7 @@ document.onkeyup = function (event){
 }
 
 
-function moveStatistics(){
+function moveStatistics() {
     let w = document.getElementById('gr').offsetWidth;
     let h = document.getElementById('gr').offsetHeight;
     let statistics = document.getElementById('statistics');
@@ -411,7 +427,7 @@ function moveStatistics(){
     h1Rule.style.height = h + "px";
 }
 
-function getSizeAndScaleInt(isUp){
+function getSizeAndScaleInt(isUp) {
     let gr;
     gr = document.getElementById("gr");
     let gridTemplateColumns = gr.style.gridTemplateColumns;
@@ -430,8 +446,7 @@ function getSizeAndScaleInt(isUp){
     return sizeAndScaleInt;
 }
 
-function restart()
-{
+function restart() {
     let btn = document.getElementById("restartBtn");
     if (isStart) {
         stop();

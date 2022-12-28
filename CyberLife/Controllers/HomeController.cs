@@ -27,6 +27,14 @@ public class HomeController : Controller
     }
     
     [Authorize]
+    public IActionResult GetFilteredBots(string name)
+    {
+        List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
+        IQueryable<PerceptronModel> bots = _context.Perceptrons.Where(bot => bot.User.Id == user[0].Id);
+        return View(bots.Where(bot => bot.Name.Contains(name)).ToList());
+    }
+    
+    [Authorize]
     public IActionResult DeleteBot(string perceptronId)
     {
         List<User> user = _context.Users.Where(x => x.UserName.Equals(User.Identity.Name)).ToList();
@@ -97,6 +105,12 @@ public class HomeController : Controller
     public IActionResult GetAllMaps()
     {
         return View(_context.Maps.ToList());
+    }
+
+    [Authorize]
+    public IActionResult GetFilteredMaps(string name)
+    {
+        return View(_context.Maps.Where(map => map.Name.Contains(name)).ToList());
     }
     
     [Authorize(Roles = "Admin")]
