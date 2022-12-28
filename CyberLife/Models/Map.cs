@@ -235,7 +235,6 @@ public class Map : MapModel
         // biom - количество биомов
         for (int biom = 0; biom < bioms.Count; biom++)
         {
-            Console.WriteLine(biom);
             sizeBiome = bioms[biom][1];
             x = 0;
             for (; x <= MapTypes.GetLength(0) & sizeBiome != 0; x++)
@@ -302,8 +301,6 @@ public class Map : MapModel
                 }
             }
         }
-        Console.WriteLine("EEE " + summ);
-        Console.WriteLine("EEE 2 " + bioms.Count);
     }
 
     private IList<int[]> BiomeGeneration(int mapLength, int x, int y, int sizeBiome, int widthBiome)
