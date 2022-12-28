@@ -15,21 +15,28 @@
             <a class="nav-link" data-bs-toggle="modal" data-bs-target="#botListModal" id="botList" onclick="getAllBot()">BotList</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Привет, @User.Identity?.Name!</a>
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Настройки аккаунта">
+                <i class="fa-regular fa-circle-user"></i>
+                @* @User.Identity?.Name *@
+            </a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("About", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link">Выход</button>
+                <button type="submit" class="nav-link btn btn-link" title="Выход">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
             </form>
         </li>
     }
     else
     {
+        @* <li class="nav-item"> *@
+        @*     <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Регистрация</a> *@
+        @* </li> *@
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Вход</a>
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+                <i class="fa-regular fa-circle-user"></i>
+            </a>
         </li>
     }
 </ul>

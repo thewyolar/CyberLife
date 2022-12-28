@@ -26,6 +26,16 @@ namespace CyberLife.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
+        [Required(ErrorMessage = "Имя не может быть пустым.")]
+        [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} и не более {1} символов.", MinimumLength = 6)]
+        [Display(Name = "Имя")]
+        public string FirstName { get; set; }
+        
+        [Required(ErrorMessage = "Фамилия не может быть пустым.")]
+        [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} и не более {1} символов.", MinimumLength = 6)]
+        [Display(Name = "Фамилия")]
+        public string LastName { get; set; }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -64,10 +74,14 @@ namespace CyberLife.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(User user)
         {
+            var userId = await _userManager.GetUserIdAsync(user);
+            var myUser = await _userManager.FindByIdAsync(userId);
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
+            FirstName = myUser.FirstName;
+            LastName = myUser.LastName;
 
             Input = new InputModel
             {
@@ -100,7 +114,7 @@ namespace CyberLife.Areas.Identity.Pages.Account.Manage
                 await LoadAsync(user);
                 return Page();
             }
-
+            
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
