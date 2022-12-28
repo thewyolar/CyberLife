@@ -46,7 +46,7 @@ function stop() {
     timerId = null;
 }
 
-function saveBot() {
+function selectSaveBot() {
     stop();
     let bots = document.getElementsByClassName("bot");
     for (let i = 0; i < bots.length; i++){
@@ -57,7 +57,7 @@ function saveBot() {
             this.style.borderWidth = "";
         };
         bots[i].onclick = function (){
-            selectSaveBot(this.attributes.botId.value);
+            saveBot(this.attributes.botId.value);
             this.style.borderWidth = "";
             let bots = document.getElementsByClassName("bot");
             for (let i = 0; i < bots.length; i++){
@@ -69,7 +69,7 @@ function saveBot() {
     }
 }
 
-function selectSaveBot(botId) {
+function saveBot(botId) {
     stop();
     let xy = botId.split(",");
     let nameBot = prompt("Введите имя бота");
