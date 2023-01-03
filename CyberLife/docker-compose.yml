@@ -1,0 +1,18 @@
+﻿version: '3.5'
+
+services:
+    web-app:
+        container_name: web-app
+        build:
+            context: .
+            dockerfile: /Dockerfile
+        ports: ["5000:8090"]
+    
+    database:
+        container_name: database
+        image: postgres:12.13-alpine3.17
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=Cyber
+        ports: ["5555:5432"]

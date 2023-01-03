@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-CyberLife-80B57CD7-A773-4C07-82BA-2BCCB2961D64</UserSecretsId>
         <LangVersion>10</LangVersion>
+        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,6 +26,12 @@
     <ItemGroup>
       <AdditionalFiles Include="Views\Ajax\Main.cshtml" />
       <AdditionalFiles Include="Views\Ajax\Start.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>
