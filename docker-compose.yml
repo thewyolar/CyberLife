@@ -16,4 +16,9 @@ services:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres
             - POSTGRES_DB=Cyber
-        ports: ["5555:5432"]
+    
+    adminer:
+        container_name: adminer
+        image: adminer:standalone
+        restart: always
+        ports: ["5555:8080"]
