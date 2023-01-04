@@ -1,11 +1,12 @@
-﻿version: '3.5'
+﻿version: '3.7'
 
 services:
-    web-app:
-        container_name: web-app
+    webapp:
+        container_name: webapp
         build:
             context: .
-            dockerfile: /Dockerfile
+            dockerfile: ./CyberLife/Dockerfile
+        depends_on: [database]
         ports: ["5000:8090"]
     
     database:
