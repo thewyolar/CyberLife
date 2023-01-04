@@ -22,5 +22,4 @@ public class ApplicationDbContext :  IdentityDbContext<User, IdentityRole, strin
     {
         Database.EnsureCreated();
     }
-    
 }

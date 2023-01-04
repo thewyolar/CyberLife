@@ -481,5 +481,4 @@ public class Bot
         }
         bots[x, y].UpdateEnergy(energy - 50);
     }
-
 }

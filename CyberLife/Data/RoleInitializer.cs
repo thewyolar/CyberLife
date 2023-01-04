@@ -9,7 +9,7 @@ public class RoleInitializer
     public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
         string adminEmail = "admin@gmail.com";
-        string password = "Al02050205.";
+        string password = "#2Gmswu8";
         if (await roleManager.FindByNameAsync("Admin") == null)
         {
             await roleManager.CreateAsync(new IdentityRole("Admin"));
@@ -28,5 +28,4 @@ public class RoleInitializer
             }
         }
     }
-    
 }

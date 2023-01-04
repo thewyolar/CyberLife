@@ -17,5 +17,4 @@ public class PerceptronModel : BaseModel
         this.RGB = perceptron.RGB;
         this.User = user;
     }
-
 }
