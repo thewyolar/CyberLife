@@ -1,3 +1,4 @@
+using System.Net;
 using CyberLife.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -9,7 +10,7 @@ public class RoleInitializer
     public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
         string adminEmail = "admin@gmail.com";
-        string password = "#2Gmswu8";
+        string password = await File.ReadAllTextAsync("OnConfiguring.txt");
         if (await roleManager.FindByNameAsync("Admin") == null)
         {
             await roleManager.CreateAsync(new IdentityRole("Admin"));

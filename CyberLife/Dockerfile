@@ -15,6 +15,7 @@ RUN dotnet publish "CyberLife.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+COPY ["CyberLife/Data/OnConfiguring.txt", "/app"]
 COPY --from=publish /app/publish .
 ENV ASPNETCORE_URLS http://*:8090
 ENTRYPOINT ["dotnet", "CyberLife.dll"]
