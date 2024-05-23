@@ -1,24 +1,38 @@
-﻿version: '3.7'
+﻿name: cyber-life
+version: '3.9'
 
 services:
-    webapp:
-        container_name: webapp
-        build:
-            context: .
-            dockerfile: ./CyberLife/Dockerfile
-        depends_on: [database]
-        ports: ["5000:8090"]
-    
-    database:
-        container_name: database
-        image: postgres:12.13-alpine3.17
-        environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-            - POSTGRES_DB=Cyber
-    
-    adminer:
-        container_name: adminer
-        image: adminer:standalone
-        restart: always
-        ports: ["5555:8080"]
+  database:
+    container_name: database
+    image: postgres:14.7-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=Cyber
+    volumes:
+      - cyber-data:/var/lib/postgresql/data
+    restart: "no"
+    networks:
+      - cyber-net
+
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: /CyberLife/Dockerfile
+    ports: ["80:80"]
+    environment:
+      ADMIN_LOGIN: admin@gmail.com
+      ADMIN_PASSWORD: Cyber_admin123
+      ConnectionStrings__DefaultConnection: "Host=database;Port=5432;Database=Cyber;Username=postgres;Password=postgres"
+    depends_on: [database]
+    networks:
+      - cyber-net
+
+volumes:
+  cyber-data:
+
+networks:
+  cyber-net:
+    name: cyber-net
+    driver: bridge
