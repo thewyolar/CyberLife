@@ -17,9 +17,10 @@ services:
 
   app:
     container_name: app
-    build:
-      context: .
-      dockerfile: /CyberLife/Dockerfile
+    image: thewyolar/cyber-life:1.0.0
+#    build:
+#      context: .
+#      dockerfile: /CyberLife/Dockerfile
     ports: ["80:80"]
     environment:
       ADMIN_LOGIN: admin@gmail.com
